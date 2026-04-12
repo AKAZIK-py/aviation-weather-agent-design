@@ -1,0 +1,936 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-04-11",
+    "description": "Comprehensive METAR test set for aviation weather AI evaluation",
+    "total_cases": 54,
+    "categories": {
+      "VFR": "Visual Flight Rules - good weather",
+      "MVFR": "Marginal VFR - marginal conditions",
+      "IFR": "Instrument Flight Rules - poor conditions",
+      "LIFR": "Low IFR - very poor conditions",
+      "SEVERE": "Severe weather - dangerous conditions",
+      "EDGE": "Edge cases - special scenarios"
+    }
+  },
+  "test_cases": [
+    {
+      "test_id": "VFR_001",
+      "category": "VFR",
+      "description": "Clear sky, light wind - ideal VFR conditions",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 111200Z 27006KT CAVOK 22/12 Q1018 NOSIG",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 10000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 6,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "VFR_002",
+      "category": "VFR",
+      "description": "Few clouds, good visibility",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 111300Z 32008KT 9999 FEW030 18/09 Q1019",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "VFR_003",
+      "category": "VFR",
+      "description": "Scattered clouds, light wind",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 111400Z 05005KT 9999 SCT040 20/11 Q1015",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 5,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "VFR_004",
+      "category": "VFR",
+      "description": "Broken clouds at high altitude",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 111500Z 24010KT 9999 BKN045 19/13 Q1012",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": 4500,
+          "wind_speed_kt": 10,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "VFR_005",
+      "category": "VFR",
+      "description": "Clear sky with moderate wind",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 111600Z 29012KT CAVOK 24/08 Q1017",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 10000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 12,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "VFR_006",
+      "category": "VFR",
+      "description": "VFR with calm wind",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 111700Z 00000KT 9999 FEW020 21/14 Q1014 NOSIG",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 0,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "MVFR_001",
+      "category": "MVFR",
+      "description": "Marginal visibility - 5000m",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 111800Z 18009KT 5000 BR SCT025 16/13 Q1010",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 5000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 9,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["BR"]
+        }
+      }
+    },
+    {
+      "test_id": "MVFR_002",
+      "category": "MVFR",
+      "description": "Broken clouds at 3000ft",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 111900Z 21007KT 8000 BKN030 17/12 Q1008",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 8000,
+          "ceiling_ft": 3000,
+          "wind_speed_kt": 7,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "MVFR_003",
+      "category": "MVFR",
+      "description": "Overcast at 3500ft",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 112000Z 14011KT 9999 OVC035 18/14 Q1006",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": 3500,
+          "wind_speed_kt": 11,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "MVFR_004",
+      "category": "MVFR",
+      "description": "Light rain, marginal visibility",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 112100Z 30008KT 6000 -RA BKN025 14/11 Q1005",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 6000,
+          "ceiling_ft": 2500,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["-RA"]
+        }
+      }
+    },
+    {
+      "test_id": "MVFR_005",
+      "category": "MVFR",
+      "description": "MVFR with haze",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 112200Z 06006KT 4500 HZ SCT030 25/18 Q1003",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 4500,
+          "ceiling_ft": null,
+          "wind_speed_kt": 6,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["HZ"]
+        }
+      }
+    },
+    {
+      "test_id": "IFR_001",
+      "category": "IFR",
+      "description": "Low ceiling at 1500ft",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 112300Z 22010KT 3000 BKN015 12/10 Q1002",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 3000,
+          "ceiling_ft": 1500,
+          "wind_speed_kt": 10,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "IFR_002",
+      "category": "IFR",
+      "description": "IFR with rain and low visibility",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 120000Z 34012KT 2400 RA OVC008 10/08 Q0998",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 2400,
+          "ceiling_ft": 800,
+          "wind_speed_kt": 12,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["RA"]
+        }
+      }
+    },
+    {
+      "test_id": "IFR_003",
+      "category": "IFR",
+      "description": "IFR with mist",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 120100Z 09005KT 1800 BR OVC010 09/08 Q1001",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 1800,
+          "ceiling_ft": 1000,
+          "wind_speed_kt": 5,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["BR"]
+        }
+      }
+    },
+    {
+      "test_id": "IFR_004",
+      "category": "IFR",
+      "description": "IFR with low overcast",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 120200Z 01008KT 2000 OVC006 07/06 Q1004",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 2000,
+          "ceiling_ft": 600,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "IFR_005",
+      "category": "IFR",
+      "description": "IFR with drizzle",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 120300Z 25006KT 1600 -DZ BR OVC004 08/07 Q0997",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 1600,
+          "ceiling_ft": 400,
+          "wind_speed_kt": 6,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["-DZ", "BR"]
+        }
+      }
+    },
+    {
+      "test_id": "LIFR_001",
+      "category": "LIFR",
+      "description": "LIFR with dense fog",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 120400Z 00000KT 0300 FG VV002 05/05 Q1015",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 300,
+          "ceiling_ft": 200,
+          "wind_speed_kt": 0,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FG"]
+        }
+      }
+    },
+    {
+      "test_id": "LIFR_002",
+      "category": "LIFR",
+      "description": "LIFR with very low visibility",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 120500Z 32004KT 0500 FG VV001 06/06 Q1012 NOSIG",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 500,
+          "ceiling_ft": 100,
+          "wind_speed_kt": 4,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FG"]
+        }
+      }
+    },
+    {
+      "test_id": "LIFR_003",
+      "category": "LIFR",
+      "description": "LIFR with vertical visibility",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 120600Z 07003KT 0200 FG VV001 04/04 Q1020",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 200,
+          "ceiling_ft": 100,
+          "wind_speed_kt": 3,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FG"]
+        }
+      }
+    },
+    {
+      "test_id": "LIFR_004",
+      "category": "LIFR",
+      "description": "LIFR with snow",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 120700Z 35005KT 0800 SN VV003 -02/-03 Q1008",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 800,
+          "ceiling_ft": 300,
+          "wind_speed_kt": 5,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["SN"]
+        }
+      }
+    },
+    {
+      "test_id": "LIFR_005",
+      "category": "LIFR",
+      "description": "LIFR with freezing fog",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 120800Z 00000KT 0400 FZFG VV001 -08/-09 Q1025",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 400,
+          "ceiling_ft": 100,
+          "wind_speed_kt": 0,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FZFG"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_001",
+      "category": "SEVERE",
+      "description": "Thunderstorm with rain",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 120900Z 18015G28KT 4000 TSRA SCT030CB BKN040 22/18 Q0995",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 4000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 15,
+          "wind_gust_kt": 28,
+          "weather_phenomena": ["TSRA"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_002",
+      "category": "SEVERE",
+      "description": "Severe thunderstorm with heavy rain",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 121000Z 26022G35KT 1500 +TSRA BKN020CB 21/17 Q0992",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 1500,
+          "ceiling_ft": 2000,
+          "wind_speed_kt": 22,
+          "wind_gust_kt": 35,
+          "weather_phenomena": ["+TSRA"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_003",
+      "category": "SEVERE",
+      "description": "Wind shear",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 121100Z 32018G30KT 9999 BKN035 WS R18 28030KT 23/12 Q1001",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": 3500,
+          "wind_speed_kt": 18,
+          "wind_gust_kt": 30,
+          "weather_phenomena": ["WS"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_004",
+      "category": "SEVERE",
+      "description": "Freezing rain",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 121200Z 04008KT 1200 FZRA OVC004 01/-01 Q1003",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 1200,
+          "ceiling_ft": 400,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FZRA"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_005",
+      "category": "SEVERE",
+      "description": "Heavy snow",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 121300Z 36014G22KT 0600 +SN VV002 -05/-07 Q1010",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 600,
+          "ceiling_ft": 200,
+          "wind_speed_kt": 14,
+          "wind_gust_kt": 22,
+          "weather_phenomena": ["+SN"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_006",
+      "category": "SEVERE",
+      "description": "Severe turbulence",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 121400Z 27028G42KT 9999 SCT050 18/04 Q0998",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 28,
+          "wind_gust_kt": 42,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_007",
+      "category": "SEVERE",
+      "description": "Dust storm",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 121500Z 14020G32KT 0800 SA OVC010 32/12 Q0995",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 800,
+          "ceiling_ft": 1000,
+          "wind_speed_kt": 20,
+          "wind_gust_kt": 32,
+          "weather_phenomena": ["SA"]
+        }
+      }
+    },
+    {
+      "test_id": "SEVERE_008",
+      "category": "SEVERE",
+      "description": "Hurricane force winds",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 121600Z 09045G58KT 2000 +RA BKN015 24/22 Q0965",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 2000,
+          "ceiling_ft": 1500,
+          "wind_speed_kt": 45,
+          "wind_gust_kt": 58,
+          "weather_phenomena": ["+RA"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_001",
+      "category": "EDGE",
+      "description": "Variable wind direction",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 121700Z VRB04KT 9999 FEW025 20/15 Q1012",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 4,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_002",
+      "category": "EDGE",
+      "description": "CAVOK after marginal conditions",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 121800Z 30010KT CAVOK 19/08 Q1020 TEMPO 4000 BR",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 10000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 10,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_003",
+      "category": "EDGE",
+      "description": "Auto METAR with missing temperature",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 121900Z AUTO 18007KT 9999 SCT035 //// Q1015",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 7,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_004",
+      "category": "EDGE",
+      "description": "METAR with no significant weather",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 122000Z 04003KT 9999 NSW BKN040 16/11 Q1022 NOSIG",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "low",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": 4000,
+          "wind_speed_kt": 3,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_005",
+      "category": "EDGE",
+      "description": "Runway visual range",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 122100Z 35006KT 1500 R18/1200VP1800D FG VV003 04/03 Q1018",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 1500,
+          "ceiling_ft": 300,
+          "wind_speed_kt": 6,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FG"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_006",
+      "category": "EDGE",
+      "description": "METAR with recent thunderstorm",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 122200Z 29012KT 9999 SCT040CB RETS 21/14 Q1008",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 12,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["RETS"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_007",
+      "category": "EDGE",
+      "description": "SPECI observation",
+      "icao_code": "ZSPD",
+      "raw_metar": "SPECI ZSPD 122245Z 24015G25KT 3000 TSRA BKN025CB 19/16 Q1002",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 3000,
+          "ceiling_ft": 2500,
+          "wind_speed_kt": 15,
+          "wind_gust_kt": 25,
+          "weather_phenomena": ["TSRA"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_008",
+      "category": "EDGE",
+      "description": "Windshear on approach",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 122300Z 18014KT 9999 SCT030 WS ALL RWY 22/16 Q1012",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 14,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["WS"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_009",
+      "category": "EDGE",
+      "description": "Volcanic ash",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 130000Z 09008KT 2000 VA BKN010 15/12 Q1010",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 2000,
+          "ceiling_ft": 1000,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["VA"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_010",
+      "category": "EDGE",
+      "description": "Sandstorm",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 130100Z 32025G38KT 0300 PO DS SCT010 38/15 Q0990",
+      "expected": {
+        "flight_rules": "LIFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 300,
+          "ceiling_ft": 1000,
+          "wind_speed_kt": 25,
+          "wind_gust_kt": 38,
+          "weather_phenomena": ["PO", "DS"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_011",
+      "category": "EDGE",
+      "description": "Funnel cloud",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 130200Z 20018G30KT 5000 FC BKN025CB 24/19 Q0998",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 5000,
+          "ceiling_ft": 2500,
+          "wind_speed_kt": 18,
+          "wind_gust_kt": 30,
+          "weather_phenomena": ["FC"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_012",
+      "category": "EDGE",
+      "description": "Multiple weather phenomena",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 130300Z 14012G20KT 3000 -RASN BR BKN008 OVC015 02/01 Q1005",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 3000,
+          "ceiling_ft": 800,
+          "wind_speed_kt": 12,
+          "wind_gust_kt": 20,
+          "weather_phenomena": ["-RASN", "BR"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_013",
+      "category": "EDGE",
+      "description": "Supercooled large droplets",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 130400Z 06005KT 1500 FZDZ BR VV002 -02/-03 Q1012",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 1500,
+          "ceiling_ft": 200,
+          "wind_speed_kt": 5,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FZDZ", "BR"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_014",
+      "category": "EDGE",
+      "description": "Thunderstorm with hail",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 130500Z 24020G35KT 2500 +TSRAGS BKN020CB 20/16 Q1000",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 2500,
+          "ceiling_ft": 2000,
+          "wind_speed_kt": 20,
+          "wind_gust_kt": 35,
+          "weather_phenomena": ["+TSRA", "GS"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_015",
+      "category": "EDGE",
+      "description": "Ice pellets",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 130600Z 01010KT 1200 PL OVC006 -03/-05 Q1008",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 1200,
+          "ceiling_ft": 600,
+          "wind_speed_kt": 10,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["PL"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_016",
+      "category": "EDGE",
+      "description": "Snow grains",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 130700Z 32008KT 1800 SG BKN010 -01/-02 Q1015",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "high",
+        "key_weather_elements": {
+          "visibility_m": 1800,
+          "ceiling_ft": 1000,
+          "wind_speed_kt": 8,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["SG"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_017",
+      "category": "EDGE",
+      "description": "Smoke from fires",
+      "icao_code": "ZBTJ",
+      "raw_metar": "ZBTJ 130800Z 18006KT 3500 FU BKN030 28/18 Q1002",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 3500,
+          "ceiling_ft": 3000,
+          "wind_speed_kt": 6,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["FU"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_018",
+      "category": "EDGE",
+      "description": "Blowing snow",
+      "icao_code": "ZWWW",
+      "raw_metar": "ZWWW 130900Z 36018G28KT 1500 BLSN VV005 -12/-15 Q1028",
+      "expected": {
+        "flight_rules": "IFR",
+        "risk_level": "critical",
+        "key_weather_elements": {
+          "visibility_m": 1500,
+          "ceiling_ft": 500,
+          "wind_speed_kt": 18,
+          "wind_gust_kt": 28,
+          "weather_phenomena": ["BLSN"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_019",
+      "category": "EDGE",
+      "description": "Partial obscuration",
+      "icao_code": "ZSPD",
+      "raw_metar": "ZSPD 131000Z 05004KT 6000 SCT000 FEW020 18/14 Q1016",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 6000,
+          "ceiling_ft": null,
+          "wind_speed_kt": 4,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_020",
+      "category": "EDGE",
+      "description": "Towering cumulus",
+      "icao_code": "ZSSS",
+      "raw_metar": "ZSSS 131100Z 19010KT 9999 SCT040TCU 23/18 Q1011",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": null,
+          "wind_speed_kt": 10,
+          "wind_gust_kt": null,
+          "weather_phenomena": []
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_021",
+      "category": "EDGE",
+      "description": "Mist transitioning to fog",
+      "icao_code": "ZSNB",
+      "raw_metar": "ZSNB 131200Z 00000KT 4000 BR BKN008 BECMG 1314/1316 0800 FG VV002",
+      "expected": {
+        "flight_rules": "MVFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 4000,
+          "ceiling_ft": 800,
+          "wind_speed_kt": 0,
+          "wind_gust_kt": null,
+          "weather_phenomena": ["BR", "FG"]
+        }
+      }
+    },
+    {
+      "test_id": "EDGE_022",
+      "category": "EDGE",
+      "description": "Pressure rising rapidly",
+      "icao_code": "ZSCN",
+      "raw_metar": "ZSCN 131300Z 28020G32KT 9999 NSW BKN035 12/02 Q1023 RAPIDLY 1012",
+      "expected": {
+        "flight_rules": "VFR",
+        "risk_level": "medium",
+        "key_weather_elements": {
+          "visibility_m": 9999,
+          "ceiling_ft": 3500,
+          "wind_speed_kt": 20,
+          "wind_gust_kt": 32,
+          "weather_phenomena": []
+        }
+      }
+    }
+  ]
+}

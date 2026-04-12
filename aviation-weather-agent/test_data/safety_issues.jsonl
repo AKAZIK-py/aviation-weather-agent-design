@@ -1,0 +1,1 @@
+{"feedback_id": "39f5f659-71d6-4ea4-aac9-de095fadd2c4", "session_id": "test-session-002", "report_id": "report-002", "rating": 1, "corrections": {"field": "visibility", "original": "10km", "corrected": "5km"}, "safety_issue": true, "comment": "能见度数据严重错误，可能影响飞行安全", "timestamp": "2026-04-12T13:00:13.047100", "status": "pending_review"}

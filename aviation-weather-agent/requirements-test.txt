@@ -1,0 +1,39 @@
+# 测试依赖包
+# Test dependencies
+
+# 测试框架
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+
+# HTTP客户端测试
+httpx>=0.24.0
+
+# 代码覆盖率
+coverage>=7.0.0
+
+# Mock和Patch
+unittest-mock>=3.11.0
+
+# 数据验证
+pydantic>=2.0.0
+
+# 异步测试支持
+asyncio>=3.4.3
+aiohttp>=3.8.0
+
+# 测试工具
+faker>=18.0.0
+freezegun>=1.2.0
+
+# 性能测试
+pytest-benchmark>=4.0.0
+
+# 类型检查（可选）
+mypy>=1.0.0
+
+# 代码质量（可选）
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0

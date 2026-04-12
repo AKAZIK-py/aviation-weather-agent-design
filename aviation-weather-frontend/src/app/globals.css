@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Aviation-inspired color palette - Sky & Storm */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 6%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 5%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 199 89% 48%;
+    --primary-foreground: 222.2 47% 11%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 38 92% 50%;
+    --accent-foreground: 222.2 47% 11%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 199 89% 48%;
+    
+    --radius: 0.75rem;
+    
+    /* Risk level colors */
+    --risk-low: 142 71% 45%;
+    --risk-medium: 38 92% 50%;
+    --risk-high: 0 72% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.1), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(251, 191, 36, 0.05), transparent);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Animation utilities */
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes data-stream {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-radar {
+  animation: radar-sweep 4s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-data-stream {
+  background: linear-gradient(90deg, 
+    transparent, 
+    hsl(var(--primary) / 0.1), 
+    hsl(var(--primary) / 0.3),
+    hsl(var(--primary) / 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: data-stream 2s linear infinite;
+}
+
+/* Glass effect */
+.glass {
+  background: hsl(var(--card) / 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+/* Risk level indicators */
+.risk-low {
+  background: hsl(var(--risk-low) / 0.15);
+  border-color: hsl(var(--risk-low));
+  color: hsl(var(--risk-low));
+}
+
+.risk-medium {
+  background: hsl(var(--risk-medium) / 0.15);
+  border-color: hsl(var(--risk-medium));
+  color: hsl(var(--risk-medium));
+}
+
+.risk-high {
+  background: hsl(var(--risk-high) / 0.15);
+  border-color: hsl(var(--risk-high));
+  color: hsl(var(--risk-high));
+}

@@ -1,0 +1,35 @@
+agent:
+  version: "2.1.0"
+  environment: "production"
+
+llm:
+  primary:
+    provider: "qianfan"
+    model: "ernie-4.0"
+    timeout_seconds: 30
+  fallback_tiers:
+    - model: "ernie-speed-8k"
+    - provider: "deepseek"
+      model: "deepseek-chat"
+    - model: "rule-engine"
+
+cache:
+  ttl_metar_seconds: 1800
+  ttl_role_seconds: 3600
+  l1_maxsize: 1000
+
+flight_rules:
+  standard: "icao"
+  vfr_visibility_m: 8000
+  mvfr_visibility_m: 4800
+  ifr_visibility_m: 1600
+
+risk_thresholds:
+  visibility:
+    critical_km: 1.0
+    high_km: 3.0
+    medium_km: 5.0
+  wind:
+    critical_kt: 35
+    high_kt: 25
+    medium_kt: 15

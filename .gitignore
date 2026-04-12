@@ -1,0 +1,59 @@
+# Environment & Secrets
+.env
+.env.local
+.env.production
+*.key
+*.pem
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary test scripts (root level)
+/test_*.py
+/e2e_test.py
+/check_response.py
+/health_check.py
+/fetch_aviation_api*.py
+
+# Build artifacts
+*.pyo
+
+# Cache
+.cache/
+*.cache

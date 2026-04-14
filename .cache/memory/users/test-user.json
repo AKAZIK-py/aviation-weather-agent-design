@@ -1,0 +1,9 @@
+{
+  "user_id": "test-user",
+  "preferences": {
+    "preferred_role": "pilot",
+    "home_base": "ZSPD",
+    "aircraft_type": "heavy"
+  },
+  "updated_at": "2026-04-14T13:33:17.926559"
+}

@@ -1,0 +1,1 @@
+{"feedback_id": "05425986-7063-48aa-b1e8-e771e9d58794", "session_id": "test-session-api-002", "report_id": "report-api-002", "rating": 1, "corrections": {"field": "visibility", "original": "10km", "corrected": "5km"}, "safety_issue": true, "comment": "API测试安全问题", "timestamp": "2026-04-12T13:01:16.427325", "status": "pending_review"}

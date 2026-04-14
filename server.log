@@ -1,0 +1,638 @@
+INFO:     Will watch for changes in these directories: ['/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [59509] using WatchFiles
+INFO:     Started server process [59512]
+INFO:     Waiting for application startup.
+2026-04-11 19:44:12,740 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:44:12,740 - app.main - INFO - Debug mode: True
+2026-04-11 19:44:12,740 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+2026-04-11 19:44:18,535 - app.api.routes - INFO - Health check: provider=deepseek, available=['qianfan', 'deepseek']
+2026-04-11 19:44:18,536 - app.main - INFO - GET /api/v1/health - status=200 time=1.49ms
+INFO:     127.0.0.1:49610 - "GET /api/v1/health HTTP/1.1" 200 OK
+2026-04-11 19:44:19,044 - app.main - INFO - GET /api/v1/airports - status=200 time=0.52ms
+INFO:     127.0.0.1:49612 - "GET /api/v1/airports HTTP/1.1" 200 OK
+2026-04-11 19:44:19,553 - app.api.routes - INFO - Fetching live METAR for airport: ZSPD
+2026-04-11 19:44:19,618 - app.services.metar_fetcher - INFO - Fetching METAR for ZSPD from aviationweather.gov
+2026-04-11 19:44:19,618 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:44:19,619 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10a8d5460>
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:19,619 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:44:19,619 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x10a877bd0> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:44:25,849 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10a8d56d0>
+2026-04-11 19:44:25,851 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:44:25,852 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:44:25,852 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:44:25,852 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:44:25,852 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:44:25,853 - httpcore.http11 - DEBUG - receive_response_headers.failed exception=RemoteProtocolError('Server disconnected without sending a response.')
+2026-04-11 19:44:25,853 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:44:25,853 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:44:25,856 - app.services.metar_fetcher - ERROR - Unexpected error fetching METAR for ZSPD: Server disconnected without sending a response.
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http_proxy.py", line 343, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 136, in handle_async_request
+    raise exc
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 231, in _receive_event
+    raise RemoteProtocolError(msg)
+httpcore.RemoteProtocolError: Server disconnected without sending a response.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent/app/services/metar_fetcher.py", line 60, in fetch_metar_for_airport
+    response = await client.get(METAR_API_URL, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1768, in get
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.RemoteProtocolError: Server disconnected without sending a response.
+2026-04-11 19:44:25,868 - app.main - INFO - POST /api/v1/analyze - status=503 time=6317.81ms
+INFO:     127.0.0.1:49614 - "POST /api/v1/analyze HTTP/1.1" 503 Service Unavailable
+2026-04-11 19:44:26,388 - app.api.routes - INFO - Fetching live METAR for airport: ZSSS
+2026-04-11 19:44:26,413 - app.services.metar_fetcher - INFO - Fetching METAR for ZSSS from aviationweather.gov
+2026-04-11 19:44:26,414 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:44:26,414 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x1066070b0>
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:44:26,415 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:44:26,415 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x10a877ad0> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:44:29,435 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x106606bd0>
+2026-04-11 19:44:29,435 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:44:29,435 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:44:29,435 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:44:29,435 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:44:29,435 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+WARNING:  WatchFiles detected changes in 'test_airports_api.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for connections to close. (CTRL+C to force quit)
+2026-04-11 19:44:32,923 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:44:29 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'462'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1ce-JbiEu3I9V8EwPAs/8NO7bEzNW8I"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114429Z-18478b54d68psd2chC1HKG4tpg00000007eg000000003ta6'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_MISS'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:44:32,924 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSSS&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:44:32,925 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:44:32,925 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:44:32,925 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:44:32,925 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:44:32,926 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSSS: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:44:32,930 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:44:32,930 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSSS 111130Z 16004MPS 13...
+2026-04-11 19:44:32,959 - app.api.routes - INFO - Request completed: role=ground_crew, risk=MEDIUM, time=6571.03ms
+2026-04-11 19:44:32,960 - app.main - INFO - POST /api/v1/analyze - status=200 time=6573.37ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:49743 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+INFO:     Waiting for application shutdown.
+2026-04-11 19:44:32,989 - app.main - INFO - Shutting down Aviation Weather Agent
+INFO:     Application shutdown complete.
+INFO:     Finished server process [59512]
+INFO:     Started server process [59582]
+INFO:     Waiting for application startup.
+2026-04-11 19:44:33,441 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:44:33,441 - app.main - INFO - Debug mode: True
+2026-04-11 19:44:33,441 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'test_airport_icao.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-04-11 19:44:40,018 - app.main - INFO - Shutting down Aviation Weather Agent
+INFO:     Application shutdown complete.
+INFO:     Finished server process [59582]
+INFO:     Started server process [59602]
+INFO:     Waiting for application startup.
+2026-04-11 19:44:40,559 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:44:40,559 - app.main - INFO - Debug mode: True
+2026-04-11 19:44:40,559 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+2026-04-11 19:45:05,236 - app.api.routes - INFO - Fetching live METAR for airport: ZSPD
+2026-04-11 19:45:05,288 - app.services.metar_fetcher - INFO - Fetching METAR for ZSPD from aviationweather.gov
+2026-04-11 19:45:05,288 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:45:05,289 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x1097d5580>
+2026-04-11 19:45:05,289 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:05,289 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:05,289 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:05,290 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:05,290 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:05,290 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:45:05,290 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x109773a50> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:45:11,316 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10968a8a0>
+2026-04-11 19:45:11,316 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:11,316 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:11,316 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:45:11,316 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:11,316 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:13,628 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:45:13 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'451'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1c3-mXEk3XabLPyxX9tx1tx9O64rx2U"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114511Z-18478b54d686z2blhC1HKGmzfs00000002x00000000068p9'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_MISS'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:45:13,630 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSPD&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:45:13,630 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:45:13,631 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:45:13,631 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:45:13,631 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:45:13,631 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSPD: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:45:13,633 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:45:13,633 - app.api.routes - INFO - Processing request: session=test-icao-20260411194505, metar=METAR ZSPD 111130Z 16009MPS 80...
+2026-04-11 19:45:13,651 - app.api.routes - INFO - Request completed: role=pilot, risk=MEDIUM, time=8415.10ms
+2026-04-11 19:45:13,651 - app.main - INFO - POST /api/v1/analyze - status=200 time=8417.35ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:49823 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:45:13,656 - app.api.routes - INFO - Fetching live METAR for airport: ZSSS
+2026-04-11 19:45:13,674 - app.services.metar_fetcher - INFO - Fetching METAR for ZSSS from aviationweather.gov
+2026-04-11 19:45:13,674 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:45:13,675 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10992a300>
+2026-04-11 19:45:13,675 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:13,675 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:13,675 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:13,675 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:13,675 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:13,676 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:45:13,676 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x109916350> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:45:16,305 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x109929ca0>
+2026-04-11 19:45:16,305 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:16,305 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:16,305 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:45:16,305 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:16,305 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:18,317 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:45:16 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'462'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1ce-JbiEu3I9V8EwPAs/8NO7bEzNW8I"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114516Z-18478b54d68psd2chC1HKG4tpg000000074g00000000n4zp'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_HIT'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:45:18,318 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSSS&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:45:18,318 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:45:18,318 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:45:18,318 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:45:18,319 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:45:18,319 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSSS: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:45:18,321 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:45:18,321 - app.api.routes - INFO - Processing request: session=test-icao-20260411194513, metar=METAR ZSSS 111130Z 16004MPS 13...
+2026-04-11 19:45:18,324 - app.api.routes - INFO - Request completed: role=pilot, risk=MEDIUM, time=4667.75ms
+2026-04-11 19:45:18,325 - app.main - INFO - POST /api/v1/analyze - status=200 time=4668.70ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:49855 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:45:18,328 - app.api.routes - INFO - Fetching live METAR for airport: ZSNJ
+2026-04-11 19:45:18,342 - app.services.metar_fetcher - INFO - Fetching METAR for ZSNJ from aviationweather.gov
+2026-04-11 19:45:18,343 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:45:18,343 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10994c1a0>
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:18,343 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:45:18,343 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x1099167d0> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:45:23,346 - httpcore.proxy - DEBUG - start_tls.failed exception=ConnectError(EndOfStream())
+2026-04-11 19:45:23,347 - httpcore.connection - DEBUG - close.started
+2026-04-11 19:45:23,347 - httpcore.connection - DEBUG - close.complete
+2026-04-11 19:45:23,348 - app.services.metar_fetcher - ERROR - Unexpected error fetching METAR for ZSNJ: 
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http_proxy.py", line 316, in handle_async_request
+    stream = await stream.start_tls(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 376, in start_tls
+    return await self._stream.start_tls(ssl_context, server_hostname, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_backends/anyio.py", line 67, in start_tls
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent/app/services/metar_fetcher.py", line 60, in fetch_metar_for_airport
+    response = await client.get(METAR_API_URL, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1768, in get
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError
+2026-04-11 19:45:23,353 - app.main - INFO - POST /api/v1/analyze - status=503 time=5025.72ms
+INFO:     127.0.0.1:49871 - "POST /api/v1/analyze HTTP/1.1" 503 Service Unavailable
+2026-04-11 19:45:23,366 - app.main - INFO - POST /api/v1/analyze - status=400 time=4.95ms
+INFO:     127.0.0.1:49881 - "POST /api/v1/analyze HTTP/1.1" 400 Bad Request
+2026-04-11 19:45:23,369 - app.main - INFO - POST /api/v1/analyze - status=400 time=0.41ms
+INFO:     127.0.0.1:49883 - "POST /api/v1/analyze HTTP/1.1" 400 Bad Request
+2026-04-11 19:45:23,371 - app.main - INFO - POST /api/v1/analyze - status=422 time=1.22ms
+INFO:     127.0.0.1:49885 - "POST /api/v1/analyze HTTP/1.1" 422 Unprocessable Entity
+WARNING:  WatchFiles detected changes in 'test_complete_flow_v2.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-04-11 19:45:31,158 - app.main - INFO - Shutting down Aviation Weather Agent
+INFO:     Application shutdown complete.
+INFO:     Finished server process [59602]
+INFO:     Started server process [59800]
+INFO:     Waiting for application startup.
+2026-04-11 19:45:31,747 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:45:31,747 - app.main - INFO - Debug mode: True
+2026-04-11 19:45:31,747 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+2026-04-11 19:45:33,310 - app.api.routes - INFO - Health check: provider=deepseek, available=['qianfan', 'deepseek']
+2026-04-11 19:45:33,310 - app.main - INFO - GET /api/v1/health - status=200 time=0.81ms
+INFO:     127.0.0.1:49912 - "GET /api/v1/health HTTP/1.1" 200 OK
+2026-04-11 19:45:33,620 - app.main - INFO - GET /api/v1/airports - status=200 time=0.67ms
+INFO:     127.0.0.1:49918 - "GET /api/v1/airports HTTP/1.1" 200 OK
+2026-04-11 19:45:33,932 - app.api.routes - INFO - Fetching live METAR for airport: ZSPD
+2026-04-11 19:45:33,985 - app.services.metar_fetcher - INFO - Fetching METAR for ZSPD from aviationweather.gov
+2026-04-11 19:45:33,985 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:45:33,986 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x1119d5430>
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:33,986 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:45:33,986 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x111977bd0> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:45:39,575 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x1119d56d0>
+2026-04-11 19:45:39,579 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:39,579 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:39,579 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:45:39,580 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:39,580 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:45:39,781 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:45:39 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'451'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1c3-mXEk3XabLPyxX9tx1tx9O64rx2U"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114539Z-18478b54d68kjgt2hC1HKG5r5000000004w0000000007awp'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_HIT'), (b'X-Cache-Info', b'L1_T2'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:45:39,782 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSPD&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:45:39,782 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:45:39,782 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:45:39,782 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:45:39,782 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:45:39,782 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSPD: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:45:39,784 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:45:39,784 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSPD 111130Z 16009MPS 80...
+2026-04-11 19:45:39,808 - app.api.routes - INFO - Request completed: role=pilot, risk=MEDIUM, time=5875.89ms
+2026-04-11 19:45:39,809 - app.main - INFO - POST /api/v1/analyze - status=200 time=5879.30ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:49920 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:45:40,124 - app.api.routes - INFO - Fetching live METAR for airport: ZSSS
+2026-04-11 19:45:40,141 - app.services.metar_fetcher - INFO - Fetching METAR for ZSSS from aviationweather.gov
+2026-04-11 19:45:40,142 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:45:40,142 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x111d32240>
+2026-04-11 19:45:40,142 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:40,142 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:45:40,143 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:40,143 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:45:40,143 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:45:40,143 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:45:40,143 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x111d27550> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:45:45,146 - httpcore.proxy - DEBUG - start_tls.failed exception=ConnectError(EndOfStream())
+2026-04-11 19:45:45,147 - httpcore.connection - DEBUG - close.started
+2026-04-11 19:45:45,147 - httpcore.connection - DEBUG - close.complete
+2026-04-11 19:45:45,147 - app.services.metar_fetcher - ERROR - Unexpected error fetching METAR for ZSSS: 
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http_proxy.py", line 316, in handle_async_request
+    stream = await stream.start_tls(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 376, in start_tls
+    return await self._stream.start_tls(ssl_context, server_hostname, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_backends/anyio.py", line 67, in start_tls
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent/app/services/metar_fetcher.py", line 60, in fetch_metar_for_airport
+    response = await client.get(METAR_API_URL, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1768, in get
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError
+2026-04-11 19:45:45,175 - app.main - INFO - POST /api/v1/analyze - status=503 time=5051.44ms
+INFO:     127.0.0.1:50040 - "POST /api/v1/analyze HTTP/1.1" 503 Service Unavailable
+WARNING:  WatchFiles detected changes in 'retry_zsss.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-04-11 19:46:00,387 - app.main - INFO - Shutting down Aviation Weather Agent
+INFO:     Application shutdown complete.
+INFO:     Finished server process [59800]
+INFO:     Started server process [59927]
+INFO:     Waiting for application startup.
+2026-04-11 19:46:00,879 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:46:00,879 - app.main - INFO - Debug mode: True
+2026-04-11 19:46:00,879 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+2026-04-11 19:46:02,394 - app.api.routes - INFO - Fetching live METAR for airport: ZSSS
+2026-04-11 19:46:02,434 - app.services.metar_fetcher - INFO - Fetching METAR for ZSSS from aviationweather.gov
+2026-04-11 19:46:02,434 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:46:02,434 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x1092992b0>
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:02,435 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:46:02,435 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x109237a50> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:46:11,466 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x109299580>
+2026-04-11 19:46:11,469 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:11,470 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:11,470 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:46:11,470 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:11,470 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:11,471 - httpcore.http11 - DEBUG - receive_response_headers.failed exception=RemoteProtocolError('Server disconnected without sending a response.')
+2026-04-11 19:46:11,471 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:46:11,471 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:46:11,471 - app.services.metar_fetcher - ERROR - Unexpected error fetching METAR for ZSSS: Server disconnected without sending a response.
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http_proxy.py", line 343, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 136, in handle_async_request
+    raise exc
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpcore/_async/http11.py", line 231, in _receive_event
+    raise RemoteProtocolError(msg)
+httpcore.RemoteProtocolError: Server disconnected without sending a response.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent/app/services/metar_fetcher.py", line 60, in fetch_metar_for_airport
+    response = await client.get(METAR_API_URL, params=params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1768, in get
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/twzl/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/Users/twzl/deer-flow/backend/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.RemoteProtocolError: Server disconnected without sending a response.
+2026-04-11 19:46:11,477 - app.main - INFO - POST /api/v1/analyze - status=503 time=9083.24ms
+INFO:     127.0.0.1:50104 - "POST /api/v1/analyze HTTP/1.1" 503 Service Unavailable
+WARNING:  WatchFiles detected changes in 'test_multiple_airports.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-04-11 19:46:31,170 - app.main - INFO - Shutting down Aviation Weather Agent
+INFO:     Application shutdown complete.
+INFO:     Finished server process [59927]
+INFO:     Started server process [60064]
+INFO:     Waiting for application startup.
+2026-04-11 19:46:31,732 - app.main - INFO - Starting Aviation Weather Agent v1.0.0
+2026-04-11 19:46:31,732 - app.main - INFO - Debug mode: True
+2026-04-11 19:46:31,732 - app.main - INFO - LLM Provider: deepseek
+INFO:     Application startup complete.
+2026-04-11 19:46:34,636 - app.api.routes - INFO - Fetching live METAR for airport: ZSPD
+2026-04-11 19:46:34,677 - app.services.metar_fetcher - INFO - Fetching METAR for ZSPD from aviationweather.gov
+2026-04-11 19:46:34,678 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:46:34,678 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x10888ec30>
+2026-04-11 19:46:34,678 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:34,679 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:34,679 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:34,679 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:34,679 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:34,679 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:46:34,679 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x1089fba50> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:46:35,210 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108a5d820>
+2026-04-11 19:46:35,210 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:35,210 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:35,211 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:46:35,211 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:35,211 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:35,341 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:46:35 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'451'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1c3-mXEk3XabLPyxX9tx1tx9O64rx2U"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114635Z-18478b54d68hbl6thC1HKGzw50000000013g00000000avwk'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_HIT'), (b'X-Cache-Info', b'L1_T2'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:46:35,343 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSPD&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:46:35,343 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:46:35,343 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:46:35,344 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:46:35,344 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:46:35,344 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSPD: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:46:35,347 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSPD 111130Z 16009MPS 8000 -RA SCT013 14/12 ...
+2026-04-11 19:46:35,348 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSPD 111130Z 16009MPS 80...
+2026-04-11 19:46:35,371 - app.api.routes - INFO - Request completed: role=pilot, risk=MEDIUM, time=734.22ms
+2026-04-11 19:46:35,371 - app.main - INFO - POST /api/v1/analyze - status=200 time=735.56ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:50237 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:46:36,381 - app.api.routes - INFO - Fetching live METAR for airport: ZSHC
+2026-04-11 19:46:36,398 - app.services.metar_fetcher - INFO - Fetching METAR for ZSHC from aviationweather.gov
+2026-04-11 19:46:36,398 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:46:36,399 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ab2000>
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:36,399 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:46:36,399 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x108a9e350> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:46:37,407 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ab21e0>
+2026-04-11 19:46:37,408 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:37,408 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:37,408 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:46:37,408 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:37,409 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:38,117 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:46:37 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'498'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1f2-L7NKCPxAXK0EfSOmXNTsH/SAPfg"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114637Z-18478b54d68qcj7ghC1HKGwzbn0000000730000000004er9'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_MISS'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:46:38,117 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSHC&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:46:38,118 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:46:38,118 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:46:38,118 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:46:38,118 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:46:38,118 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSHC: METAR ZSHC 111130Z 10006MPS 070V140 7000 -RA BKN01...
+2026-04-11 19:46:38,120 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSHC 111130Z 10006MPS 070V140 7000 -RA BKN01...
+2026-04-11 19:46:38,120 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSHC 111130Z 10006MPS 07...
+2026-04-11 19:46:38,123 - app.api.routes - INFO - Request completed: role=ground_crew, risk=MEDIUM, time=1741.95ms
+2026-04-11 19:46:38,123 - app.main - INFO - POST /api/v1/analyze - status=200 time=1742.59ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:50248 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:46:39,128 - app.api.routes - INFO - Fetching live METAR for airport: ZSNJ
+2026-04-11 19:46:39,145 - app.services.metar_fetcher - INFO - Fetching METAR for ZSNJ from aviationweather.gov
+2026-04-11 19:46:39,145 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:46:39,146 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ab3e90>
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:39,146 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:46:39,146 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x108a9e2d0> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:46:41,135 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ad4050>
+2026-04-11 19:46:41,136 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:41,136 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:41,136 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:46:41,137 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:41,137 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:41,736 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:46:41 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'465'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1d1-lp9mxPYGeJmqwy7PB7pRUhTJit8"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114641Z-18478b54d68b5s5mhC1HKG0ysc00000006a0000000005g3f'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_MISS'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:46:41,736 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSNJ&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:46:41,736 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:46:41,737 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:46:41,737 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:46:41,737 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:46:41,737 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSNJ: METAR ZSNJ 111100Z 10006MPS 9999 -RA BKN015 16/14 ...
+2026-04-11 19:46:41,741 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSNJ 111100Z 10006MPS 9999 -RA BKN015 16/14 ...
+2026-04-11 19:46:41,742 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSNJ 111100Z 10006MPS 99...
+2026-04-11 19:46:41,746 - app.api.routes - INFO - Request completed: role=dispatcher, risk=MEDIUM, time=2617.35ms
+2026-04-11 19:46:41,746 - app.main - INFO - POST /api/v1/analyze - status=200 time=2617.88ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:50254 - "POST /api/v1/analyze HTTP/1.1" 200 OK
+2026-04-11 19:46:42,756 - app.api.routes - INFO - Fetching live METAR for airport: ZSSS
+2026-04-11 19:46:42,782 - app.services.metar_fetcher - INFO - Fetching METAR for ZSSS from aviationweather.gov
+2026-04-11 19:46:42,783 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=7897 local_address=None timeout=10.0 socket_options=None
+2026-04-11 19:46:42,784 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ab2db0>
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'CONNECT']>
+2026-04-11 19:46:42,784 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'Connection established', [])
+2026-04-11 19:46:42,784 - httpcore.proxy - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x108a9eb50> server_hostname='aviationweather.gov' timeout=10.0
+2026-04-11 19:46:43,354 - httpcore.proxy - DEBUG - start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x108ab1a30>
+2026-04-11 19:46:43,355 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:43,355 - httpcore.http11 - DEBUG - send_request_headers.complete
+2026-04-11 19:46:43,355 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2026-04-11 19:46:43,356 - httpcore.http11 - DEBUG - send_request_body.complete
+2026-04-11 19:46:43,356 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2026-04-11 19:46:43,685 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Apr 2026 11:46:43 GMT'), (b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'462'), (b'Connection', b'keep-alive'), (b'Cache-control', b'max-age=120'), (b'ETag', b'W/"1ce-JbiEu3I9V8EwPAs/8NO7bEzNW8I"'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'Content-Security-Policy', b"frame-ancestors 'self' *.weather.gov"), (b'Strict-Transport-Security', b'max-age=63072000; includeSubDomains'), (b'x-azure-ref', b'20260411T114643Z-18478b54d68gsgdbhC1HKGhfew00000005u000000000914s'), (b'x-fd-int-roxy-purgeid', b'66958945'), (b'X-Cache', b'TCP_REVALIDATED_HIT'), (b'X-Cache-Info', b'L1_T2'), (b'Accept-Ranges', b'bytes')])
+2026-04-11 19:46:43,686 - httpx - INFO - HTTP Request: GET https://aviationweather.gov/api/data/metar?ids=ZSSS&format=json&taf=false "HTTP/1.1 200 OK"
+2026-04-11 19:46:43,686 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2026-04-11 19:46:43,686 - httpcore.http11 - DEBUG - receive_response_body.complete
+2026-04-11 19:46:43,686 - httpcore.http11 - DEBUG - response_closed.started
+2026-04-11 19:46:43,687 - httpcore.http11 - DEBUG - response_closed.complete
+2026-04-11 19:46:43,687 - app.services.metar_fetcher - INFO - Successfully fetched METAR for ZSSS: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:46:43,690 - app.api.routes - INFO - Successfully fetched METAR: METAR ZSSS 111130Z 16004MPS 130V190 7000 -RA BKN01...
+2026-04-11 19:46:43,691 - app.api.routes - INFO - Processing request: session=None, metar=METAR ZSSS 111130Z 16004MPS 13...
+2026-04-11 19:46:43,695 - app.api.routes - INFO - Request completed: role=pilot, risk=MEDIUM, time=939.66ms
+2026-04-11 19:46:43,696 - app.main - INFO - POST /api/v1/analyze - status=200 time=940.75ms
+LLM generation failed: 'LLMClientManager' object has no attribute 'generate_with_system_prompt'
+INFO:     127.0.0.1:50259 - "POST /api/v1/analyze HTTP/1.1" 200 OK

@@ -1,0 +1,6 @@
+#!/Users/twzl/deer-flow/backend/.deer-flow/threads/c3e97505-9fcd-4b0b-9ccb-31f21e099fb2/user-data/workspace/aviation-weather-agent/venv/bin/python3.12
+import sys
+from dotenv.__main__ import cli
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(cli())

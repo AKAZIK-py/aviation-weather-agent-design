@@ -603,6 +603,7 @@ class LLMClientManager:
                 DeepSeekConfig(
                     api_key=deepseek_key,
                     model=self.settings.deepseek_model or os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                    base_url=self.settings.deepseek_base_url,
                     temperature=self.settings.llm_temperature,
                     max_tokens=self.settings.llm_max_tokens,
                 ),
@@ -854,6 +855,7 @@ class ResilientLLMClient:
                     config = DeepSeekConfig(
                         api_key=key,
                         model=lightweight_model,
+                        base_url=self.settings.deepseek_base_url,
                         temperature=self.settings.llm_temperature,
                         max_tokens=self.settings.llm_max_tokens,
                     )

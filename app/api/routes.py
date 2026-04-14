@@ -2,7 +2,7 @@
 API路由 - 天气分析端点
 """
 from fastapi import APIRouter, HTTPException, Depends, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from datetime import datetime
 import time
 import logging
@@ -211,16 +211,8 @@ async def get_metrics():
     - LLM调用次数
     - 错误率
     """
-    # TODO: 实现实际的指标收集
-    return JSONResponse(
-        content={
-            "requests_total": 0,
-            "requests_success": 0,
-            "requests_failed": 0,
-            "avg_processing_time_ms": 0,
-            "llm_calls_total": 0,
-        }
-    )
+    body, content_type = get_metrics_response()
+    return Response(content=body, media_type=content_type)
 
 
 @router.post(
@@ -343,3 +335,4 @@ async def get_safety_issues(limit: int = 50):
     except Exception as e:
         logger.error(f"获取安全问题失败: {e}")
         raise HTTPException(status_code=500, detail=f"获取安全问题失败: {str(e)}")
+from app.core.metrics import get_metrics_response

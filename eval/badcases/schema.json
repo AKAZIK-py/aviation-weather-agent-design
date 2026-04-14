@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Badcase Record",
+  "description": "航空气象Agent失败案例记录格式",
+  "type": "object",
+  "required": ["case_id", "category", "timestamp", "input", "expected", "actual"],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^BC_[0-9]{8}_[0-9]{3}$",
+      "description": "唯一标识，格式: BC_YYYYMMDD_NNN (日期_当日序号)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "task_not_finished",
+        "critical_info_missed",
+        "output_too_template",
+        "hallucination",
+        "other"
+      ],
+      "description": "失败分类"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "发生时间 (ISO 8601)"
+    },
+    "source": {
+      "type": "string",
+      "description": "来源: standard_set / boundary_set / adversarial_set / manual"
+    },
+    "input": {
+      "type": "object",
+      "required": ["metar", "role", "query"],
+      "properties": {
+        "metar": {
+          "type": "string",
+          "description": "原始METAR报文"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["pilot", "dispatcher", "forecaster", "ground_crew"],
+          "description": "用户角色"
+        },
+        "query": {
+          "type": "string",
+          "description": "用户提问"
+        }
+      },
+      "description": "输入数据"
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "key_info": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "期望命中的关键信息"
+        },
+        "behavior": {
+          "type": "string",
+          "description": "期望行为描述"
+        },
+        "must_not_contain": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "输出中不应包含的内容"
+        }
+      },
+      "description": "期望结果"
+    },
+    "actual": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": "Agent实际输出"
+        },
+        "latency_ms": {
+          "type": "integer",
+          "description": "响应延迟(毫秒)"
+        },
+        "token_count": {
+          "type": "integer",
+          "description": "输出token数"
+        }
+      },
+      "description": "实际结果"
+    },
+    "fixed": {
+      "type": "boolean",
+      "default": false,
+      "description": "是否已修复"
+    },
+    "fixed_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "修复时间"
+    },
+    "fixed_by": {
+      "type": ["string", "null"],
+      "description": "修复者/修复commit"
+    },
+    "root_cause": {
+      "type": ["string", "null"],
+      "description": "根因分析"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "备注"
+    }
+  },
+  "examples": [
+    {
+      "case_id": "BC_20260414_001",
+      "category": "task_not_finished",
+      "timestamp": "2026-04-14T22:00:00+08:00",
+      "source": "standard_set",
+      "input": {
+        "metar": "ZSSS 111030Z 35006KT CAVOK 22/15 Q1022",
+        "role": "pilot",
+        "query": "虹桥机场天气怎么样"
+      },
+      "expected": {
+        "key_info": ["CAVOK", "VFR条件"],
+        "behavior": "给出简洁的飞行条件评估",
+        "must_not_contain": ["【风险分析】", "【建议措施】"]
+      },
+      "actual": {
+        "output": "报告生成中...",
+        "latency_ms": 5000,
+        "token_count": 10
+      },
+      "fixed": false,
+      "fixed_at": null,
+      "fixed_by": null,
+      "root_cause": null,
+      "notes": "Agent未完成任务，仅返回中间状态"
+    }
+  ]
+}

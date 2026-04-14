@@ -31,6 +31,7 @@ async def agent_chat(request: dict):
     3. 直接METAR: { "metar_raw": "METAR ...", "query": "分析一下", "role": "pilot" }
     4. 指定provider: { "query": "...", "provider": "deepseek" }
     5. 带会话记忆: { "query": "...", "session_id": "abc123", "user_id": "u001" }
+    6. 调整温度: { "query": "...", "temperature": 0.5 }
 
     与V2的区别：
     - 不需要指定 airport_icao + user_role 的固定组合
@@ -59,6 +60,7 @@ async def agent_chat(request: dict):
         max_iterations = request.get("max_iterations", 5)
         session_id = request.get("session_id")
         user_id = request.get("user_id", "default")
+        temperature = request.get("temperature", 0.3)
 
         if not query and not icao and not metar_raw:
             raise HTTPException(
@@ -77,6 +79,7 @@ async def agent_chat(request: dict):
             max_iterations=max_iterations,
             session_id=session_id,
             user_id=user_id,
+            temperature=temperature,
         )
 
         return result

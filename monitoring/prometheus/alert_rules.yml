@@ -1,0 +1,108 @@
+groups:
+  - name: aviation-weather-agent
+    rules:
+      - alert: AviationAgentHighErrorRate
+        expr: |
+          (
+            sum(rate(aviation_agent_errors_total{scope="http"}[5m]))
+            /
+            clamp_min(sum(rate(aviation_agent_requests_total{path="/api/v3/chat"}[5m])), 1)
+          ) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          service: aviation-weather-agent
+        annotations:
+          summary: Aviation Weather Agent HTTP error rate is above 5%
+          description: /api/v3/chat error rate stayed above 5% for 10 minutes.
+
+      - alert: AviationAgentHighP95Latency
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum by (le) (rate(aviation_agent_request_latency_seconds_bucket{path="/api/v3/chat"}[5m]))
+          ) > 10
+        for: 10m
+        labels:
+          severity: warning
+          service: aviation-weather-agent
+        annotations:
+          summary: Aviation Weather Agent p95 latency is high
+          description: /api/v3/chat p95 latency stayed above 10 seconds for 10 minutes.
+
+      - alert: AviationAgentToolFailures
+        expr: sum(rate(aviation_agent_tool_calls_total{status=~"error|exception"}[5m])) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+          service: aviation-weather-agent
+        annotations:
+          summary: Tool failures detected in Aviation Weather Agent
+          description: Tool failures exceeded 0.2 calls/sec during the last 5 minutes.
+
+      - alert: AviationAgentNoTraffic
+        expr: sum(rate(aviation_agent_requests_total[15m])) == 0
+        for: 30m
+        labels:
+          severity: info
+          service: aviation-weather-agent
+        annotations:
+          summary: No traffic observed for Aviation Weather Agent
+          description: No HTTP requests were observed for 30 minutes.
+
+  - name: telemetry-pipeline
+    rules:
+      - alert: OTelCollectorSpanExportFailures
+        expr: sum(rate(otelcol_exporter_send_failed_spans[5m])) > 0
+        for: 5m
+        labels:
+          severity: critical
+          service: otel-collector
+        annotations:
+          summary: OpenTelemetry Collector is failing to export spans
+          description: Collector span export failures were observed in the last 5 minutes.
+
+      - alert: PhoenixMetricsUnavailable
+        expr: up{job="phoenix"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: phoenix
+        annotations:
+          summary: Phoenix metrics endpoint is unavailable
+          description: Prometheus cannot scrape Phoenix metrics for at least 5 minutes.
+
+      - alert: LLMAPIErrorRateHigh
+        expr: |
+          (
+            sum(rate(llm_calls_total{status=~"error|exception"}[5m]))
+            /
+            clamp_min(sum(rate(llm_calls_total[5m])), 1)
+          ) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: aviation-weather-agent
+        annotations:
+          summary: LLM API error rate is above 10%
+          description: LLM API error rate stayed above 10% for 5 minutes.
+
+      - alert: HallucinationScoreHigh
+        expr: hallucination_score > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: aviation-weather-agent
+        annotations:
+          summary: Hallucination score is above 10%
+          description: Hallucination detection score is above 10% for 5 minutes.
+
+      - alert: EvalPassRateLow
+        expr: eval_pass_rate < 85
+        for: 5m
+        labels:
+          severity: warning
+          service: aviation-weather-agent
+        annotations:
+          summary: Evaluation pass rate is below 85%
+          description: Evaluation pass rate is below 85% for 5 minutes.

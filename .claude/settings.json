@@ -1,0 +1,95 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/block_dangerous.sh",
+            "statusMessage": "Hook: 检查危险 Bash 命令"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/protect_sensitive.sh",
+            "statusMessage": "Hook: 检查敏感文件保护"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/log_operation.sh --result attempted",
+            "statusMessage": "Hook: 记录 PreToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(*.py)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/auto_test.sh --format-only",
+            "statusMessage": "Hook: 自动格式化 Python 文件",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "if": "Write(*.py)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/auto_test.sh --format-only",
+            "statusMessage": "Hook: 自动格式化 Python 文件",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "if": "Edit(*.py)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/auto_test.sh",
+            "statusMessage": "Hook: 异步运行关联测试",
+            "asyncRewake": true,
+            "timeout": 300
+          },
+          {
+            "type": "command",
+            "if": "Write(*.py)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/auto_test.sh",
+            "statusMessage": "Hook: 异步运行关联测试",
+            "asyncRewake": true,
+            "timeout": 300
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/log_operation.sh --result success",
+            "statusMessage": "Hook: 记录 PostToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/log_operation.sh --result failed",
+            "statusMessage": "Hook: 记录失败操作"
+          }
+        ]
+      }
+    ]
+  }
+}

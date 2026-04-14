@@ -1,0 +1,3 @@
+# 等待人工标注的标准答案文件将存放在此目录
+# standard_v1_answers.json - 标准集答案
+# boundary_v1_answers.json - 边界集答案

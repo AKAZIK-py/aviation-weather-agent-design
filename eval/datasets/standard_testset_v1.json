@@ -1,0 +1,648 @@
+{
+  "metadata": {
+    "version": "v1",
+    "description": "航空气象Agent L1标准评测集 - 25条",
+    "created": "2026-04-14",
+    "migrated_from": "app/evaluation/golden_set.json",
+    "total_cases": 25,
+    "evaluation_standard": "ICAO Annex 3 + 中国民航标准",
+    "scoring_notes": "每条case新增expected_key_info和scoring_criteria字段，用于自动打分"
+  },
+  "cases": [
+    {
+      "id": "GS_001",
+      "metar": "ZBAA 110800Z 00000KT 0050 R36L/0400V0600N FG VV001 02/01 Q1023 NOSIG",
+      "parsed": {
+        "icao_code": "ZBAA",
+        "visibility": 0.05,
+        "wind_speed": 0,
+        "wind_direction": null,
+        "temperature": 2,
+        "dewpoint": 1,
+        "cloud_layers": [{"type": "VV", "height_feet": 100}],
+        "present_weather": [{"code": "FG", "description": "雾"}],
+        "vertical_visibility": 100,
+        "flight_rules": "LIFR"
+      },
+      "role": "pilot",
+      "query": "首都机场能见度怎么样，能降吗",
+      "expected_key_info": ["能见度50m", "大雾VV100ft", "LIFR条件", "低于CAT III标准"],
+      "scoring_criteria": {
+        "must_mention": ["能见度极低", "能见度<50m", "雾"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_002",
+      "metar": "ZSPD 110900Z 24005MPS 3000 BR BKN004 08/07 Q1015",
+      "parsed": {
+        "icao_code": "ZSPD",
+        "visibility": 3.0,
+        "wind_speed": 10,
+        "wind_direction": 240,
+        "temperature": 8,
+        "dewpoint": 7,
+        "cloud_layers": [{"type": "BKN", "height_feet": 400}],
+        "present_weather": [{"code": "BR", "description": "轻雾"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "浦东机场天气条件怎么样",
+      "expected_key_info": ["能见度3km", "轻雾", "云底高400ft", "IFR条件"],
+      "scoring_criteria": {
+        "must_mention": ["能见度3km", "云底高400ft"],
+        "must_give": ["进近方式建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_003",
+      "metar": "ZGGG 111100Z 18008KT 1500 RA BR BKN008 OVC015 15/14 Q1012",
+      "parsed": {
+        "icao_code": "ZGGG",
+        "visibility": 1.5,
+        "wind_speed": 8,
+        "wind_direction": 180,
+        "temperature": 15,
+        "dewpoint": 14,
+        "cloud_layers": [
+          {"type": "BKN", "height_feet": 800},
+          {"type": "OVC", "height_feet": 1500}
+        ],
+        "present_weather": [
+          {"code": "RA", "description": "雨"},
+          {"code": "BR", "description": "轻雾"}
+        ],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "白云机场下雨能降吗",
+      "expected_key_info": ["能见度1.5km", "降雨", "轻雾", "云底高800ft", "IFR"],
+      "scoring_criteria": {
+        "must_mention": ["能见度1.5km", "降雨", "云底高800ft"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_004",
+      "metar": "ZBAA 120200Z 36006KT 9999 FEW040 22/15 Q1015 NOSIG",
+      "parsed": {
+        "icao_code": "ZBAA",
+        "visibility": 9.999,
+        "wind_speed": 6,
+        "wind_direction": 360,
+        "temperature": 22,
+        "dewpoint": 15,
+        "cloud_layers": [{"type": "FEW", "height_feet": 4000}],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "flight_rules": "VFR"
+      },
+      "role": "pilot",
+      "query": "首都机场现在天气好吗",
+      "expected_key_info": ["CAVOK/能见度10km+", "VFR条件", "少云4000ft"],
+      "scoring_criteria": {
+        "must_mention": ["能见度好", "VFR"],
+        "must_give": ["飞行条件良好"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_005",
+      "metar": "ZBHH 111600Z 18012G25KT 2000 TSRA SCT030CB BKN040 22/19 Q1002",
+      "parsed": {
+        "icao_code": "ZBHH",
+        "visibility": 2.0,
+        "wind_speed": 12,
+        "wind_direction": 180,
+        "wind_gust": 25,
+        "temperature": 22,
+        "dewpoint": 19,
+        "cloud_layers": [
+          {"type": "SCT", "height_feet": 3000, "tower_type": "CB"},
+          {"type": "BKN", "height_feet": 4000}
+        ],
+        "present_weather": [{"code": "TSRA", "description": "雷暴伴雨"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "dispatcher",
+      "query": "ZBAA飞ZBHH现在能飞吗",
+      "expected_key_info": ["雷暴伴雨", "阵风25kt", "能见度2km", "CB云", "IFR"],
+      "scoring_criteria": {
+        "must_mention": ["雷暴", "阵风", "能见度低"],
+        "must_give": ["放行建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_006",
+      "metar": "ZUUU 112200Z 36010KT 8000 SN BKN010 OVC020 M05/M07 Q1030",
+      "parsed": {
+        "icao_code": "ZUUU",
+        "visibility": 8.0,
+        "wind_speed": 10,
+        "wind_direction": 360,
+        "temperature": -5,
+        "dewpoint": -7,
+        "cloud_layers": [
+          {"type": "BKN", "height_feet": 1000},
+          {"type": "OVC", "height_feet": 2000}
+        ],
+        "present_weather": [{"code": "SN", "description": "雪"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "成都下雪影响大不大",
+      "expected_key_info": ["降雪", "云底高1000ft", "IFR", "温度-5°C"],
+      "scoring_criteria": {
+        "must_mention": ["降雪", "云底高1000ft"],
+        "must_give": ["影响评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_007",
+      "metar": "ZSSS 111030Z 35006KT CAVOK 22/15 Q1022",
+      "parsed": {
+        "icao_code": "ZSSS",
+        "visibility": 10.0,
+        "wind_speed": 6,
+        "wind_direction": 350,
+        "temperature": 22,
+        "dewpoint": 15,
+        "cloud_layers": [],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "is_cavok": true,
+        "flight_rules": "VFR"
+      },
+      "role": "pilot",
+      "query": "虹桥机场天气怎么样",
+      "expected_key_info": ["CAVOK", "VFR条件", "风速6kt"],
+      "scoring_criteria": {
+        "must_mention": ["天气良好", "CAVOK", "VFR"],
+        "must_give": ["飞行条件评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_008",
+      "metar": "ZSAM 111300Z 32028G38KT 9999 SCT040 12/M03 Q1018 WS R23",
+      "parsed": {
+        "icao_code": "ZSAM",
+        "visibility": 9.999,
+        "wind_speed": 28,
+        "wind_direction": 320,
+        "wind_gust": 38,
+        "temperature": 12,
+        "dewpoint": -3,
+        "cloud_layers": [{"type": "SCT", "height_feet": 4000}],
+        "present_weather": [],
+        "wind_shear": "WS R23",
+        "vertical_visibility": null,
+        "flight_rules": "VFR"
+      },
+      "role": "pilot",
+      "query": "厦门高崎有风切变能降吗",
+      "expected_key_info": ["风切变R23", "阵风38kt", "风速28kt", "VFR"],
+      "scoring_criteria": {
+        "must_mention": ["风切变", "阵风38kt", "R23跑道"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_009",
+      "metar": "ZYTL 112000Z 32015KT 5000 FZFG OVC002 M02/M03 Q1025",
+      "parsed": {
+        "icao_code": "ZYTL",
+        "visibility": 5.0,
+        "wind_speed": 15,
+        "wind_direction": 320,
+        "temperature": -2,
+        "dewpoint": -3,
+        "cloud_layers": [{"type": "OVC", "height_feet": 200}],
+        "present_weather": [{"code": "FZFG", "description": "冻雾"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "大连冻雾影响降落吗",
+      "expected_key_info": ["冻雾", "云底高200ft", "IFR", "温度-2°C"],
+      "scoring_criteria": {
+        "must_mention": ["冻雾", "云底高200ft"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_010",
+      "metar": "ZGGG 120300Z 18012KT CAVOK 28/18 Q1012",
+      "parsed": {
+        "icao_code": "ZGGG",
+        "visibility": 10.0,
+        "wind_speed": 12,
+        "wind_direction": 180,
+        "temperature": 28,
+        "dewpoint": 18,
+        "cloud_layers": [],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "is_cavok": true,
+        "flight_rules": "VFR"
+      },
+      "role": "ground_crew",
+      "query": "白云机场现在能出外场作业吗",
+      "expected_key_info": ["CAVOK", "VFR", "温度28°C", "风速12kt"],
+      "scoring_criteria": {
+        "must_mention": ["天气良好", "温度28°C"],
+        "must_give": ["外场作业建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_011",
+      "metar": "ZSPD 110800Z VRB02KT 0800 FG VV002 05/04 Q1020",
+      "parsed": {
+        "icao_code": "ZSPD",
+        "visibility": 0.8,
+        "wind_speed": 2,
+        "wind_direction": null,
+        "temperature": 5,
+        "dewpoint": 4,
+        "cloud_layers": [{"type": "VV", "height_feet": 200}],
+        "present_weather": [{"code": "FG", "description": "雾"}],
+        "vertical_visibility": 200,
+        "flight_rules": "LIFR"
+      },
+      "role": "pilot",
+      "query": "浦东机场能见度多少，ILS能用吗",
+      "expected_key_info": ["能见度800m", "雾", "VV200ft", "LIFR", "CAT II可能满足"],
+      "scoring_criteria": {
+        "must_mention": ["能见度800m", "雾", "VV200ft"],
+        "must_give": ["ILS进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_012",
+      "metar": "ZBAA 110600Z 18010KT 1600 HZ SCT050 30/20 Q1008",
+      "parsed": {
+        "icao_code": "ZBAA",
+        "visibility": 1.6,
+        "wind_speed": 10,
+        "wind_direction": 180,
+        "temperature": 30,
+        "dewpoint": 20,
+        "cloud_layers": [{"type": "SCT", "height_feet": 5000}],
+        "present_weather": [{"code": "HZ", "description": "霾"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "首都机场雾霾大吗",
+      "expected_key_info": ["能见度1.6km", "霾", "IFR", "温度30°C"],
+      "scoring_criteria": {
+        "must_mention": ["能见度1.6km", "霾"],
+        "must_give": ["影响评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_013",
+      "metar": "ZPPP 111800Z 24015G30KT 1500 TSGRRA BKN025CB 24/22 Q1000",
+      "parsed": {
+        "icao_code": "ZPPP",
+        "visibility": 1.5,
+        "wind_speed": 15,
+        "wind_direction": 240,
+        "wind_gust": 30,
+        "temperature": 24,
+        "dewpoint": 22,
+        "cloud_layers": [{"type": "BKN", "height_feet": 2500, "tower_type": "CB"}],
+        "present_weather": [{"code": "TSGRRA", "description": "雷暴伴冰雹"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "pilot",
+      "query": "昆明机场有雷暴冰雹能降吗",
+      "expected_key_info": ["雷暴伴冰雹", "阵风30kt", "CB云", "能见度1.5km", "IFR"],
+      "scoring_criteria": {
+        "must_mention": ["雷暴", "冰雹", "阵风30kt"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_014",
+      "metar": "ZUUU 110800Z 06005KT 4500 BR FEW040 18/16 Q1015",
+      "parsed": {
+        "icao_code": "ZUUU",
+        "visibility": 4.5,
+        "wind_speed": 5,
+        "wind_direction": 60,
+        "temperature": 18,
+        "dewpoint": 16,
+        "cloud_layers": [{"type": "FEW", "height_feet": 4000}],
+        "present_weather": [{"code": "BR", "description": "轻雾"}],
+        "vertical_visibility": null,
+        "flight_rules": "MVFR"
+      },
+      "role": "pilot",
+      "query": "成都双流天气怎么样",
+      "expected_key_info": ["能见度4.5km", "轻雾", "MVFR", "云高4000ft"],
+      "scoring_criteria": {
+        "must_mention": ["能见度4.5km", "轻雾", "MVFR"],
+        "must_give": ["飞行条件评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_015",
+      "metar": "ZLXY 111000Z 28008KT 1200 FG OVC003 08/07 Q1018",
+      "parsed": {
+        "icao_code": "ZLXY",
+        "visibility": 1.2,
+        "wind_speed": 8,
+        "wind_direction": 280,
+        "temperature": 8,
+        "dewpoint": 7,
+        "cloud_layers": [{"type": "OVC", "height_feet": 300}],
+        "present_weather": [{"code": "FG", "description": "雾"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "dispatcher",
+      "query": "ZLXY现在能放行吗",
+      "expected_key_info": ["能见度1.2km", "雾", "云底高300ft", "IFR"],
+      "scoring_criteria": {
+        "must_mention": ["能见度低", "雾", "云底高300ft"],
+        "must_give": ["放行建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_016",
+      "metar": "ZSHC 110845Z 27018G30KT 4000 +TSRA BKN010CB 25/23 Q1005",
+      "parsed": {
+        "icao_code": "ZSHC",
+        "visibility": 4.0,
+        "wind_speed": 18,
+        "wind_direction": 270,
+        "wind_gust": 30,
+        "temperature": 25,
+        "dewpoint": 23,
+        "cloud_layers": [{"type": "BKN", "height_feet": 1000, "tower_type": "CB"}],
+        "present_weather": [{"code": "+TSRA", "description": "强雷暴伴雨"}],
+        "vertical_visibility": null,
+        "flight_rules": "MVFR"
+      },
+      "role": "pilot",
+      "query": "杭州萧山有强雷雨怎么办",
+      "expected_key_info": ["强雷暴伴雨", "阵风30kt", "CB云1000ft", "能见度4km"],
+      "scoring_criteria": {
+        "must_mention": ["强雷暴", "阵风", "CB云"],
+        "must_give": ["等待或备降建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_017",
+      "metar": "ZYHB 112300Z 27008KT 9999 SCT015 BKN030 M08/M12 Q1035",
+      "parsed": {
+        "icao_code": "ZYHB",
+        "visibility": 9.999,
+        "wind_speed": 8,
+        "wind_direction": 270,
+        "temperature": -8,
+        "dewpoint": -12,
+        "cloud_layers": [
+          {"type": "SCT", "height_feet": 1500},
+          {"type": "BKN", "height_feet": 3000}
+        ],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "flight_rules": "MVFR"
+      },
+      "role": "pilot",
+      "query": "哈尔滨现在冷不冷，飞行有影响吗",
+      "expected_key_info": ["温度-8°C", "云底高1500ft", "MVFR", "风速8kt"],
+      "scoring_criteria": {
+        "must_mention": ["温度-8°C", "云底高1500ft"],
+        "must_give": ["飞行条件评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_018",
+      "metar": "ZSNB 110915Z 32035G45KT 9999 SCT050 15/08 Q1018",
+      "parsed": {
+        "icao_code": "ZSNB",
+        "visibility": 9.999,
+        "wind_speed": 35,
+        "wind_direction": 320,
+        "wind_gust": 45,
+        "temperature": 15,
+        "dewpoint": 8,
+        "cloud_layers": [{"type": "SCT", "height_feet": 5000}],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "flight_rules": "VFR"
+      },
+      "role": "pilot",
+      "query": "宁波机场风大吗",
+      "expected_key_info": ["风速35kt", "阵风45kt", "VFR"],
+      "scoring_criteria": {
+        "must_mention": ["风速35kt", "阵风45kt"],
+        "must_give": ["侧风影响评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_019",
+      "metar": "ZSWZ 110930Z 05010KT 2000 FZFG OVC003 M02/M04 Q1020",
+      "parsed": {
+        "icao_code": "ZSWZ",
+        "visibility": 2.0,
+        "wind_speed": 10,
+        "wind_direction": 50,
+        "temperature": -2,
+        "dewpoint": -4,
+        "cloud_layers": [{"type": "OVC", "height_feet": 300}],
+        "present_weather": [{"code": "FZFG", "description": "冻雾"}],
+        "vertical_visibility": null,
+        "flight_rules": "IFR"
+      },
+      "role": "ground_crew",
+      "query": "温州现在能做除冰吗",
+      "expected_key_info": ["冻雾", "温度-2°C", "云底高300ft", "IFR"],
+      "scoring_criteria": {
+        "must_mention": ["冻雾", "温度-2°C"],
+        "must_give": ["除冰/作业建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_020",
+      "metar": "ZBAA 111200Z 36015KT 8000 -SN BKN025 OVC040 M01/M03 Q1025 BECMG 5000",
+      "parsed": {
+        "icao_code": "ZBAA",
+        "visibility": 8.0,
+        "wind_speed": 15,
+        "wind_direction": 360,
+        "temperature": -1,
+        "dewpoint": -3,
+        "cloud_layers": [
+          {"type": "BKN", "height_feet": 2500},
+          {"type": "OVC", "height_feet": 4000}
+        ],
+        "present_weather": [{"code": "-SN", "description": "小雪"}],
+        "vertical_visibility": null,
+        "has_trend": true,
+        "trend_type": "BECMG",
+        "flight_rules": "IFR"
+      },
+      "role": "forecaster",
+      "query": "首都机场未来天气趋势怎么样",
+      "expected_key_info": ["小雪", "BECMG趋势", "能见度将降至5km", "温度-1°C"],
+      "scoring_criteria": {
+        "must_mention": ["小雪", "趋势变化", "能见度将变差"],
+        "must_give": ["趋势判断"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_021",
+      "metar": "ZSPD 110900Z 24005MPS 0800 FG VV003 06/05 Q1020",
+      "parsed": {
+        "icao_code": "ZSPD",
+        "visibility": 0.8,
+        "wind_speed": 10,
+        "wind_direction": 240,
+        "temperature": 6,
+        "dewpoint": 5,
+        "cloud_layers": [{"type": "VV", "height_feet": 300}],
+        "present_weather": [{"code": "FG", "description": "雾"}],
+        "vertical_visibility": 300,
+        "flight_rules": "LIFR"
+      },
+      "role": "dispatcher",
+      "query": "ZSPD现在能放行航班吗",
+      "expected_key_info": ["能见度800m", "雾VV300ft", "LIFR"],
+      "scoring_criteria": {
+        "must_mention": ["能见度低", "LIFR", "雾"],
+        "must_give": ["放行建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_022",
+      "metar": "ZGGG 111200Z 18010KT 6000 -RA SCT030 BKN050 24/22 Q1010",
+      "parsed": {
+        "icao_code": "ZGGG",
+        "visibility": 6.0,
+        "wind_speed": 10,
+        "wind_direction": 180,
+        "temperature": 24,
+        "dewpoint": 22,
+        "cloud_layers": [
+          {"type": "SCT", "height_feet": 3000},
+          {"type": "BKN", "height_feet": 5000}
+        ],
+        "present_weather": [{"code": "-RA", "description": "小雨"}],
+        "vertical_visibility": null,
+        "flight_rules": "MVFR"
+      },
+      "role": "pilot",
+      "query": "广州白云小雨影响不大吧",
+      "expected_key_info": ["小雨", "能见度6km", "MVFR", "云高3000ft"],
+      "scoring_criteria": {
+        "must_mention": ["小雨", "能见度6km"],
+        "must_give": ["影响评估"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_023",
+      "metar": "ZJHK 111500Z 20022G32KT CAVOK 32/25 Q1008",
+      "parsed": {
+        "icao_code": "ZJHK",
+        "visibility": 10.0,
+        "wind_speed": 22,
+        "wind_direction": 200,
+        "wind_gust": 32,
+        "temperature": 32,
+        "dewpoint": 25,
+        "cloud_layers": [],
+        "present_weather": [],
+        "vertical_visibility": null,
+        "is_cavok": true,
+        "flight_rules": "VFR"
+      },
+      "role": "ground_crew",
+      "query": "海口现在能外场作业吗，风大不大",
+      "expected_key_info": ["CAVOK", "阵风32kt", "温度32°C", "VFR"],
+      "scoring_criteria": {
+        "must_mention": ["阵风32kt", "温度32°C"],
+        "must_give": ["外场作业建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_024",
+      "metar": "ZSNJ 110900Z 24015G25KT 0400 FG VV001 08/07 Q1015",
+      "parsed": {
+        "icao_code": "ZSNJ",
+        "visibility": 0.4,
+        "wind_speed": 15,
+        "wind_direction": 240,
+        "wind_gust": 25,
+        "temperature": 8,
+        "dewpoint": 7,
+        "cloud_layers": [{"type": "VV", "height_feet": 100}],
+        "present_weather": [{"code": "FG", "description": "雾"}],
+        "vertical_visibility": 100,
+        "flight_rules": "LIFR"
+      },
+      "role": "pilot",
+      "query": "南京禄口大雾能见度怎么样",
+      "expected_key_info": ["能见度400m", "大雾VV100ft", "LIFR", "阵风25kt"],
+      "scoring_criteria": {
+        "must_mention": ["能见度极低400m", "大雾", "VV100ft"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    },
+    {
+      "id": "GS_025",
+      "metar": "ZYTX 111400Z 06045G58KT 5000 SHRA BKN025 08/05 Q0998",
+      "parsed": {
+        "icao_code": "ZYTX",
+        "visibility": 5.0,
+        "wind_speed": 45,
+        "wind_direction": 60,
+        "wind_gust": 58,
+        "temperature": 8,
+        "dewpoint": 5,
+        "cloud_layers": [{"type": "BKN", "height_feet": 2500}],
+        "present_weather": [{"code": "SHRA", "description": "阵雨"}],
+        "vertical_visibility": null,
+        "flight_rules": "MVFR"
+      },
+      "role": "pilot",
+      "query": "沈阳桃仙大风阵雨能降吗",
+      "expected_key_info": ["风速45kt", "阵风58kt", "阵雨", "能见度5km"],
+      "scoring_criteria": {
+        "must_mention": ["风速45kt", "阵风58kt", "阵雨"],
+        "must_give": ["进近建议"],
+        "must_not_output": ["固定模板栏目"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+LOG_SCRIPT="$ROOT/scripts/hooks/log_operation.sh"
+
+CHANGED_PY=()
+CHANGED_PY_OUTPUT="$(git diff --cached --name-only --diff-filter=ACMRTUXB -- '*.py' || true)"
+while IFS= read -r file; do
+  [[ -n "$file" ]] && CHANGED_PY+=("$file")
+done <<< "$CHANGED_PY_OUTPUT"
+if [[ ${#CHANGED_PY[@]} -eq 0 ]]; then
+  "$LOG_SCRIPT" --hook pre-commit --tool git --result skipped --detail "no staged python files"
+  exit 0
+fi
+
+FILES_JOINED="$(printf '%s, ' "${CHANGED_PY[@]}")"
+FILES_JOINED="${FILES_JOINED%, }"
+
+find_bin() {
+  local name="$1"
+  local candidate
+  for candidate in "$ROOT/venv/bin/$name" "$ROOT/.venv/bin/$name"; do
+    if [[ -x "$candidate" ]] && "$candidate" --version >/dev/null 2>&1; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  if command -v "$name" >/dev/null 2>&1 && "$name" --version >/dev/null 2>&1; then
+    command -v "$name"
+    return 0
+  fi
+  return 1
+}
+
+PRE_COMMIT_BIN="$(find_bin pre-commit || true)"
+if [[ -n "$PRE_COMMIT_BIN" && -f "$ROOT/.pre-commit-config.yaml" ]]; then
+  echo "🔍 pre-commit: running configured hooks..."
+  if "$PRE_COMMIT_BIN" run --config "$ROOT/.pre-commit-config.yaml" --files "${CHANGED_PY[@]}"; then
+    git add -- "${CHANGED_PY[@]}"
+    "$LOG_SCRIPT" --hook pre-commit --tool git --files "$FILES_JOINED" --result success --detail "pre-commit hooks passed"
+    exit 0
+  fi
+
+  "$LOG_SCRIPT" --hook pre-commit --tool git --files "$FILES_JOINED" --result failed --detail "pre-commit hooks failed"
+  echo "❌ pre-commit hooks failed" >&2
+  exit 1
+fi
+
+PYTHON_BIN="$(find_bin python || find_bin python3)"
+
+echo "🔍 pre-commit: fallback flake8 + mypy..."
+set +e
+"$PYTHON_BIN" -m flake8 "${CHANGED_PY[@]}"
+FLAKE8_STATUS=$?
+"$PYTHON_BIN" -m mypy --ignore-missing-imports "${CHANGED_PY[@]}"
+MYPY_STATUS=$?
+set -e
+
+if [[ $FLAKE8_STATUS -eq 0 && $MYPY_STATUS -eq 0 ]]; then
+  "$LOG_SCRIPT" --hook pre-commit --tool git --files "$FILES_JOINED" --result success --detail "fallback flake8+mypy passed"
+  exit 0
+fi
+
+"$LOG_SCRIPT" --hook pre-commit --tool git --files "$FILES_JOINED" --result failed --detail "fallback flake8+mypy failed"
+cat >&2 <<'MSG'
+❌ pre-commit fallback checks failed.
+请先安装开发依赖：
+  pip install -r requirements-test.txt pre-commit
+然后执行：
+  cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+MSG
+exit 1

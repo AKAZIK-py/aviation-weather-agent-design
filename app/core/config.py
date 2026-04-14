@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     # DeepSeek配置
     deepseek_api_key: Optional[str] = Field(None, env="DEEPSEEK_API_KEY")
     deepseek_model: str = Field("deepseek-chat", env="DEEPSEEK_MODEL")
+    deepseek_base_url: str = Field("https://api.deepseek.com/v1", env="DEEPSEEK_BASE_URL")
     
     # Moonshot (Kimi)配置
     moonshot_api_key: Optional[str] = Field(None, env="MOONSHOT_API_KEY")
@@ -74,8 +75,30 @@ class Settings(BaseSettings):
     cors_origins: str = Field('["http://localhost:3000"]', env="CORS_ORIGINS")
     
     # 监控配置
+    enable_observability: bool = Field(True, env="ENABLE_OBSERVABILITY")
     enable_metrics: bool = Field(True, env="ENABLE_METRICS")
     metrics_port: int = Field(9090, env="METRICS_PORT")
+    otel_enabled: bool = Field(True, env="OTEL_ENABLED")
+    otel_service_name: str = Field("aviation-weather-agent", env="OTEL_SERVICE_NAME")
+    otel_service_namespace: str = Field("aviation-weather", env="OTEL_SERVICE_NAMESPACE")
+    otel_environment: str = Field("development", env="OTEL_ENVIRONMENT")
+    otel_exporter_otlp_endpoint: str = Field(
+        "http://localhost:4318",
+        env="OTEL_EXPORTER_OTLP_ENDPOINT",
+    )
+    otel_export_timeout_ms: int = Field(10000, env="OTEL_EXPORT_TIMEOUT_MS")
+    otel_excluded_urls: str = Field(
+        "metrics,docs,redoc,openapi.json",
+        env="OTEL_EXCLUDED_URLS",
+    )
+    phoenix_project_name: str = Field(
+        "aviation-weather-agent",
+        env="PHOENIX_PROJECT_NAME",
+    )
+    langfuse_enabled: bool = Field(True, env="LANGFUSE_ENABLED")
+    langfuse_public_key: Optional[str] = Field(None, env="LANGFUSE_PUBLIC_KEY")
+    langfuse_secret_key: Optional[str] = Field(None, env="LANGFUSE_SECRET_KEY")
+    langfuse_base_url: str = Field("http://localhost:3000", env="LANGFUSE_BASE_URL")
     
     # 日志配置
     log_level: str = Field("INFO", env="LOG_LEVEL")
@@ -175,6 +198,7 @@ def get_llm_config(settings: Settings) -> dict:
         "deepseek": {
             "api_key": settings.deepseek_api_key,
             "model": settings.deepseek_model,
+            "base_url": settings.deepseek_base_url,
         },
         "moonshot": {
             "api_key": settings.moonshot_api_key,

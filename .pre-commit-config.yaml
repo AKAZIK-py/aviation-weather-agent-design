@@ -1,0 +1,39 @@
+exclude: >-
+  ^(venv/|\.venv/|\.git/|\.omx/)
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-json
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: >-
+          bash -lc 'if [ -x venv/bin/python ]; then venv/bin/python -m flake8 "$@";
+          elif [ -x .venv/bin/python ]; then .venv/bin/python -m flake8 "$@";
+          else python3 -m flake8 "$@"; fi' --
+        language: system
+        types: [python]
+        files: ^(app/|tests/|test_.*\.py$)
+        require_serial: true
+
+      - id: mypy
+        name: mypy
+        entry: >-
+          bash -lc 'if [ -x venv/bin/python ]; then venv/bin/python -m mypy --ignore-missing-imports "$@";
+          elif [ -x .venv/bin/python ]; then .venv/bin/python -m mypy --ignore-missing-imports "$@";
+          else python3 -m mypy --ignore-missing-imports "$@"; fi' --
+        language: system
+        types: [python]
+        files: ^(app/|tests/|test_.*\.py$)
+        require_serial: true

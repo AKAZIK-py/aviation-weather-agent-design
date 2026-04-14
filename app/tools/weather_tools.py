@@ -6,8 +6,10 @@
 - 输出：结构化 dict（JSON可序列化）
 - 失败：返回 {"error": "具体错误信息"} 而非抛异常
 """
+import functools
 import json
 import logging
+import time
 from typing import Dict, Any, Optional, List
 from pydantic import BaseModel, Field
 
@@ -15,8 +17,51 @@ from app.nodes.parse_metar_node import parse_metar_node
 from app.nodes.assess_risk_node import assess_risk_node
 from app.utils.visibility import format_visibility_range
 from app.utils.approach import format_decision_info
+from app.core.metrics import get_metrics
+from app.core.telemetry import get_tracer, mark_span_error
 
 logger = logging.getLogger(__name__)
+metrics = get_metrics()
+tracer = get_tracer(__name__)
+
+
+def observable_tool(tool_name: str):
+    """为工具增加 Prometheus + OTel 埋点。"""
+
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(params):
+            start = time.perf_counter()
+            with tracer.start_as_current_span(f"tool.{tool_name}") as span:
+                span.set_attribute("tool.name", tool_name)
+                span.set_attribute("tool.param_keys", list(params.model_dump(exclude_none=True).keys()))
+                try:
+                    result = await func(params)
+                    status = "error" if isinstance(result, dict) and result.get("error") else "success"
+                    metrics.record_tool_call(
+                        tool=tool_name,
+                        status=status,
+                        duration_seconds=time.perf_counter() - start,
+                        error_type=tool_name if status == "error" else None,
+                    )
+                    if status == "error":
+                        error_message = str(result.get("error", "tool returned error"))
+                        span.set_attribute("tool.error", error_message[:200])
+                        mark_span_error(span, message=error_message[:200])
+                    return result
+                except Exception as exc:
+                    metrics.record_tool_call(
+                        tool=tool_name,
+                        status="exception",
+                        duration_seconds=time.perf_counter() - start,
+                        error_type=exc.__class__.__name__,
+                    )
+                    mark_span_error(span, exc)
+                    raise
+
+        return wrapper
+
+    return decorator
 
 
 # ==================== Tool Schema 定义 ====================
@@ -68,6 +113,7 @@ class GetFullWeatherParams(BaseModel):
 
 # ==================== Tool 执行函数 ====================
 
+@observable_tool("fetch_metar")
 async def _fetch_metar(params: FetchMetarParams) -> Dict[str, Any]:
     """获取实时METAR"""
     from app.services.metar_fetcher import fetch_metar_for_airport, MetarFetchError
@@ -84,6 +130,7 @@ async def _fetch_metar(params: FetchMetarParams) -> Dict[str, Any]:
         return {"error": f"网络或服务异常: {str(e)}"}
 
 
+@observable_tool("parse_metar")
 async def _parse_metar(params: ParseMetarParams) -> Dict[str, Any]:
     """解析METAR报文"""
     try:
@@ -99,6 +146,7 @@ async def _parse_metar(params: ParseMetarParams) -> Dict[str, Any]:
         return {"error": f"METAR解析异常: {str(e)}"}
 
 
+@observable_tool("get_flight_rules")
 async def _get_flight_rules(params: GetFlightRulesParams) -> Dict[str, Any]:
     """计算飞行规则"""
     vis_sm = params.visibility_km / 1.60934
@@ -144,6 +192,7 @@ async def _get_flight_rules(params: GetFlightRulesParams) -> Dict[str, Any]:
     }
 
 
+@observable_tool("assess_risk")
 async def _assess_risk(params: AssessRiskParams) -> Dict[str, Any]:
     """风险评估"""
     try:
@@ -158,6 +207,7 @@ async def _assess_risk(params: AssessRiskParams) -> Dict[str, Any]:
         return {"error": f"风险评估异常: {str(e)}"}
 
 
+@observable_tool("get_approach_minima")
 async def _get_approach_minima(params: GetApproachMinimaParams) -> Dict[str, Any]:
     """获取进近最低标准"""
     try:
@@ -171,6 +221,7 @@ async def _get_approach_minima(params: GetApproachMinimaParams) -> Dict[str, Any
         return {"error": f"获取进近标准失败: {str(e)}"}
 
 
+@observable_tool("format_visibility")
 async def _format_visibility(params: FormatVisibilityParams) -> Dict[str, Any]:
     """能见度区间化"""
     range_str = format_visibility_range(params.visibility_km)
@@ -180,6 +231,7 @@ async def _format_visibility(params: FormatVisibilityParams) -> Dict[str, Any]:
     }
 
 
+@observable_tool("fetch_taf")
 async def _fetch_taf(params: FetchTafParams) -> Dict[str, Any]:
     """获取TAF预报"""
     from app.services.metar_fetcher import fetch_taf_for_airport, MetarFetchError
@@ -196,6 +248,7 @@ async def _fetch_taf(params: FetchTafParams) -> Dict[str, Any]:
         return {"error": f"网络或服务异常: {str(e)}"}
 
 
+@observable_tool("get_full_weather")
 async def _get_full_weather(params: GetFullWeatherParams) -> Dict[str, Any]:
     """获取METAR+TAF联合数据"""
     from app.services.metar_fetcher import (

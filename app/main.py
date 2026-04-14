@@ -4,12 +4,14 @@ FastAPI主应用入口
 """
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 import logging
 import time
 import json
 
 from app.core.config import settings
+from app.core.metrics import get_metrics, get_metrics_response
+from app.core.telemetry import initialize_telemetry, shutdown_langfuse, shutdown_telemetry
 from app.api.routes import router as api_router
 from app.api.routes_v2 import router as api_router_v2
 from app.api.routes_v3 import router as api_router_v3
@@ -21,6 +23,7 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+metrics = get_metrics()
 
 # 创建FastAPI应用
 app = FastAPI(
@@ -63,25 +66,48 @@ app.add_middleware(
 )
 
 
+def _resolve_request_path(request: Request) -> str:
+    route = request.scope.get("route")
+    if route is not None and getattr(route, "path", None):
+        return route.path
+    return request.url.path
+
+
 # 请求日志中间件
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """记录请求日志"""
-    start_time = time.time()
-    
-    # 处理请求
-    response = await call_next(request)
-    
-    # 计算处理时间
-    process_time = (time.time() - start_time) * 1000
-    
-    # 记录日志
-    logger.info(
-        f"{request.method} {request.url.path} - "
-        f"status={response.status_code} time={process_time:.2f}ms"
-    )
-    
-    return response
+    start_time = time.perf_counter()
+    response = None
+
+    with metrics.track_active_request():
+        try:
+            response = await call_next(request)
+            return response
+        except Exception as exc:
+            metrics.record_error("http", exc.__class__.__name__)
+            raise
+        finally:
+            duration_seconds = time.perf_counter() - start_time
+            process_time_ms = duration_seconds * 1000
+            path = _resolve_request_path(request)
+            status_code = response.status_code if response is not None else 500
+            metrics.record_http_request(
+                method=request.method,
+                path=path,
+                status_code=status_code,
+                duration_seconds=duration_seconds,
+            )
+            if status_code >= 500:
+                metrics.record_error("http", f"status_{status_code}")
+
+            logger.info(
+                "%s %s - status=%s time=%.2fms",
+                request.method,
+                path,
+                status_code,
+                process_time_ms,
+            )
 
 
 # 全局异常处理
@@ -105,6 +131,13 @@ app.include_router(api_router_v2, prefix="/api/v2")
 app.include_router(api_router_v3, prefix="/api/v3")  # Agent模式
 
 
+@app.get("/metrics", include_in_schema=False)
+async def metrics_endpoint():
+    """Prometheus 抓取端点。"""
+    body, content_type = get_metrics_response()
+    return Response(content=body, media_type=content_type)
+
+
 # 根路径
 @app.get("/", tags=["Root"])
 async def root():
@@ -123,6 +156,14 @@ async def startup_event():
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
     logger.info(f"Debug mode: {settings.debug}")
     logger.info(f"LLM Provider: {settings.llm_provider}")
+    initialize_telemetry(app)
+    logger.info(
+        "Observability: metrics=%s otel=%s langfuse=%s otlp=%s",
+        settings.enable_metrics,
+        settings.otel_enabled,
+        settings.langfuse_enabled,
+        settings.otel_exporter_otlp_endpoint,
+    )
 
 
 # 关闭事件
@@ -130,6 +171,8 @@ async def startup_event():
 async def shutdown_event():
     """应用关闭事件"""
     logger.info(f"Shutting down {settings.app_name}")
+    shutdown_langfuse()
+    shutdown_telemetry()
 
 
 if __name__ == "__main__":

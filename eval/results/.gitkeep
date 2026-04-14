@@ -1,0 +1,2 @@
+# 每次评测结果自动存档到此目录
+# 文件名格式: eval_YYYY-MM-DD_runNN.json

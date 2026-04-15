@@ -2,501 +2,2602 @@
   {
     "metar": "METAR ZBAA 140800Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "能见度刚好5km边界"
+    "description": "能见度刚好5km边界",
+    "id": "BND_001",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "能见度略低于5km边界"
+    "description": "能见度略低于5km边界",
+    "id": "BND_002",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "能见度略高于5km边界"
+    "description": "能见度略高于5km边界",
+    "id": "BND_003",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140800Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "能见度刚好3km边界"
+    "description": "能见度刚好3km边界",
+    "id": "BND_004",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140800Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "能见度略低于3km边界"
+    "description": "能见度略低于3km边界",
+    "id": "BND_005",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140800Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "能见度略高于3km边界"
+    "description": "能见度略高于3km边界",
+    "id": "BND_006",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "能见度刚好1km边界"
+    "description": "能见度刚好1km边界",
+    "id": "BND_007",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "能见度略低于1km边界"
+    "description": "能见度略低于1km边界",
+    "id": "BND_008",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "能见度略高于1km边界"
+    "description": "能见度略高于1km边界",
+    "id": "BND_009",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140800Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "能见度刚好500m边界"
+    "description": "能见度刚好500m边界",
+    "id": "BND_010",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140800Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "能见度略低于500m边界"
+    "description": "能见度略低于500m边界",
+    "id": "BND_011",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140800Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "能见度略高于500m边界"
+    "description": "能见度略高于500m边界",
+    "id": "BND_012",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140800Z 18005MPS 8000 BKN030 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "云底刚好3000ft边界"
+    "description": "云底刚好3000ft边界",
+    "id": "BND_013",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 24008MPS 8000 BKN029 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "云底略低于3000ft边界"
+    "description": "云底略低于3000ft边界",
+    "id": "BND_014",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 36003MPS 8000 BKN031 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "云底略高于3000ft边界"
+    "description": "云底略高于3000ft边界",
+    "id": "BND_015",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140800Z 27006MPS 8000 BKN010 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "云底刚好1000ft边界"
+    "description": "云底刚好1000ft边界",
+    "id": "BND_016",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140800Z 15004MPS 8000 BKN009 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "云底略低于1000ft边界"
+    "description": "云底略低于1000ft边界",
+    "id": "BND_017",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140800Z 09005MPS 8000 BKN011 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "云底略高于1000ft边界"
+    "description": "云底略高于1000ft边界",
+    "id": "BND_018",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 8000 BKN005 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "云底刚好500ft边界"
+    "description": "云底刚好500ft边界",
+    "id": "BND_019",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 8000 BKN004 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "云底略低于500ft边界"
+    "description": "云底略低于500ft边界",
+    "id": "BND_020",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 8000 BKN006 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "云底略高于500ft边界"
+    "description": "云底略高于500ft边界",
+    "id": "BND_021",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140800Z 27015G25MPS 9999 FEW040 20/10 Q1015",
     "expected_flight_rules": "VFR",
-    "description": "阵风刚好25节边界"
+    "description": "阵风刚好25节边界",
+    "id": "BND_022",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 36020MPS 9999 SCT050 18/08 Q1018",
     "expected_flight_rules": "VFR",
-    "description": "风速刚好20节边界"
+    "description": "风速刚好20节边界",
+    "id": "BND_023",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 18025G35MPS 9999 FEW030 22/12 Q1015",
     "expected_flight_rules": "VFR",
-    "description": "阵风刚好35节边界"
+    "description": "阵风刚好35节边界",
+    "id": "BND_024",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140800Z 27030MPS 9999 SCT050 18/08 Q1018",
     "expected_flight_rules": "VFR",
-    "description": "风速刚好30节危险边界"
+    "description": "风速刚好30节危险边界",
+    "id": "BND_025",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140800Z 15028G38MPS 9999 FEW020 20/15 Q1016",
     "expected_flight_rules": "VFR",
-    "description": "阵风刚好38节危险边界"
+    "description": "阵风刚好38节危险边界",
+    "id": "BND_026",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140800Z 09032G42MPS 9999 SCT020 24/20 Q1008",
     "expected_flight_rules": "VFR",
-    "description": "阵风刚好42节危险边界"
+    "description": "阵风刚好42节危险边界",
+    "id": "BND_027",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 2500 RA FG BKN008 08/07 Q1022",
     "expected_flight_rules": "IFR",
-    "description": "降雨+雾+破碎云"
+    "description": "降雨+雾+破碎云",
+    "id": "BND_028",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 2000 SN BR OVC006 02/01 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "降雪+薄雾+全遮蔽云"
+    "description": "降雪+薄雾+全遮蔽云",
+    "id": "BND_029",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1500 RA FG OVC004 05/04 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "降雨+雾+全遮蔽云"
+    "description": "降雨+雾+全遮蔽云",
+    "id": "BND_030",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140800Z 27015G25MPS 1000 SN FG OVC002 00/-01 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "强风+降雪+雾+全遮蔽云"
+    "description": "强风+降雪+雾+全遮蔽云",
+    "id": "BND_031",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140800Z 15020G30MPS 0800 RA BR OVC001 03/02 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "强风+降雨+薄雾+全遮蔽云"
+    "description": "强风+降雨+薄雾+全遮蔽云",
+    "id": "BND_032",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140800Z 09025G35MPS 0500 SN FG OVC000 01/00 Q1035",
     "expected_flight_rules": "LIFR",
-    "description": "强风+降雪+雾+全遮蔽云"
+    "description": "强风+降雪+雾+全遮蔽云",
+    "id": "BND_033",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZULS 140800Z 27006MPS 8000 BKN025 05/-05 Q1018",
     "expected_flight_rules": "MVFR",
-    "description": "高海拔机场，温度低"
+    "description": "高海拔机场，温度低",
+    "id": "BND_034",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUCK 140800Z 18008MPS 6000 OVC030 10/05 Q1020",
     "expected_flight_rules": "MVFR",
-    "description": "高海拔机场，能见度一般"
+    "description": "高海拔机场，能见度一般",
+    "id": "BND_035",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSAM 140800Z 09005MPS 5000 SCT020 25/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "沿海机场，湿度高"
+    "description": "沿海机场，湿度高",
+    "id": "BND_036",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSQD 140800Z 15004MPS 4000 OVC015 22/18 Q1012",
     "expected_flight_rules": "IFR",
-    "description": "沿海机场，云层低"
+    "description": "沿海机场，云层低",
+    "id": "BND_037",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZLXY 140800Z 27006MPS 9999 FEW040 20/10 Q1015",
     "expected_flight_rules": "VFR",
-    "description": "内陆机场，天气晴好"
+    "description": "内陆机场，天气晴好",
+    "id": "BND_038",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBYN 140800Z 36003MPS 8000 BKN030 15/08 Q1018",
     "expected_flight_rules": "MVFR",
-    "description": "内陆机场，破碎云"
+    "description": "内陆机场，破碎云",
+    "id": "BND_039",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体39: 能见度刚好3km边界"
+    "description": "边界变体39: 能见度刚好3km边界",
+    "id": "BND_040",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "边界变体40: 能见度略低于3km边界"
+    "description": "边界变体40: 能见度略低于3km边界",
+    "id": "BND_041",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体41: 能见度略高于3km边界"
+    "description": "边界变体41: 能见度略高于3km边界",
+    "id": "BND_042",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "边界变体42: 能见度刚好1km边界"
+    "description": "边界变体42: 能见度刚好1km边界",
+    "id": "BND_043",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体43: 能见度略低于1km边界"
+    "description": "边界变体43: 能见度略低于1km边界",
+    "id": "BND_044",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "边界变体44: 能见度略高于1km边界"
+    "description": "边界变体44: 能见度略高于1km边界",
+    "id": "BND_045",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体45: 能见度刚好500m边界"
+    "description": "边界变体45: 能见度刚好500m边界",
+    "id": "BND_046",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体46: 能见度略低于500m边界"
+    "description": "边界变体46: 能见度略低于500m边界",
+    "id": "BND_047",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体47: 能见度略高于500m边界"
+    "description": "边界变体47: 能见度略高于500m边界",
+    "id": "BND_048",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体48: 能见度刚好5km边界"
+    "description": "边界变体48: 能见度刚好5km边界",
+    "id": "BND_049",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体49: 能见度略低于5km边界"
+    "description": "边界变体49: 能见度略低于5km边界",
+    "id": "BND_050",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "边界变体50: 能见度略高于5km边界"
+    "description": "边界变体50: 能见度略高于5km边界",
+    "id": "BND_051",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体51: 能见度刚好3km边界"
+    "description": "边界变体51: 能见度刚好3km边界",
+    "id": "BND_052",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140400Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "边界变体52: 能见度略低于3km边界"
+    "description": "边界变体52: 能见度略低于3km边界",
+    "id": "BND_053",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140500Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体53: 能见度略高于3km边界"
+    "description": "边界变体53: 能见度略高于3km边界",
+    "id": "BND_054",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140600Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "边界变体54: 能见度刚好1km边界"
+    "description": "边界变体54: 能见度刚好1km边界",
+    "id": "BND_055",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140700Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体55: 能见度略低于1km边界"
+    "description": "边界变体55: 能见度略低于1km边界",
+    "id": "BND_056",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "边界变体56: 能见度略高于1km边界"
+    "description": "边界变体56: 能见度略高于1km边界",
+    "id": "BND_057",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140900Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体57: 能见度刚好500m边界"
+    "description": "边界变体57: 能见度刚好500m边界",
+    "id": "BND_058",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 141000Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体58: 能见度略低于500m边界"
+    "description": "边界变体58: 能见度略低于500m边界",
+    "id": "BND_059",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 141100Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体59: 能见度略高于500m边界"
+    "description": "边界变体59: 能见度略高于500m边界",
+    "id": "BND_060",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 141200Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体60: 能见度刚好5km边界"
+    "description": "边界变体60: 能见度刚好5km边界",
+    "id": "BND_061",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 141300Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体61: 能见度略低于5km边界"
+    "description": "边界变体61: 能见度略低于5km边界",
+    "id": "BND_062",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 141400Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "边界变体62: 能见度略高于5km边界"
+    "description": "边界变体62: 能见度略高于5km边界",
+    "id": "BND_063",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体63: 能见度刚好3km边界"
+    "description": "边界变体63: 能见度刚好3km边界",
+    "id": "BND_064",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "边界变体64: 能见度略低于3km边界"
+    "description": "边界变体64: 能见度略低于3km边界",
+    "id": "BND_065",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体65: 能见度略高于3km边界"
+    "description": "边界变体65: 能见度略高于3km边界",
+    "id": "BND_066",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "边界变体66: 能见度刚好1km边界"
+    "description": "边界变体66: 能见度刚好1km边界",
+    "id": "BND_067",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体67: 能见度略低于1km边界"
+    "description": "边界变体67: 能见度略低于1km边界",
+    "id": "BND_068",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "边界变体68: 能见度略高于1km边界"
+    "description": "边界变体68: 能见度略高于1km边界",
+    "id": "BND_069",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体69: 能见度刚好500m边界"
+    "description": "边界变体69: 能见度刚好500m边界",
+    "id": "BND_070",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体70: 能见度略低于500m边界"
+    "description": "边界变体70: 能见度略低于500m边界",
+    "id": "BND_071",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体71: 能见度略高于500m边界"
+    "description": "边界变体71: 能见度略高于500m边界",
+    "id": "BND_072",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体72: 能见度刚好5km边界"
+    "description": "边界变体72: 能见度刚好5km边界",
+    "id": "BND_073",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体73: 能见度略低于5km边界"
+    "description": "边界变体73: 能见度略低于5km边界",
+    "id": "BND_074",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "边界变体74: 能见度略高于5km边界"
+    "description": "边界变体74: 能见度略高于5km边界",
+    "id": "BND_075",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体75: 能见度刚好3km边界"
+    "description": "边界变体75: 能见度刚好3km边界",
+    "id": "BND_076",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 140400Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "边界变体76: 能见度略低于3km边界"
+    "description": "边界变体76: 能见度略低于3km边界",
+    "id": "BND_077",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 140500Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体77: 能见度略高于3km边界"
+    "description": "边界变体77: 能见度略高于3km边界",
+    "id": "BND_078",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140600Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "边界变体78: 能见度刚好1km边界"
+    "description": "边界变体78: 能见度刚好1km边界",
+    "id": "BND_079",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140700Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体79: 能见度略低于1km边界"
+    "description": "边界变体79: 能见度略低于1km边界",
+    "id": "BND_080",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "边界变体80: 能见度略高于1km边界"
+    "description": "边界变体80: 能见度略高于1km边界",
+    "id": "BND_081",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140900Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体81: 能见度刚好500m边界"
+    "description": "边界变体81: 能见度刚好500m边界",
+    "id": "BND_082",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 141000Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体82: 能见度略低于500m边界"
+    "description": "边界变体82: 能见度略低于500m边界",
+    "id": "BND_083",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 141100Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体83: 能见度略高于500m边界"
+    "description": "边界变体83: 能见度略高于500m边界",
+    "id": "BND_084",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 141200Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体84: 能见度刚好5km边界"
+    "description": "边界变体84: 能见度刚好5km边界",
+    "id": "BND_085",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 141300Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体85: 能见度略低于5km边界"
+    "description": "边界变体85: 能见度略低于5km边界",
+    "id": "BND_086",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 141400Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "边界变体86: 能见度略高于5km边界"
+    "description": "边界变体86: 能见度略高于5km边界",
+    "id": "BND_087",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体87: 能见度刚好3km边界"
+    "description": "边界变体87: 能见度刚好3km边界",
+    "id": "BND_088",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
     "expected_flight_rules": "IFR",
-    "description": "边界变体88: 能见度略低于3km边界"
+    "description": "边界变体88: 能见度略低于3km边界",
+    "id": "BND_089",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体89: 能见度略高于3km边界"
+    "description": "边界变体89: 能见度略高于3km边界",
+    "id": "BND_090",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
     "expected_flight_rules": "IFR",
-    "description": "边界变体90: 能见度刚好1km边界"
+    "description": "边界变体90: 能见度刚好1km边界",
+    "id": "BND_091",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体91: 能见度略低于1km边界"
+    "description": "边界变体91: 能见度略低于1km边界",
+    "id": "BND_092",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
     "expected_flight_rules": "IFR",
-    "description": "边界变体92: 能见度略高于1km边界"
+    "description": "边界变体92: 能见度略高于1km边界",
+    "id": "BND_093",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体93: 能见度刚好500m边界"
+    "description": "边界变体93: 能见度刚好500m边界",
+    "id": "BND_094",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体94: 能见度略低于500m边界"
+    "description": "边界变体94: 能见度略低于500m边界",
+    "id": "BND_095",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
     "expected_flight_rules": "LIFR",
-    "description": "边界变体95: 能见度略高于500m边界"
+    "description": "边界变体95: 能见度略高于500m边界",
+    "id": "BND_096",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "LIFR",
+      "条件极差"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "LIFR",
+        "条件极差"
+      ],
+      "must_give": [
+        "建议",
+        "备降"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体96: 能见度刚好5km边界"
+    "description": "边界变体96: 能见度刚好5km边界",
+    "id": "BND_097",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
     "expected_flight_rules": "MVFR",
-    "description": "边界变体97: 能见度略低于5km边界"
+    "description": "边界变体97: 能见度略低于5km边界",
+    "id": "BND_098",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "MVFR",
+      "注意"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "MVFR",
+        "注意"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
     "expected_flight_rules": "VFR",
-    "description": "边界变体98: 能见度略高于5km边界"
+    "description": "边界变体98: 能见度略高于5km边界",
+    "id": "BND_099",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "VFR条件"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "VFR条件"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
     "expected_flight_rules": "IFR",
-    "description": "边界变体99: 能见度刚好3km边界"
+    "description": "边界变体99: 能见度刚好3km边界",
+    "id": "BND_100",
+    "role": "pilot",
+    "query": "这个机场天气怎么样",
+    "expected_key_info": [
+      "IFR",
+      "低能见度或低云"
+    ],
+    "scoring_criteria": {
+      "must_mention": [
+        "IFR",
+        "低能见度或低云"
+      ],
+      "must_give": [
+        "建议"
+      ],
+      "must_not_output": [
+        "【风险分析】",
+        "【建议措施】",
+        "【角色职责】"
+      ]
+    }
   }
 ]

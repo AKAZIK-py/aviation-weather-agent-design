@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "version": "v1",
+    "created": "2026-04-15",
+    "total_cases": 10,
+    "description": "Hold-out评测集v1，10条高质量case覆盖4角色，用于最终评估"
+  },
+  "cases": [
+    {
+      "id": "HO_001",
+      "metar": "METAR ZBAA 150600Z 09015KT 3000 RA OVC006 12/11 Q1005",
+      "parsed": {
+        "visibility": 3000,
+        "cloud_base": 600,
+        "weather": "RA/OVC"
+      },
+      "role": "pilot",
+      "query": "ZBAA现在够CAT II标准吗",
+      "expected_key_info": ["能见度3000m", "云底600ft", "IFR", "接近CAT II下限"],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": ["3000", "600", "CAT II"],
+        "must_give": ["进近标准对比"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_002",
+      "metar": "METAR ZSPD 150600Z 36025G40KT 1500 SN BKN008 OVC015 02/00 Q0995",
+      "parsed": {
+        "visibility": 1500,
+        "cloud_base": 800,
+        "wind_gust": 40,
+        "weather": "SN"
+      },
+      "role": "dispatcher",
+      "query": "ZSPD现在运行受限严重吗，需要备降吗",
+      "expected_key_info": ["阵风40kt", "低能见度", "雪", "可能需要备降"],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": ["阵风", "能见度", "雪"],
+        "must_give": ["运行评估"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_003",
+      "metar": "METAR ZGGG 150600Z 24008KT 9999 FEW045 32/24 Q1008",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4500,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "ZGGG目前运行模式是什么",
+      "expected_key_info": ["VFR", "正常运行", "夏季高温"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR", "正常"],
+        "must_give": ["运行建议"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_004",
+      "metar": "METAR ZUUU 150600Z 06005KT 0800 FG VV002 08/07 Q1018",
+      "parsed": {
+        "visibility": 800,
+        "cloud_base": 200,
+        "weather": "FG"
+      },
+      "role": "pilot",
+      "query": "ZUUU够CAT IIIb标准吗",
+      "expected_key_info": ["能见度800m", "VV200ft", "IFR/LIFR", "需检查CAT IIIb要求"],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": ["800", "200", "CAT III"],
+        "must_give": ["标准对比"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_005",
+      "metar": "METAR ZSSS 150600Z 33020G35KT 5000 -RA SCT015 OVC030 18/16 Q1002",
+      "parsed": {
+        "visibility": 5000,
+        "cloud_base": 1500,
+        "wind_gust": 35,
+        "weather": "-RA"
+      },
+      "role": "dispatcher",
+      "query": "ZSSS侧风和低云对进港航班影响大吗",
+      "expected_key_info": ["西北风35kt阵风", "云底1500ft", "中雨", "MVFR"],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": ["阵风", "侧风", "云"],
+        "must_give": ["影响分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_006",
+      "metar": "METAR ZBAD 150600Z 18010KT 9999 SCT050 20/12 Q1020",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 5000,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "大兴机场现在天气配合进场吗",
+      "expected_key_info": ["VFR", "能见度好", "风不大", "适合进场"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR", "良好", "适合"],
+        "must_give": ["进场评估"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_007",
+      "metar": "METAR ZBTJ 150600Z 27030G50KT 2000 +TSRA SCT010CB OVC025 25/22 Q0998",
+      "parsed": {
+        "visibility": 2000,
+        "cloud_base": 1000,
+        "wind_gust": 50,
+        "weather": "+TSRA"
+      },
+      "role": "pilot",
+      "query": "ZBTJ风切变风险大吗",
+      "expected_key_info": ["阵风50kt", "雷暴", "强降水", "风切变风险高"],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": ["阵风", "雷暴", "风切变"],
+        "must_give": ["风险警告"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_008",
+      "metar": "METAR ZPPP 150600Z 18005KT 6000 HZ SCT030 22/14 Q1015",
+      "parsed": {
+        "visibility": 6000,
+        "cloud_base": 3000,
+        "weather": "HZ"
+      },
+      "role": "dispatcher",
+      "query": "昆明机场霾天气对运行有影响吗",
+      "expected_key_info": ["能见度6000m", "霾", "MVFR", "轻微影响"],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": ["6000", "霾", "影响"],
+        "must_give": ["影响评估"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_009",
+      "metar": "METAR ZSHC 150600Z 09012KT 8000 -DZ BKN012 16/15 Q1010",
+      "parsed": {
+        "visibility": 8000,
+        "cloud_base": 1200,
+        "weather": "-DZ"
+      },
+      "role": "atc",
+      "query": "杭州机场现在进场限制多吗",
+      "expected_key_info": ["能见度8km", "云底1200ft", "毛毛雨", "IFR边缘"],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": ["云底", "IFR", "限制"],
+        "must_give": ["限制说明"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "HO_010",
+      "metar": "METAR ZYTL 150600Z 33025G38KT 3000 BLSN SCT020 OVC040 M08/M12 Q1025",
+      "parsed": {
+        "visibility": 3000,
+        "cloud_base": 2000,
+        "wind_gust": 38,
+        "weather": "BLSN"
+      },
+      "role": "pilot",
+      "query": "大连机场吹雪天气能降吗",
+      "expected_key_info": ["阵风38kt", "吹雪", "低能见度", "IFR", "危险"],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": ["吹雪", "阵风", "能见度"],
+        "must_give": ["降落评估"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    }
+  ]
+}

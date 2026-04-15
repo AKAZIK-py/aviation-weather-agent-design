@@ -6,8 +6,8 @@
 - 输出：结构化 dict（JSON可序列化）
 - 失败：返回 {"error": "具体错误信息"} 而非抛异常
 """
+
 import functools
-import json
 import logging
 import time
 from typing import Dict, Any, Optional, List
@@ -16,7 +16,6 @@ from pydantic import BaseModel, Field
 from app.nodes.parse_metar_node import parse_metar_node
 from app.nodes.assess_risk_node import assess_risk_node
 from app.utils.visibility import format_visibility_range
-from app.utils.approach import format_decision_info
 from app.core.metrics import get_metrics
 from app.core.telemetry import get_tracer, mark_span_error
 
@@ -25,19 +24,39 @@ metrics = get_metrics()
 tracer = get_tracer(__name__)
 
 
-def observable_tool(tool_name: str):
-    """为工具增加 Prometheus + OTel 埋点。"""
+def observable_tool(tool_name: str, model_class: type = None):
+    """为工具增加 Prometheus + OTel 埋点。
+
+    Args:
+        tool_name: 工具名称
+        model_class: 参数的 Pydantic 模型类，用于将 kwargs 转换为模型实例
+    """
 
     def decorator(func):
         @functools.wraps(func)
-        async def wrapper(params):
+        async def wrapper(params=None, **kwargs):
             start = time.perf_counter()
+
+            # 处理参数：如果传入了 kwargs 且没有 params，用 model_class 构造
+            if params is None and kwargs and model_class:
+                params = model_class(**kwargs)
+            elif params is None and not kwargs:
+                raise ValueError(
+                    f"Tool {tool_name} requires either params or keyword arguments"
+                )
+
             with tracer.start_as_current_span(f"tool.{tool_name}") as span:
                 span.set_attribute("tool.name", tool_name)
-                span.set_attribute("tool.param_keys", list(params.model_dump(exclude_none=True).keys()))
+                span.set_attribute(
+                    "tool.param_keys", list(params.model_dump(exclude_none=True).keys())
+                )
                 try:
                     result = await func(params)
-                    status = "error" if isinstance(result, dict) and result.get("error") else "success"
+                    status = (
+                        "error"
+                        if isinstance(result, dict) and result.get("error")
+                        else "success"
+                    )
                     metrics.record_tool_call(
                         tool=tool_name,
                         status=status,
@@ -66,57 +85,72 @@ def observable_tool(tool_name: str):
 
 # ==================== Tool Schema 定义 ====================
 
+
 class FetchMetarParams(BaseModel):
     """获取指定ICAO机场的实时METAR报文"""
+
     icao: str = Field(description="4字母ICAO机场代码，如 ZBAA、ZSPD")
 
 
 class ParseMetarParams(BaseModel):
     """解析原始METAR报文为结构化数据，包含飞行规则、风、能见度、云层等"""
+
     raw_metar: str = Field(description="原始METAR报文文本")
 
 
 class GetFlightRulesParams(BaseModel):
     """根据能见度和云底高计算ICAO Annex 3飞行规则"""
+
     visibility_km: float = Field(description="能见度，单位千米")
     ceiling_ft: Optional[float] = Field(
         default=None,
-        description="云底高（最低BKN/OVC层），单位英尺。FEW和SCT不算ceiling。无云底时传null"
+        description="云底高（最低BKN/OVC层），单位英尺。FEW和SCT不算ceiling。无云底时传null",
     )
 
 
 class AssessRiskParams(BaseModel):
     """多维度风险评估：能见度、风、天气现象、风切变、云底高"""
-    metar_parsed: Dict[str, Any] = Field(description="parse_metar工具返回的结构化METAR数据")
+
+    metar_parsed: Dict[str, Any] = Field(
+        description="parse_metar工具返回的结构化METAR数据"
+    )
 
 
 class GetApproachMinimaParams(BaseModel):
     """获取机场指定跑道的进近最低标准（DH/MDA）"""
+
     icao: str = Field(description="4字母ICAO机场代码")
-    runway: Optional[str] = Field(default=None, description="跑道号，如 '01'、'19L'。不指定则返回所有跑道")
+    runway: Optional[str] = Field(
+        default=None, description="跑道号，如 '01'、'19L'。不指定则返回所有跑道"
+    )
 
 
 class FormatVisibilityParams(BaseModel):
     """将能见度精确值转换为区间化描述（对外展示用）"""
+
     visibility_km: float = Field(description="能见度精确值，单位千米")
 
 
 class FetchTafParams(BaseModel):
     """获取指定ICAO机场的TAF预报报文"""
+
     icao: str = Field(description="4字母ICAO机场代码，如 ZBAA、ZSPD")
 
 
 class GetFullWeatherParams(BaseModel):
     """获取机场完整气象信息（METAR实况 + TAF预报），联合分析用"""
+
     icao: str = Field(description="4字母ICAO机场代码，如 ZBAA、ZSPD")
 
 
 # ==================== Tool 执行函数 ====================
 
-@observable_tool("fetch_metar")
+
+@observable_tool("fetch_metar", FetchMetarParams)
 async def _fetch_metar(params: FetchMetarParams) -> Dict[str, Any]:
     """获取实时METAR"""
     from app.services.metar_fetcher import fetch_metar_for_airport, MetarFetchError
+
     try:
         raw_metar, metadata = await fetch_metar_for_airport(params.icao)
         return {
@@ -130,7 +164,7 @@ async def _fetch_metar(params: FetchMetarParams) -> Dict[str, Any]:
         return {"error": f"网络或服务异常: {str(e)}"}
 
 
-@observable_tool("parse_metar")
+@observable_tool("parse_metar", ParseMetarParams)
 async def _parse_metar(params: ParseMetarParams) -> Dict[str, Any]:
     """解析METAR报文"""
     try:
@@ -146,7 +180,7 @@ async def _parse_metar(params: ParseMetarParams) -> Dict[str, Any]:
         return {"error": f"METAR解析异常: {str(e)}"}
 
 
-@observable_tool("get_flight_rules")
+@observable_tool("get_flight_rules", GetFlightRulesParams)
 async def _get_flight_rules(params: GetFlightRulesParams) -> Dict[str, Any]:
     """计算飞行规则"""
     vis_sm = params.visibility_km / 1.60934
@@ -192,7 +226,7 @@ async def _get_flight_rules(params: GetFlightRulesParams) -> Dict[str, Any]:
     }
 
 
-@observable_tool("assess_risk")
+@observable_tool("assess_risk", AssessRiskParams)
 async def _assess_risk(params: AssessRiskParams) -> Dict[str, Any]:
     """风险评估"""
     try:
@@ -207,21 +241,36 @@ async def _assess_risk(params: AssessRiskParams) -> Dict[str, Any]:
         return {"error": f"风险评估异常: {str(e)}"}
 
 
-@observable_tool("get_approach_minima")
+@observable_tool("get_approach_minima", GetApproachMinimaParams)
 async def _get_approach_minima(params: GetApproachMinimaParams) -> Dict[str, Any]:
     """获取进近最低标准"""
+    from app.utils.approach import get_decision_heights
+
     try:
-        info = format_decision_info(params.icao, params.runway)
+        icao = params.icao.upper()
+        runway = params.runway
+
+        # 返回标准进近最低值参考（不依赖外部数据）
+        info = get_decision_heights(cloud_ceiling_ft=None)
+
+        lines = [f"{icao} 标准进近最低值参考："]
+        for approach_type, entry in info["approaches"].items():
+            dh_label = "DH" if entry["type"] == "DH" else "MDA"
+            lines.append(f"  - {entry['description']}: {dh_label} {entry['value_ft']}ft")
+
+        if runway:
+            lines.append(f"\n跑道 {runway} 的具体进近标准请查阅航图（Jeppesen/NAIP）。")
+
         return {
-            "icao": params.icao.upper(),
-            "runway": params.runway,
-            "approach_minima": info,
+            "icao": icao,
+            "runway": runway,
+            "approach_minima": "\n".join(lines),
         }
     except Exception as e:
         return {"error": f"获取进近标准失败: {str(e)}"}
 
 
-@observable_tool("format_visibility")
+@observable_tool("format_visibility", FormatVisibilityParams)
 async def _format_visibility(params: FormatVisibilityParams) -> Dict[str, Any]:
     """能见度区间化"""
     range_str = format_visibility_range(params.visibility_km)
@@ -231,10 +280,11 @@ async def _format_visibility(params: FormatVisibilityParams) -> Dict[str, Any]:
     }
 
 
-@observable_tool("fetch_taf")
+@observable_tool("fetch_taf", FetchTafParams)
 async def _fetch_taf(params: FetchTafParams) -> Dict[str, Any]:
     """获取TAF预报"""
     from app.services.metar_fetcher import fetch_taf_for_airport, MetarFetchError
+
     try:
         raw_taf, metadata = await fetch_taf_for_airport(params.icao)
         return {
@@ -248,7 +298,7 @@ async def _fetch_taf(params: FetchTafParams) -> Dict[str, Any]:
         return {"error": f"网络或服务异常: {str(e)}"}
 
 
-@observable_tool("get_full_weather")
+@observable_tool("get_full_weather", GetFullWeatherParams)
 async def _get_full_weather(params: GetFullWeatherParams) -> Dict[str, Any]:
     """获取METAR+TAF联合数据"""
     from app.services.metar_fetcher import (
@@ -256,6 +306,7 @@ async def _get_full_weather(params: GetFullWeatherParams) -> Dict[str, Any]:
         fetch_taf_for_airport,
         MetarFetchError,
     )
+
     icao = params.icao.upper()
     result = {"icao": icao}
 

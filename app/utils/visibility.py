@@ -51,7 +51,8 @@ def format_visibility_range(vis_km: float) -> str:
         return "未知"
 
     # CAVOK 或 >=10km
-    if vis_km >= 10:
+    # METAR 9999 表示 ≥10km，解析后为 9.999，也应归入 >10km
+    if vis_km >= 9.99:
         return ">10km"
 
     for low, high, label in VISIBILITY_RANGES:

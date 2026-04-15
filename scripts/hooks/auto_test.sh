@@ -37,16 +37,16 @@ resolve_python() {
   return 1
 }
 
-resolve_black() {
+resolve_ruff() {
   local candidate
-  for candidate in "$ROOT/venv/bin/black" "$ROOT/.venv/bin/black"; do
+  for candidate in "$ROOT/venv/bin/ruff" "$ROOT/.venv/bin/ruff"; do
     if [[ -x "$candidate" ]] && "$candidate" --version >/dev/null 2>&1; then
       printf '%s\n' "$candidate"
       return 0
     fi
   done
-  if command -v black >/dev/null 2>&1 && black --version >/dev/null 2>&1; then
-    command -v black
+  if command -v ruff >/dev/null 2>&1 && ruff --version >/dev/null 2>&1; then
+    command -v ruff
     return 0
   fi
   return 1
@@ -71,15 +71,15 @@ fi
 PYTHON_BIN="$(resolve_python)"
 
 if [[ "$MODE" == "format" ]]; then
-  if BLACK_BIN="$(resolve_black 2>/dev/null)"; then
-    if "$BLACK_BIN" "$FILE_PATH" >/dev/null 2>&1; then
-      HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result success --files "$FILE_PATH" --detail "black 自动格式化完成"
+  if RUFF_BIN="$(resolve_ruff 2>/dev/null)"; then
+    if "$RUFF_BIN" format "$FILE_PATH" >/dev/null 2>&1 && "$RUFF_BIN" check --fix --select I,F,E,W "$FILE_PATH" >/dev/null 2>&1; then
+      HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result success --files "$FILE_PATH" --detail "ruff format + lint 自动修复完成"
     else
-      HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result failed --files "$FILE_PATH" --detail "black 自动格式化失败"
-      echo "⚠️ black 自动格式化失败: $FILE_PATH" >&2
+      HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result failed --files "$FILE_PATH" --detail "ruff 自动格式化失败"
+      echo "⚠️ ruff 自动格式化失败: $FILE_PATH" >&2
     fi
   else
-    HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result skipped --files "$FILE_PATH" --detail "未找到 black，跳过自动格式化"
+    HOOK_INPUT_JSON="$INPUT_JSON" "$LOG_SCRIPT" --result skipped --files "$FILE_PATH" --detail "未找到 ruff，跳过自动格式化"
   fi
   exit 0
 fi

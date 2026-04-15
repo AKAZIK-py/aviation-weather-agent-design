@@ -1,5 +1,5 @@
 exclude: >-
-  ^(venv/|\.venv/|\.git/|\.omx/)
+  ^(venv/|\.venv/|\.git/|\.omx/|\.ruff_cache/)
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -14,19 +14,17 @@ repos:
       - id: check-yaml
         args: [--allow-multiple-documents]
 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.12
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^(app/|tests/)
+      - id: ruff-format
+        files: ^(app/|tests/)
+
   - repo: local
     hooks:
-      - id: flake8
-        name: flake8
-        entry: >-
-          bash -lc 'if [ -x venv/bin/python ]; then venv/bin/python -m flake8 "$@";
-          elif [ -x .venv/bin/python ]; then .venv/bin/python -m flake8 "$@";
-          else python3 -m flake8 "$@"; fi' --
-        language: system
-        types: [python]
-        files: ^(app/|tests/|test_.*\.py$)
-        require_serial: true
-
       - id: mypy
         name: mypy
         entry: >-

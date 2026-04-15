@@ -1,0 +1,1626 @@
+{
+  "metadata": {
+    "version": "v2",
+    "created": "2026-04-15",
+    "total_cases": 50,
+    "description": "标准评测集v2，覆盖4角色×4天气场景+极端天气"
+  },
+  "cases": [
+    {
+      "id": "STD_001",
+      "metar": "METAR ZSSS 0600Z 09008KT 9999 SCT040 25/18 Q1015",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZSSS天气怎么样",
+      "expected_key_info": [
+        "能见度良好",
+        "云层较高",
+        "VFR条件"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度良好",
+          "云层较高"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_002",
+      "metar": "METAR ZBAA 0900Z 18012KT 9999 FEW050 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZBAA能降吗",
+      "expected_key_info": [
+        "能见度良好",
+        "云层较高",
+        "VFR条件"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度良好",
+          "云层较高"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_003",
+      "metar": "METAR ZGGG 1200Z 27006KT 9999 SCT045 28/20 Q1012",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZGGG现在用什么进近方式",
+      "expected_key_info": [
+        "能见度良好",
+        "云层较高",
+        "VFR条件"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度良好",
+          "云层较高"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_004",
+      "metar": "METAR ZSPD 1800Z 18015KT 5000 BR SCT025 18/16 Q1010",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "pilot",
+      "query": "ZSPD侧风超标准了吗",
+      "expected_key_info": [
+        "能见度中等",
+        "云底高偏低",
+        "MVFR"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度中等",
+          "云底高偏低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_005",
+      "metar": "METAR ZUUU 2100Z 24012KT 4000 BKN025 15/13 Q1008",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "pilot",
+      "query": "ZUUU决断高多少",
+      "expected_key_info": [
+        "能见度中等",
+        "云底高偏低",
+        "MVFR"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度中等",
+          "云底高偏低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_006",
+      "metar": "METAR ZSSS 0600Z 09010KT 4800 SCT020 20/18 Q1011",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "pilot",
+      "query": "ZSSS云底高够不够ILS CAT I",
+      "expected_key_info": [
+        "能见度中等",
+        "云底高偏低",
+        "MVFR"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度中等",
+          "云底高偏低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_007",
+      "metar": "METAR ZBAA 0900Z 22018KT 1500 OVC008 12/11 Q1005",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "pilot",
+      "query": "ZBAA现在满足什么进近标准",
+      "expected_key_info": [
+        "能见度低",
+        "云底高低",
+        "需要仪表进近",
+        "IFR"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度低",
+          "云底高低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_008",
+      "metar": "METAR ZGGG 1200Z 18020KT 1200 BKN006 10/9 Q1003",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "pilot",
+      "query": "ZGGG风怎么样影响起降",
+      "expected_key_info": [
+        "能见度低",
+        "云底高低",
+        "需要仪表进近",
+        "IFR"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度低",
+          "云底高低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_009",
+      "metar": "METAR ZSPD 1800Z 33012KT 1800 OVC010 14/13 Q1006",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "pilot",
+      "query": "ZSPD天气怎么样",
+      "expected_key_info": [
+        "能见度低",
+        "云底高低",
+        "需要仪表进近",
+        "IFR"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度低",
+          "云底高低"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_010",
+      "metar": "METAR ZUUU 2100Z 18012KT 0800 FG VV002 12/11 Q1008",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "pilot",
+      "query": "ZUUU能降吗",
+      "expected_key_info": [
+        "能见度极低",
+        "低于最低标准",
+        "LIFR",
+        "不适合目视"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极低",
+          "低于最低标准"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_011",
+      "metar": "METAR ZSSS 0600Z 24010KT 0500 FG OVC002 8/7 Q1006",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "pilot",
+      "query": "ZSSS现在用什么进近方式",
+      "expected_key_info": [
+        "能见度极低",
+        "低于最低标准",
+        "LIFR",
+        "不适合目视"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极低",
+          "低于最低标准"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_012",
+      "metar": "METAR ZBAA 0900Z 09008KT 0300 FG VV001 10/9 Q1005",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "pilot",
+      "query": "ZBAA侧风超标准了吗",
+      "expected_key_info": [
+        "能见度极低",
+        "低于最低标准",
+        "LIFR",
+        "不适合目视"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极低",
+          "低于最低标准"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_013",
+      "metar": "METAR ZGGG 1200Z 09008KT 9999 SCT040 25/18 Q1015",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "ZGGG飞ZSPD能飞吗",
+      "expected_key_info": [
+        "天气良好",
+        "可以放行"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "天气良好",
+          "可以放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_014",
+      "metar": "METAR ZSPD 1800Z 18012KT 9999 FEW050 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "ZSPD要不要放行",
+      "expected_key_info": [
+        "天气良好",
+        "可以放行"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "天气良好",
+          "可以放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_015",
+      "metar": "METAR ZUUU 2100Z 27006KT 9999 SCT045 28/20 Q1012",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "备降方案选哪里",
+      "expected_key_info": [
+        "天气良好",
+        "可以放行"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "天气良好",
+          "可以放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_016",
+      "metar": "METAR ZSSS 0600Z 18015KT 5000 BR SCT025 18/16 Q1010",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "dispatcher",
+      "query": "ZSSS现在够不够放行标准",
+      "expected_key_info": [
+        "注意能见度",
+        "MVFR条件"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "MVFR条件"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_017",
+      "metar": "METAR ZBAA 0900Z 24012KT 4000 BKN025 15/13 Q1008",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "dispatcher",
+      "query": "油量要加多少备降",
+      "expected_key_info": [
+        "注意能见度",
+        "MVFR条件"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "MVFR条件"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_018",
+      "metar": "METAR ZGGG 1200Z 09010KT 4800 SCT020 20/18 Q1011",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "dispatcher",
+      "query": "ZGGG天气趋势放行安全吗",
+      "expected_key_info": [
+        "注意能见度",
+        "MVFR条件"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "MVFR条件"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_019",
+      "metar": "METAR ZSPD 1800Z 22018KT 1500 OVC008 12/11 Q1005",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "dispatcher",
+      "query": "ZSPD飞ZSPD能飞吗",
+      "expected_key_info": [
+        "IFR条件",
+        "需要谨慎放行"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR条件",
+          "需要谨慎放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_020",
+      "metar": "METAR ZUUU 2100Z 18020KT 1200 BKN006 10/9 Q1003",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "dispatcher",
+      "query": "ZUUU要不要放行",
+      "expected_key_info": [
+        "IFR条件",
+        "需要谨慎放行"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR条件",
+          "需要谨慎放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_021",
+      "metar": "METAR ZSSS 0600Z 33012KT 1800 OVC010 14/13 Q1006",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "dispatcher",
+      "query": "备降方案选哪里",
+      "expected_key_info": [
+        "IFR条件",
+        "需要谨慎放行"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR条件",
+          "需要谨慎放行"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_022",
+      "metar": "METAR ZBAA 0900Z 18012KT 0800 FG VV002 12/11 Q1008",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "dispatcher",
+      "query": "ZBAA现在够不够放行标准",
+      "expected_key_info": [
+        "LIFR",
+        "考虑取消或延误"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "考虑取消或延误"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_023",
+      "metar": "METAR ZGGG 1200Z 24010KT 0500 FG OVC002 8/7 Q1006",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "dispatcher",
+      "query": "油量要加多少备降",
+      "expected_key_info": [
+        "LIFR",
+        "考虑取消或延误"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "考虑取消或延误"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_024",
+      "metar": "METAR ZSPD 1800Z 09008KT 0300 FG VV001 10/9 Q1005",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "dispatcher",
+      "query": "ZSPD天气趋势放行安全吗",
+      "expected_key_info": [
+        "LIFR",
+        "考虑取消或延误"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "考虑取消或延误"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_025",
+      "metar": "METAR ZUUU 2100Z 09008KT 9999 SCT040 25/18 Q1015",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "forecaster",
+      "query": "ZUUU未来3小时天气趋势",
+      "expected_key_info": [
+        "VFR",
+        "天气稳定"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "VFR",
+          "天气稳定"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_026",
+      "metar": "METAR ZSSS 0600Z 18012KT 9999 FEW050 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "forecaster",
+      "query": "ZSSS天气会好转吗",
+      "expected_key_info": [
+        "VFR",
+        "天气稳定"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "VFR",
+          "天气稳定"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_027",
+      "metar": "METAR ZBAA 0900Z 27006KT 9999 SCT045 28/20 Q1012",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "forecaster",
+      "query": "ZBAA什么时候能恢复正常",
+      "expected_key_info": [
+        "VFR",
+        "天气稳定"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "VFR",
+          "天气稳定"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_028",
+      "metar": "METAR ZGGG 1200Z 18015KT 5000 BR SCT025 18/16 Q1010",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "forecaster",
+      "query": "低云什么时候散",
+      "expected_key_info": [
+        "MVFR",
+        "轻度影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "MVFR",
+          "轻度影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_029",
+      "metar": "METAR ZSPD 1800Z 24012KT 4000 BKN025 15/13 Q1008",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "forecaster",
+      "query": "雾什么时候消散",
+      "expected_key_info": [
+        "MVFR",
+        "轻度影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "MVFR",
+          "轻度影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_030",
+      "metar": "METAR ZUUU 2100Z 09010KT 4800 SCT020 20/18 Q1011",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "forecaster",
+      "query": "ZUUU未来能见度变化",
+      "expected_key_info": [
+        "MVFR",
+        "轻度影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "MVFR",
+          "轻度影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_031",
+      "metar": "METAR ZSSS 0600Z 22018KT 1500 OVC008 12/11 Q1005",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "forecaster",
+      "query": "ZSSS未来3小时天气趋势",
+      "expected_key_info": [
+        "IFR",
+        "低能见度"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR",
+          "低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_032",
+      "metar": "METAR ZBAA 0900Z 18020KT 1200 BKN006 10/9 Q1003",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "forecaster",
+      "query": "ZBAA天气会好转吗",
+      "expected_key_info": [
+        "IFR",
+        "低能见度"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR",
+          "低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_033",
+      "metar": "METAR ZGGG 1200Z 33012KT 1800 OVC010 14/13 Q1006",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "forecaster",
+      "query": "ZGGG什么时候能恢复正常",
+      "expected_key_info": [
+        "IFR",
+        "低能见度"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "IFR",
+          "低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_034",
+      "metar": "METAR ZSPD 1800Z 18012KT 0800 FG VV002 12/11 Q1008",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "forecaster",
+      "query": "低云什么时候散",
+      "expected_key_info": [
+        "LIFR",
+        "极端低能见度"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "极端低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_035",
+      "metar": "METAR ZUUU 2100Z 24010KT 0500 FG OVC002 8/7 Q1006",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "forecaster",
+      "query": "雾什么时候消散",
+      "expected_key_info": [
+        "LIFR",
+        "极端低能见度"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "极端低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_036",
+      "metar": "METAR ZSSS 0600Z 09008KT 0300 FG VV001 10/9 Q1005",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "forecaster",
+      "query": "ZSSS未来能见度变化",
+      "expected_key_info": [
+        "LIFR",
+        "极端低能见度"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "LIFR",
+          "极端低能见度"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_037",
+      "metar": "METAR ZBAA 0900Z 09008KT 9999 SCT040 25/18 Q1015",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "ground_crew",
+      "query": "ZBAA现在能出外场吗",
+      "expected_key_info": [
+        "可以作业",
+        "条件良好"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "可以作业",
+          "条件良好"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_038",
+      "metar": "METAR ZGGG 1200Z 18012KT 9999 FEW050 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "ground_crew",
+      "query": "风速对作业影响大吗",
+      "expected_key_info": [
+        "可以作业",
+        "条件良好"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "可以作业",
+          "条件良好"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_039",
+      "metar": "METAR ZSPD 1800Z 27006KT 9999 SCT045 28/20 Q1012",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "ground_crew",
+      "query": "现在能做航线检查吗",
+      "expected_key_info": [
+        "可以作业",
+        "条件良好"
+      ],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "可以作业",
+          "条件良好"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_040",
+      "metar": "METAR ZUUU 2100Z 18015KT 5000 BR SCT025 18/16 Q1010",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "ground_crew",
+      "query": "ZUUU现在温度适合作业吗",
+      "expected_key_info": [
+        "注意能见度",
+        "可能影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "可能影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_041",
+      "metar": "METAR ZSSS 0600Z 24012KT 4000 BKN025 15/13 Q1008",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "ground_crew",
+      "query": "降水影响户外作业吗",
+      "expected_key_info": [
+        "注意能见度",
+        "可能影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "可能影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_042",
+      "metar": "METAR ZBAA 0900Z 09010KT 4800 SCT020 20/18 Q1011",
+      "parsed": {
+        "visibility": 4500,
+        "cloud_base": 2200,
+        "weather": "BR/BKN"
+      },
+      "role": "ground_crew",
+      "query": "能见度够不够地面作业",
+      "expected_key_info": [
+        "注意能见度",
+        "可能影响"
+      ],
+      "expected_flight_rules": "MVFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "注意能见度",
+          "可能影响"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_043",
+      "metar": "METAR ZGGG 1200Z 22018KT 1500 OVC008 12/11 Q1005",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "ground_crew",
+      "query": "ZGGG现在能出外场吗",
+      "expected_key_info": [
+        "能见度差",
+        "不适合外场"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度差",
+          "不适合外场"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_044",
+      "metar": "METAR ZSPD 1800Z 18020KT 1200 BKN006 10/9 Q1003",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "ground_crew",
+      "query": "风速对作业影响大吗",
+      "expected_key_info": [
+        "能见度差",
+        "不适合外场"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度差",
+          "不适合外场"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_045",
+      "metar": "METAR ZUUU 2100Z 33012KT 1800 OVC010 14/13 Q1006",
+      "parsed": {
+        "visibility": 1300,
+        "cloud_base": 700,
+        "weather": "OVC/BKN"
+      },
+      "role": "ground_crew",
+      "query": "现在能做航线检查吗",
+      "expected_key_info": [
+        "能见度差",
+        "不适合外场"
+      ],
+      "expected_flight_rules": "IFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度差",
+          "不适合外场"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_046",
+      "metar": "METAR ZSSS 0600Z 18012KT 0800 FG VV002 12/11 Q1008",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "ground_crew",
+      "query": "ZSSS现在温度适合作业吗",
+      "expected_key_info": [
+        "能见度极差",
+        "禁止外场作业"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极差",
+          "禁止外场作业"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_047",
+      "metar": "METAR ZBAA 0900Z 24010KT 0500 FG OVC002 8/7 Q1006",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "ground_crew",
+      "query": "降水影响户外作业吗",
+      "expected_key_info": [
+        "能见度极差",
+        "禁止外场作业"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极差",
+          "禁止外场作业"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_048",
+      "metar": "METAR ZGGG 1200Z 09008KT 0300 FG VV001 10/9 Q1005",
+      "parsed": {
+        "visibility": 550,
+        "cloud_base": 200,
+        "weather": "FG/VV"
+      },
+      "role": "ground_crew",
+      "query": "能见度够不够地面作业",
+      "expected_key_info": [
+        "能见度极差",
+        "禁止外场作业"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "能见度极差",
+          "禁止外场作业"
+        ],
+        "must_give": [
+          "分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      }
+    },
+    {
+      "id": "STD_049",
+      "metar": "METAR ZSSS 1200Z 27025G40KT 0800 +TSRA BKN010CB 18/17 Q0998",
+      "parsed": {
+        "visibility": 650,
+        "cloud_base": 1000,
+        "weather": "TSRA/FZFG"
+      },
+      "role": "pilot",
+      "query": "ZSSS天气怎么样（雷暴天气）",
+      "expected_key_info": [
+        "雷暴",
+        "强阵风",
+        "CRITICAL",
+        "不适合进近"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "雷暴",
+          "强阵风"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】"
+        ]
+      }
+    },
+    {
+      "id": "STD_050",
+      "metar": "METAR ZBAA 1200Z 18030G45KT 0500 FZFG OVC002 -FZRA 5/4 Q0995",
+      "parsed": {
+        "visibility": 650,
+        "cloud_base": 1000,
+        "weather": "TSRA/FZFG"
+      },
+      "role": "dispatcher",
+      "query": "ZSSS飞ZSPD能飞吗（雷暴天气）",
+      "expected_key_info": [
+        "取消",
+        "极端天气"
+      ],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": [
+          "取消",
+          "极端天气"
+        ],
+        "must_give": [
+          "建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】"
+        ]
+      }
+    }
+  ]
+}

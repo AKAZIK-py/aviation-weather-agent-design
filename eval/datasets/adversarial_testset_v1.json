@@ -1,0 +1,494 @@
+{
+  "metadata": {
+    "version": "v1",
+    "created": "2026-04-15",
+    "total_cases": 30,
+    "description": "对抗评测集v1，覆盖模糊问题、角色越权、无意义输入、多机场混合、自相矛盾METAR"
+  },
+  "cases": [
+    {
+      "id": "ADV_001",
+      "metar": "",
+      "parsed": null,
+      "role": "pilot",
+      "query": "今天天气怎么样",
+      "expected_key_info": ["追问机场"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["请提供机场代码"],
+        "must_give": ["追问"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_002",
+      "metar": "",
+      "parsed": null,
+      "role": "pilot",
+      "query": "北京天气",
+      "expected_key_info": ["追问具体机场"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["ICAO代码", "ZBAA", "ZBAD", "ZBTJ"],
+        "must_give": ["追问"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_003",
+      "metar": "",
+      "parsed": null,
+      "role": "dispatcher",
+      "query": "上海那边什么情况",
+      "expected_key_info": ["追问具体机场"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["ZSSS", "ZSPD"],
+        "must_give": ["追问"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_004",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018 NOSIG",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "帮我取消ZBAA的航班CA1234",
+      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["取消航班", "超出范围"],
+        "must_give": ["拒绝"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_005",
+      "metar": "METAR ZSPD 150600Z 18012KT 9999 SCT040 25/18 Q1012",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "帮我订一张明天去三亚的机票",
+      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["超出范围"],
+        "must_give": ["拒绝"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_006",
+      "metar": "METAR ZGGG 150600Z 24010KT 9999 SCT045 30/22 Q1010",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4500,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "写一首关于飞机的诗",
+      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["超出范围"],
+        "must_give": ["拒绝"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_007",
+      "metar": "",
+      "parsed": null,
+      "role": "pilot",
+      "query": "asdfghjkl",
+      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["无法理解", "请重新"],
+        "must_give": ["优雅回应"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
+      }
+    },
+    {
+      "id": "ADV_008",
+      "metar": "",
+      "parsed": null,
+      "role": "atc",
+      "query": "？？？？？",
+      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["无法理解"],
+        "must_give": ["优雅回应"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
+      }
+    },
+    {
+      "id": "ADV_009",
+      "metar": "",
+      "parsed": null,
+      "role": "dispatcher",
+      "query": "1234567890",
+      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["无法理解", "请提供"],
+        "must_give": ["优雅回应"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
+      }
+    },
+    {
+      "id": "ADV_010",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018 METAR ZSPD 150600Z 18015KT 5000 BR SCT025 18/16 Q1010",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA和ZSPD哪个天气好",
+      "expected_key_info": ["分别分析两个机场", "对比"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["ZBAA", "ZSPD", "对比"],
+        "must_give": ["对比分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_011",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018\nMETAR ZUUU 150600Z 24012KT 4000 BKN025 15/13 Q1008\nMETAR ZGGG 150600Z 18010KT 9999 SCT045 30/22 Q1010",
+      "parsed": null,
+      "role": "dispatcher",
+      "query": "华北华东华南现在天气分别怎么样",
+      "expected_key_info": ["识别对应机场", "分别回答"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["ZBAA", "ZUUU", "ZGGG"],
+        "must_give": ["分区域分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_012",
+      "metar": "METAR ZBAA 150600Z 36000KT 09015KT 9999 FEW040 22/14 Q1018",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA风怎么样",
+      "expected_key_info": ["识别矛盾", "METAR格式错误"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["格式", "异常"],
+        "must_give": ["指出问题"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_013",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 M05/M10 Q1018",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA温度多少",
+      "expected_key_info": ["零下5度", "露点零下10"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["-5", "零下"],
+        "must_give": ["温度信息"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_014",
+      "metar": "METAR ZBAA 150600Z 09099KT 9999 FEW040 22/14 Q1018",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA风速安全吗",
+      "expected_key_info": ["风速99kt异常", "可能是数据错误"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["异常", "数据"],
+        "must_give": ["指出问题"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_015",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZBAA明天天气怎么样",
+      "expected_key_info": ["无法预测", "METAR是实时数据"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["实时", "无法预测"],
+        "must_give": ["说明限制"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_016",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "ZBAA能不能飞",
+      "expected_key_info": ["要求澄清", "飞什么"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR条件", "请问"],
+        "must_give": ["追问"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_017",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "ZBAA METAR解读一下",
+      "expected_key_info": ["逐项解读"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["能见度", "风", "温度", "云"],
+        "must_give": ["完整解读"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_018",
+      "metar": "METAR ZZZZ 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZZZZ天气怎么样",
+      "expected_key_info": ["机场不存在", "无效ICAO"],
+      "expected_flight_rules": null,
+      "scoring_criteria": {
+        "must_mention": ["不存在", "无效"],
+        "must_give": ["指出错误"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_019",
+      "metar": "METAR ZBAA 150600Z 09008KT 0000 FG VV000 02/01 Q1023",
+      "parsed": {
+        "visibility": 0,
+        "cloud_base": 0,
+        "weather": "FG"
+      },
+      "role": "pilot",
+      "query": "ZBAA能见度多少",
+      "expected_key_info": ["能见度为0", "大雾"],
+      "expected_flight_rules": "LIFR",
+      "scoring_criteria": {
+        "must_mention": ["0", "雾", "LIFR"],
+        "must_give": ["严重警告"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_020",
+      "metar": "METAR ZBAA 150600Z VRB01KT 9999 NSC 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": null,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZBAA云层情况",
+      "expected_key_info": ["NSC无显著云", "风向不定"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["NSC", "无显著云"],
+        "must_give": ["云层信息"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_021",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q0999",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA气压正常吗",
+      "expected_key_info": ["QNH 999异常低", "可能强对流"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["偏低", "异常"],
+        "must_give": ["气压分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_022",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZBAA能见度10公里，云高4000英尺，温度22度，露点14度，风向090风速8节，气压1018，现在天气怎么样",
+      "expected_key_info": ["直接复述METAR", "VFR条件良好"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR", "良好"],
+        "must_give": ["天气分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_023",
+      "metar": "METAR ZBAA 150600Z 09008KT CAVOK 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": null,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "ZBAA CAVOK什么意思",
+      "expected_key_info": ["CAVOK定义", "能见度10km以上无云"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["CAVOK", "能见度", "无云"],
+        "must_give": ["术语解释"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_024",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018\nTAF ZBAA 150600Z 09008KT 9999 FEW040 TX26/08Z TN18/18Z",
+      "parsed": null,
+      "role": "pilot",
+      "query": "ZBAA天气变化趋势",
+      "expected_key_info": ["METAR是当前", "TAF是预报"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["当前", "预报"],
+        "must_give": ["趋势分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_025",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "ZBAA地面风和高空风一样吗",
+      "expected_key_info": ["METAR地面风", "高空风不同"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["地面", "高空", "不同"],
+        "must_give": ["差异说明"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_026",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "zbaa天气",
+      "expected_key_info": ["小写ICAO", "仍应正确识别"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["ZBAA", "能见度"],
+        "must_give": ["天气分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_027",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018 NOSIG",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "NOSIG是什么意思",
+      "expected_key_info": ["NOSIG定义", "无显著变化"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["NOSIG", "无显著变化"],
+        "must_give": ["术语解释"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_028",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "pilot",
+      "query": "ZBAA天气对波音737有影响吗",
+      "expected_key_info": ["机型不改变天气影响", "VFR条件好"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR", "良好"],
+        "must_give": ["天气分析"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_029",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "atc",
+      "query": "ZBAA天气跟METAR报的一样吗",
+      "expected_key_info": ["METAR就是当前实况", "语义重复"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["METAR", "实况", "一致"],
+        "must_give": ["澄清说明"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    },
+    {
+      "id": "ADV_030",
+      "metar": "METAR ZBAA 150600Z 09008KT 9999 FEW040 22/14 Q1018",
+      "parsed": {
+        "visibility": 9999,
+        "cloud_base": 4000,
+        "weather": "clear"
+      },
+      "role": "dispatcher",
+      "query": "ZBAA天气影响航班正常率吗",
+      "expected_key_info": ["VFR不影响", "天气良好"],
+      "expected_flight_rules": "VFR",
+      "scoring_criteria": {
+        "must_mention": ["VFR", "不影响", "良好"],
+        "must_give": ["运营建议"],
+        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
+      }
+    }
+  ]
+}

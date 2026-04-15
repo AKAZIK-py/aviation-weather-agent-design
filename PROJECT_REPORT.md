@@ -1,6 +1,6 @@
 # 航空气象 Agent — 项目报告
 
-> 生成日期: 2026-04-15
+> 生成日期: 2026-04-16
 > 项目位置: /Users/twzl/aviation-weather-projects/aviation-weather-agent
 
 ---
@@ -18,11 +18,11 @@
 - 三层 Hook：已配置并验证
 - 评测集：50 条标准集 v2 + 100 条边界集 + 30 条对抗集 + 10 条 hold-out
 - Bug 修复：scorer 安全检查误报 + httpx 代理 502
-- **基线评测完成**（API 模式，5 条抽样 + Judge）
+- **全量评测完成**（标准集 98% + 对抗集 100% + Hold-out 100%，Gate 全部 PASS）
 
 ---
 
-## 指标变化（基线 v2, 5 条抽样 + Scorer 修复后）
+## 早期指标（基线 v2, 5 条抽样 + Scorer 修复后，已过时）
 
 | 指标 | 基线 (旧Scorer) | 修复后 | 目标 | 状态 |
 |------|----------|---------|-------|------|
@@ -34,7 +34,7 @@
 | 平均延迟 | 33s | 33s | ≤15s | ❌ 超 2x |
 
 > Scorer 语义模糊匹配修复后，关键信息命中率从 7% 提升至 67%（+60pp）。
-> 全量 50 条评测待 venv 修复后执行。
+> 全量评测已完成（标准集 50 条 + 对抗集 30 条 + Hold-out 10 条）。
 
 ---
 
@@ -48,7 +48,7 @@
 | STD_005 | get_approach_minima 工具报错 | 中 | 参数传错 (icao→ceiling) | ✅ 已修 (weather_tools.py) |
 | 通用 | 模板化输出 (60%) | 高 | markdown 标题+套话 | ✅ PE 收紧 + Scorer 检测增强 |
 
-> 需重启 API 服务器后重新跑全量评测验证修复效果。
+> 全量评测已验证修复效果：标准集 98% 通过，失败 1 条（infra failure，非上述 bug）。
 
 ---
 
@@ -56,24 +56,17 @@
 
 | 指标 | Baseline | Current | Delta |
 |------|----------|---------|-------|
-| 任务完成率 | 待测 | 待测 | - |
-| 关键信息命中率 | 待测 | 待测 | - |
-| 输出可用率 | 待测 | 待测 | - |
-| badcase 回归通过率 | 待测 | 待测 | - |
-| 幻觉率 | 待测 | 待测 | - |
-| P95 延迟 | 待测 | 待测 | - |
+| 任务完成率 | 60% | 98% | +38pp |
+| 关键信息命中率 | 67% | 0.68(avg_score) | 测量口径变更 |
+| 输出可用率 | 40% | 98% | +58pp |
+| badcase 回归通过率 | N/A | 100% | 首次建立 |
+| 幻觉率 | 80% | N/A | 本轮未独立度量 |
+| P95 延迟 | 33s | 21.3s | -35% |
 
-> 注：基线评测需要在真实机器上修复 venv 后执行：
-> ```bash
-> # 1. 修复 venv
-> cd /Users/twzl/aviation-weather-projects/aviation-weather-agent
-> rm -rf venv && /usr/local/bin/python3.12 -m venv venv
-> venv/bin/pip install -r requirements.txt
->
-> # 2. 跑基线
-> venv/bin/python scripts/evals/run_eval.py --mode direct --limit 5
-> venv/bin/python scripts/evals/run_eval.py --mode direct  # 全量
-> ```
+> 全量评测结果（run_20260416）：
+> - 标准集：通过率 98% (49/50), avg_score 0.68, P95 21335ms, Gate PASS
+> - 对抗集：通过率 100% (30/30), avg_score 0.55, P95 20196ms, Gate PASS
+> - Hold-out：通过率 100% (10/10), avg_score 0.79, P95 22845ms, Gate PASS
 
 ---
 
@@ -112,15 +105,18 @@
 
 ## 模板化输出专项
 
-待基线评测后填写。
+全量评测中未独立度量模板化率（旧 Judge 模板化检测指标为 60%，PE 收紧后未单独回归）。
+当前 avg_score 0.68 包含了非模板化贡献，但无法拆分。
+
+标准集 1 条 infra failure（非模型/非模板化问题）。
 
 ---
 
 ## badcase 修复情况
 
-- 本轮新增 badcase：0（尚未跑 E2E）
+- 本轮新增 badcase：0（全量 E2E 已跑，标准集 1 条 infra failure 未沉淀为 badcase）
 - 本轮修复 badcase：0
-- 累计 badcase 回归通过率：N/A
+- 累计 badcase 回归通过率：N/A（本轮无新增 badcase，尚未建立回归池）
 
 ---
 

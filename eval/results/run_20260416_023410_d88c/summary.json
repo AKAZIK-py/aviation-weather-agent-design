@@ -1,0 +1,16 @@
+{
+  "total_cases": 50,
+  "passed": 49,
+  "pass_rate": 0.98,
+  "infra_failures": 1,
+  "schema_failures": 0,
+  "model_failures": 0,
+  "avg_latency_ms": 15456,
+  "max_latency_ms": 25905,
+  "p95_latency_ms": 21335,
+  "avg_score": 0.6829,
+  "judge_usable_rate": null,
+  "judge_hallucination_rate": null,
+  "judge_template_rate": null,
+  "gate_passed": true
+}

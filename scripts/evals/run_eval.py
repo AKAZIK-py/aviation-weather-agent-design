@@ -23,10 +23,14 @@ from typing import Any, Dict, List, Optional
 # ---------------------------------------------------------------------------
 # 版本 & 路径
 # ---------------------------------------------------------------------------
-RUNNER_VERSION = "0.1.0"
+RUNNER_VERSION = "0.1.1"
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_DATASET = ROOT_DIR / "eval" / "datasets" / "standard_testset_v2.json"
 DEFAULT_OUTPUT = ROOT_DIR / "eval" / "results"
+
+# 确保项目根目录在 sys.path 中（支持直接运行脚本）
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 # ---------------------------------------------------------------------------
 # 工具函数

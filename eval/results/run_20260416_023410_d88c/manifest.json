@@ -1,0 +1,16 @@
+{
+  "run_id": "run_20260416_023410_d88c",
+  "runner_version": "0.1.0",
+  "git_commit": "bca2a3a",
+  "dataset_version": "v2",
+  "dataset_path": "/Users/twzl/aviation-weather-projects/aviation-weather-agent/eval/datasets/standard_testset_v2.json",
+  "mode": "direct",
+  "model": "auto",
+  "provider": "auto",
+  "judge_enabled": false,
+  "total_cases": 50,
+  "timeout": 30,
+  "created_at": "2026-04-16T02:47:03.237677",
+  "python_version": "3.14.3",
+  "platform": "macOS-15.5-arm64-arm-64bit-Mach-O"
+}

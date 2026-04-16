@@ -118,6 +118,9 @@ class BadcaseManager:
         case_id: str | None = None,
         source: str = "auto_eval",
         notes: str | None = None,
+        source_case_id: str | None = None,
+        dataset_version: str | None = None,
+        model: str | None = None,
     ) -> Dict[str, Any]:
         """
         添加一条 badcase 记录。
@@ -131,14 +134,44 @@ class BadcaseManager:
             case_id: 可选自定义 ID，不传则自动生成
             source: 来源标识
             notes: 备注
+            source_case_id: 评测集中的原始 case ID（用于去重）
+            dataset_version: 数据集版本（用于去重）
+            model: 模型名称（用于去重）
 
         Returns:
-            新增的 badcase 记录
+            新增的 badcase 记录，若已存在相同去重键的未修复记录则返回 None
         """
         if category not in VALID_CATEGORIES:
             raise ValueError(
                 f"无效的 category '{category}'，合法值: {VALID_CATEGORIES}"
             )
+
+        # 去重键: source_case_id + dataset_version + model + category
+        dedup_key_source = source_case_id or ""
+        dedup_key_version = dataset_version or ""
+        dedup_key_model = model or ""
+
+        cases = self.load_badcases()
+
+        for existing in cases:
+            if existing.get("fixed", False):
+                continue
+            if (
+                existing.get("source_case_id", "") == dedup_key_source
+                and existing.get("dataset_version", "") == dedup_key_version
+                and existing.get("model", "") == dedup_key_model
+                and existing.get("category") == category
+            ):
+                logger.info(
+                    "跳过重复 badcase: source_case_id=%s dataset_version=%s "
+                    "model=%s category=%s 已存在于 %s",
+                    dedup_key_source,
+                    dedup_key_version,
+                    dedup_key_model,
+                    category,
+                    existing.get("case_id"),
+                )
+                return existing
 
         tz = timezone(timedelta(hours=8))
         record = {
@@ -146,6 +179,9 @@ class BadcaseManager:
             "category": category,
             "timestamp": datetime.now(tz).isoformat(),
             "source": source,
+            "source_case_id": source_case_id,
+            "dataset_version": dataset_version,
+            "model": model,
             "input": input_data,
             "expected": expected,
             "actual": actual,
@@ -153,16 +189,80 @@ class BadcaseManager:
             "fixed_at": None,
             "fixed_by": None,
             "root_cause": None,
+            "regression_pass_count": 0,
             "notes": notes,
         }
 
-        cases = self.load_badcases()
         cases.append(record)
         self._cases = cases
         self.save_badcases()
 
         logger.info("新增 badcase: %s (category=%s)", record["case_id"], category)
         return record
+
+    _REGRESSION_THRESHOLD = 3  # 需要连续通过次数才标 fixed
+
+    def record_regression_pass(self, case_id: str) -> Dict[str, Any] | None:
+        """
+        记录一次回归通过。当连续通过次数达到阈值（3次）时自动标记为已修复。
+
+        Args:
+            case_id: badcase ID
+
+        Returns:
+            更新后的记录，未找到返回 None
+        """
+        cases = self.load_badcases()
+        tz = timezone(timedelta(hours=8))
+
+        for case in cases:
+            if case["case_id"] == case_id:
+                count = case.get("regression_pass_count", 0) + 1
+                case["regression_pass_count"] = count
+                if count >= self._REGRESSION_THRESHOLD:
+                    case["fixed"] = True
+                    case["fixed_at"] = datetime.now(tz).isoformat()
+                    logger.info(
+                        "badcase %s 连续通过 %d 次，自动标记为已修复",
+                        case_id,
+                        count,
+                    )
+                else:
+                    logger.info(
+                        "badcase %s 回归通过 (%d/%d)",
+                        case_id,
+                        count,
+                        self._REGRESSION_THRESHOLD,
+                    )
+                self._cases = cases
+                self.save_badcases()
+                return case
+
+        logger.warning("未找到 badcase: %s", case_id)
+        return None
+
+    def reset_regression_count(self, case_id: str) -> Dict[str, Any] | None:
+        """
+        重置回归通过计数（回归失败时调用）。
+
+        Args:
+            case_id: badcase ID
+
+        Returns:
+            更新后的记录，未找到返回 None
+        """
+        cases = self.load_badcases()
+
+        for case in cases:
+            if case["case_id"] == case_id:
+                case["regression_pass_count"] = 0
+                self._cases = cases
+                self.save_badcases()
+                logger.info("已重置 badcase %s 回归计数", case_id)
+                return case
+
+        logger.warning("未找到 badcase: %s", case_id)
+        return None
 
     def mark_fixed(
         self,
@@ -171,7 +271,9 @@ class BadcaseManager:
         fixed_by: str | None = None,
     ) -> Dict[str, Any] | None:
         """
-        标记一条 badcase 为已修复。
+        手动标记一条 badcase 为已修复（跳过回归计数检查）。
+
+        正常流程应使用 record_regression_pass()，连续3次通过后自动标记。
 
         Args:
             case_id: 要标记的 badcase ID
@@ -190,9 +292,10 @@ class BadcaseManager:
                 case["fixed_at"] = datetime.now(tz).isoformat()
                 case["fixed_by"] = fixed_by
                 case["root_cause"] = root_cause
+                case["regression_pass_count"] = self._REGRESSION_THRESHOLD
                 self._cases = cases
                 self.save_badcases()
-                logger.info("已标记 badcase %s 为已修复", case_id)
+                logger.info("已手动标记 badcase %s 为已修复", case_id)
                 return case
 
         logger.warning("未找到 badcase: %s", case_id)

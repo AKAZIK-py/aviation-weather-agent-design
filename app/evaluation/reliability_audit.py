@@ -6,14 +6,15 @@ M-04 D2/D4 评测方法审查模块
 2. 注入幻觉测试 (D4 幻觉率)
 3. 可靠性审查报告生成
 """
-import json
-from typing import Dict, Any, List, Optional
+
+from typing import List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
 
 class AuditCategory(Enum):
     """审查类别"""
+
     AMBIGUOUS_ROLE = "歧义角色场景"
     INJECTED_HALLUCINATION = "注入幻觉测试"
     EDGE_ROLE = "边缘角色场景"
@@ -22,6 +23,7 @@ class AuditCategory(Enum):
 @dataclass
 class AuditTestCase:
     """审查测试用例"""
+
     id: str
     category: AuditCategory
     description: str
@@ -37,6 +39,7 @@ class AuditTestCase:
 @dataclass
 class AuditResult:
     """单个审查结果"""
+
     test_id: str
     category: AuditCategory
     passed: bool
@@ -51,6 +54,7 @@ class AuditResult:
 @dataclass
 class AuditReport:
     """可靠性审查报告"""
+
     total_tests: int = 0
     passed: int = 0
     failed: int = 0
@@ -329,7 +333,9 @@ def run_reliability_audit(
                 except Exception as e:
                     result.error = str(e)
             else:
-                result.notes = f"注入幻觉: {case.injected_hallucination}, 需要验证报告中是否包含"
+                result.notes = (
+                    f"注入幻觉: {case.injected_hallucination}, 需要验证报告中是否包含"
+                )
                 result.passed = True  # 占位
 
             if result.passed:
@@ -354,14 +360,14 @@ def generate_audit_report_markdown(report: AuditReport) -> str:
     lines.append(f"- 总测试数: {report.total_tests}")
     lines.append(f"- 通过: {report.passed}")
     lines.append(f"- 失败: {report.failed}")
-    lines.append(f"- 通过率: {report.pass_rate*100:.1f}%")
+    lines.append(f"- 通过率: {report.pass_rate * 100:.1f}%")
     lines.append("")
 
     # D2 角色匹配可靠性
     lines.append("## 2. D2 角色匹配可靠性 (歧义角色场景)")
     lines.append(f"- 歧义角色场景数: {report.ambiguous_role_total}")
     lines.append(f"- 通过数: {report.ambiguous_role_passed}")
-    lines.append(f"- D2 可靠性: {report.d2_role_reliability*100:.1f}%")
+    lines.append(f"- D2 可靠性: {report.d2_role_reliability * 100:.1f}%")
     lines.append("")
 
     # 歧义角色用例列表
@@ -377,7 +383,9 @@ def generate_audit_report_markdown(report: AuditReport) -> str:
     lines.append("## 3. D4 幻觉检测可靠性 (注入幻觉测试)")
     lines.append(f"- 注入幻觉测试数: {report.injected_hallucination_total}")
     lines.append(f"- 检测到幻觉数: {report.injected_hallucination_passed}")
-    lines.append(f"- D4 检测可靠性: {report.d4_hallucination_detection_reliability*100:.1f}%")
+    lines.append(
+        f"- D4 检测可靠性: {report.d4_hallucination_detection_reliability * 100:.1f}%"
+    )
     lines.append("")
 
     # 注入幻觉用例列表
@@ -386,7 +394,9 @@ def generate_audit_report_markdown(report: AuditReport) -> str:
     lines.append("|----|------|-------|---------|")
     for case in INJECTED_HALLUCINATION_TEST_CASES:
         metar_short = case.metar[:50] + "..." if len(case.metar) > 50 else case.metar
-        lines.append(f"| {case.id} | {case.description} | `{metar_short}` | {case.injected_hallucination} |")
+        lines.append(
+            f"| {case.id} | {case.description} | `{metar_short}` | {case.injected_hallucination} |"
+        )
     lines.append("")
 
     # 审查结果详情
@@ -402,7 +412,7 @@ def generate_audit_report_markdown(report: AuditReport) -> str:
         if r.role_match is not None and r.category == AuditCategory.AMBIGUOUS_ROLE:
             lines.append(f"- 角色匹配: {'是' if r.role_match else '否'}")
         if r.hallucination_detected:
-            lines.append(f"- 幻觉检测: 成功检测到")
+            lines.append("- 幻觉检测: 成功检测到")
         if r.notes:
             lines.append(f"- 备注: {r.notes}")
         if r.error:
@@ -419,8 +429,12 @@ def generate_audit_report_markdown(report: AuditReport) -> str:
         lines.append("")
 
     lines.append("### 评测方法论建议:")
-    lines.append("1. **歧义角色处理**: 对于歧义角色查询，系统应支持多角色输出或角色置信度排名")
-    lines.append("2. **幻觉检测**: 建议在 LLM 输出后增加规则校验层，对比 METAR 数据过滤幻觉")
+    lines.append(
+        "1. **歧义角色处理**: 对于歧义角色查询，系统应支持多角色输出或角色置信度排名"
+    )
+    lines.append(
+        "2. **幻觉检测**: 建议在 LLM 输出后增加规则校验层，对比 METAR 数据过滤幻觉"
+    )
     lines.append("3. **鲁棒性测试**: 增加更多边界 case 和对抗性测试")
     lines.append("4. **自动化集成**: 将此审查集成到 CI/CD 流程中")
     lines.append("")

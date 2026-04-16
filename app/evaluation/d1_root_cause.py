@@ -2,9 +2,9 @@
 D1 根因分析模块
 对 golden_set 中的解析差异进行根因分类和修复建议
 """
+
 import json
 import os
-import re
 from typing import Dict, Any, List, Tuple, Optional
 from dataclasses import dataclass, field
 from enum import Enum
@@ -16,6 +16,7 @@ from app.evaluation.d1_evaluator import D1DetailedEvaluator
 
 class RootCauseType(Enum):
     """根因分类枚举"""
+
     VISIBILITY_BOUNDARY_MISMATCH = "Type 1: visibility_boundary_mismatch"
     CEILING_DEFINITION_DISPUTE = "Type 2: ceiling_definition_dispute"
     VV_PRIORITY_CONFLICT = "Type 3: vv_priority_conflict"
@@ -27,6 +28,7 @@ class RootCauseType(Enum):
 @dataclass
 class DimensionAccuracy:
     """单维度准确率"""
+
     dimension: str
     total: int = 0
     correct: int = 0
@@ -41,6 +43,7 @@ class DimensionAccuracy:
 @dataclass
 class InconsistentCase:
     """不一致 case 分析"""
+
     case_id: str
     metar: str
     predicted: Dict[str, Any]
@@ -104,16 +107,18 @@ class D1RootCauseAnalyzer:
 
             if not success:
                 # 解析失败直接归为规则逻辑错误
-                self.inconsistent_cases.append(InconsistentCase(
-                    case_id=case_id,
-                    metar=metar,
-                    predicted=predicted_data,
-                    expected=expected_data,
-                    failed_dimensions=["ALL"],
-                    root_cause=RootCauseType.RULE_LOGIC_ERROR,
-                    threshold_gap="解析失败",
-                    fix_suggestion=f"修复解析错误: {', '.join(errors)}"
-                ))
+                self.inconsistent_cases.append(
+                    InconsistentCase(
+                        case_id=case_id,
+                        metar=metar,
+                        predicted=predicted_data,
+                        expected=expected_data,
+                        failed_dimensions=["ALL"],
+                        root_cause=RootCauseType.RULE_LOGIC_ERROR,
+                        threshold_gap="解析失败",
+                        fix_suggestion=f"修复解析错误: {', '.join(errors)}",
+                    )
+                )
                 inconsistent_count += 1
                 continue
 
@@ -145,16 +150,18 @@ class D1RootCauseAnalyzer:
                 root_cause, threshold_gap, fix_suggestion = self._classify_root_cause(
                     case_id, metar, predicted_data, expected_data, case_failed_dims
                 )
-                self.inconsistent_cases.append(InconsistentCase(
-                    case_id=case_id,
-                    metar=metar,
-                    predicted=predicted_data,
-                    expected=expected_data,
-                    failed_dimensions=case_failed_dims,
-                    root_cause=root_cause,
-                    threshold_gap=threshold_gap,
-                    fix_suggestion=fix_suggestion,
-                ))
+                self.inconsistent_cases.append(
+                    InconsistentCase(
+                        case_id=case_id,
+                        metar=metar,
+                        predicted=predicted_data,
+                        expected=expected_data,
+                        failed_dimensions=case_failed_dims,
+                        root_cause=root_cause,
+                        threshold_gap=threshold_gap,
+                        fix_suggestion=fix_suggestion,
+                    )
+                )
 
         return {
             "total_cases": total_cases,
@@ -281,7 +288,7 @@ class D1RootCauseAnalyzer:
         lines.append("# D1 根因分析报告")
         lines.append(f"\n生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         lines.append(f"Golden Set 路径: {self.golden_set_path}")
-        lines.append(f"评测标准: ICAO Annex 3 + 中国民航标准")
+        lines.append("评测标准: ICAO Annex 3 + 中国民航标准")
         lines.append("")
 
         # === 总体概览 ===
@@ -292,7 +299,7 @@ class D1RootCauseAnalyzer:
         lines.append(f"- 一致 case 数: {consistent}")
         lines.append(f"- 不一致 case 数: {len(self.inconsistent_cases)}")
         if total > 0:
-            lines.append(f"- 一致率: {consistent/total*100:.1f}%")
+            lines.append(f"- 一致率: {consistent / total * 100:.1f}%")
         lines.append("")
 
         # === 各维度准确率 ===
@@ -301,8 +308,10 @@ class D1RootCauseAnalyzer:
         lines.append("| 维度 | 总数 | 正确 | 准确率 |")
         lines.append("|------|------|------|--------|")
         for dim_key, dim in self.dimension_stats.items():
-            acc_str = f"{dim.accuracy*100:.1f}%" if dim.total > 0 else "N/A"
-            lines.append(f"| {dim.dimension} | {dim.total} | {dim.correct} | {acc_str} |")
+            acc_str = f"{dim.accuracy * 100:.1f}%" if dim.total > 0 else "N/A"
+            lines.append(
+                f"| {dim.dimension} | {dim.total} | {dim.correct} | {acc_str} |"
+            )
         lines.append("")
 
         # === 各维度不匹配详情 ===
@@ -346,7 +355,9 @@ class D1RootCauseAnalyzer:
                 pred_vv = ic.predicted.get("vertical_visibility")
                 pred_temp = ic.predicted.get("temperature")
                 pred_wind = ic.predicted.get("wind_speed")
-                pred_weather = [w.get("code") for w in ic.predicted.get("present_weather", [])]
+                pred_weather = [
+                    w.get("code") for w in ic.predicted.get("present_weather", [])
+                ]
                 pred_layers = ic.predicted.get("cloud_layers", [])
                 lines.append(f"  - 能见度: {pred_vis} km")
                 lines.append(f"  - 飞行规则: {pred_fr}")
@@ -354,7 +365,9 @@ class D1RootCauseAnalyzer:
                 lines.append(f"  - 温度: {pred_temp}°C")
                 lines.append(f"  - 风速: {pred_wind} kt")
                 lines.append(f"  - 天气现象: {pred_weather}")
-                lines.append(f"  - 云层: {[{'type': l.get('type'), 'h': l.get('height_feet')} for l in pred_layers]}")
+                lines.append(
+                    f"  - 云层: {[{'type': l.get('type'), 'h': l.get('height_feet')} for l in pred_layers]}"
+                )
                 lines.append("")
 
                 lines.append("**期望值:**")
@@ -363,7 +376,9 @@ class D1RootCauseAnalyzer:
                 exp_vv = ic.expected.get("vertical_visibility")
                 exp_temp = ic.expected.get("temperature")
                 exp_wind = ic.expected.get("wind_speed")
-                exp_weather = [w.get("code") for w in ic.expected.get("present_weather", [])]
+                exp_weather = [
+                    w.get("code") for w in ic.expected.get("present_weather", [])
+                ]
                 exp_layers = ic.expected.get("cloud_layers", [])
                 lines.append(f"  - 能见度: {exp_vis} km")
                 lines.append(f"  - 飞行规则: {exp_fr}")
@@ -371,7 +386,9 @@ class D1RootCauseAnalyzer:
                 lines.append(f"  - 温度: {exp_temp}°C")
                 lines.append(f"  - 风速: {exp_wind} kt")
                 lines.append(f"  - 天气现象: {exp_weather}")
-                lines.append(f"  - 云层: {[{'type': l.get('type'), 'h': l.get('height_feet')} for l in exp_layers]}")
+                lines.append(
+                    f"  - 云层: {[{'type': l.get('type'), 'h': l.get('height_feet')} for l in exp_layers]}"
+                )
                 lines.append("")
 
                 lines.append(f"**失败维度:** {', '.join(ic.failed_dimensions)}")
@@ -390,7 +407,9 @@ class D1RootCauseAnalyzer:
         if cause_counts:
             # 找到最多根因类型
             max_cause = max(cause_counts, key=cause_counts.get)
-            lines.append(f"- 最主要的根因类型: **{max_cause}** ({cause_counts[max_cause]} 个)")
+            lines.append(
+                f"- 最主要的根因类型: **{max_cause}** ({cause_counts[max_cause]} 个)"
+            )
             lines.append("")
 
             lines.append("### 优先修复建议:")

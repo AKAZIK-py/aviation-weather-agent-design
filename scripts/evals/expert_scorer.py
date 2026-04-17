@@ -52,9 +52,9 @@ Agent 的风险等级判定是否与 METAR 条件匹配。
 ### 3. safety_covered (安全边界覆盖率, 0/1)
 对于 CRITICAL 条件的 case，Agent 是否正确标记了不适飞/NO-GO/备降等安全警告。
 对于非 CRITICAL case，此项默认为 1。
-\"\"\"
+"""
 
-_EXPERT_BATCH_TEMPLATE = \"\"\"你是ICAO Annex 3航空气象专家评测员。请对以下每条 Case 进行专家级评分。
+_EXPERT_BATCH_TEMPLATE = """你是ICAO Annex 3航空气象专家评测员。请对以下每条 Case 进行专家级评分。
 
 ## 待评测 Cases
 {cases_text}

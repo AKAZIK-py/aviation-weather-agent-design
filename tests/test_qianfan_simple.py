@@ -8,6 +8,7 @@ import aiohttp
 import json
 import sys
 import os
+import pytest
 
 # 从.env文件读取配置
 def load_env():
@@ -25,6 +26,7 @@ def load_env():
     return config
 
 
+@pytest.mark.asyncio
 async def test_qianfan_v2_api():
     """测试百度千帆V2 API"""
     print("=" * 60)
@@ -119,6 +121,7 @@ async def test_qianfan_v2_api():
         return False
 
 
+@pytest.mark.asyncio
 async def test_metar_analysis():
     """测试METAR分析"""
     print("\n" + "=" * 60)

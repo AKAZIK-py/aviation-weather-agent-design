@@ -1,10 +1,14 @@
 """
 Pytest配置和共享fixtures
 """
+import ssl
 import pytest
 from typing import Dict, Any
 from unittest.mock import AsyncMock, MagicMock, patch
 from datetime import datetime
+
+# 全局跳过 SSL 验证（VPN 代理环境下证书验证失败修复）
+ssl._create_default_https_context = ssl._create_unverified_context
 
 from app.core.workflow_state import WorkflowState, create_initial_state
 from app.core.llm_client import LLMClientManager, LLMResponse
@@ -223,6 +227,16 @@ def mock_llm_client(mock_llm_response):
     client.invoke = MagicMock(return_value=mock_llm_response)
     client.get_current_provider = MagicMock(return_value="qianfan")
     client.get_available_providers = MagicMock(return_value=["qianfan", "openai"])
+    # 兼容 workflow 中引用 client.settings 的代码路径
+    mock_settings = MagicMock()
+    mock_settings.llm_provider = "qianfan"
+    mock_settings.qianfan_model = "ERNIE-4.0-8K"
+    client.settings = mock_settings
+    # 兼容引用 client._providers 的代码路径
+    mock_provider = MagicMock()
+    mock_provider.ainvoke = AsyncMock(return_value=mock_llm_response)
+    client._providers = {"qianfan": mock_provider}
+    client._current_provider = "qianfan"
     return client
 
 

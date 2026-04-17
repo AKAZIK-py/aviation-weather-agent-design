@@ -5,6 +5,7 @@ LLM连接测试脚本 - 验证百度千帆V2 API配置
 import asyncio
 import sys
 import os
+import pytest
 
 # 添加项目根目录到Python路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,6 +14,7 @@ from app.core.llm_client import get_llm_client
 from app.core.config import get_settings
 
 
+@pytest.mark.asyncio
 async def test_llm_connection():
     """测试LLM连接"""
     print("=" * 60)
@@ -70,6 +72,7 @@ async def test_llm_connection():
         return False
 
 
+@pytest.mark.asyncio
 async def test_metar_analysis():
     """测试METAR分析（完整流程）"""
     print("\n" + "=" * 60)

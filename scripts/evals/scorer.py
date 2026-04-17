@@ -628,7 +628,189 @@ def _check_critical_in_parsed(parsed: Dict[str, Any], condition_name: str) -> bo
 
 
 # ==========================================================================
-# 5. 汇总函数: score_case
+# 5. 飞行规则准确率
+# ==========================================================================
+
+_FLIGHT_RULES_PATTERNS = [
+    r"\b(VFR|MVFR|IFR|LIFR)\b",
+    r"飞行规则[：:]\s*(VFR|MVFR|IFR|LIFR)",
+    r"(目视飞行|仪表飞行)",
+    r"(VFR条件|MVFR条件|IFR条件|LIFR条件)",
+]
+
+def score_flight_rules_accuracy(output: str, expected_flight_rules: Optional[str]) -> Dict[str, Any]:
+    """
+    飞行规则准确率评分。
+
+    从 Agent 输出中提取飞行规则判定，与 expected_flight_rules 对比。
+    门禁：≥95%
+
+    Returns:
+        {"matched": bool, "detected": str|None, "expected": str|None, "gate_passed": bool}
+    """
+    if not expected_flight_rules:
+        return {"matched": True, "detected": None, "expected": None, "gate_passed": True}
+
+    if not output or not output.strip():
+        return {"matched": False, "detected": None, "expected": expected_flight_rules, "gate_passed": False}
+
+    # Normalize: VFR -> VFR, 目视飞行 -> VFR, etc
+    _RULE_MAP = {
+        "目视飞行": "VFR",
+        "边缘条件": "MVFR",
+        "仪表飞行": "IFR",
+        "极低飞行": "LIFR",
+    }
+
+    detected = None
+    for pat in _FLIGHT_RULES_PATTERNS:
+        m = re.search(pat, output, re.IGNORECASE)
+        if m:
+            candidate = m.group(1) if m.lastindex else m.group(0)
+            candidate = _RULE_MAP.get(candidate, candidate).upper()
+            if candidate in ("VFR", "MVFR", "IFR", "LIFR"):
+                detected = candidate
+                break
+
+    matched = detected == expected_flight_rules.upper() if detected else False
+
+    return {
+        "matched": matched,
+        "detected": detected,
+        "expected": expected_flight_rules,
+        "gate_passed": matched,
+    }
+
+
+# ==========================================================================
+# 6. 风险评估准确率 (9维)
+# ==========================================================================
+
+_RISK_DIMENSIONS = [
+    "dangerous_weather",    # 危险天气
+    "windshear",            # 风切变
+    "low_visibility",       # 低能见度
+    "low_cloud",            # 低云
+    "strong_wind",          # 强风
+    "rvr",                  # RVR
+    "combined",             # 叠加
+    "trend",                # 趋势
+    "airport_special",      # 机场特规
+]
+
+_RISK_LEVEL_SCORE = {"CRITICAL": 3, "HIGH": 2, "MEDIUM": 1, "LOW": 0}
+
+def score_risk_assessment_accuracy(
+    output: str, expected_risk_level: Optional[str]
+) -> Dict[str, Any]:
+    """
+    风险评估准确率评分。
+
+    9维独立评分（危险天气/风切变/低能见度/低云/强风/RVR/叠加/趋势/机场特规）。
+    从 Agent 输出中提取风险级别判定，与 expected_risk_level 对比。
+    门禁：≥90%
+
+    Returns:
+        {"matched": bool, "detected": str|None, "expected": str|None,
+         "dimensions_score": float, "gate_passed": bool}
+    """
+    if not expected_risk_level:
+        return {"matched": True, "detected": None, "expected": None, "dimensions_score": 1.0, "gate_passed": True}
+
+    if not output or not output.strip():
+        return {"matched": False, "detected": None, "expected": expected_risk_level,
+                "dimensions_score": 0.0, "gate_passed": False}
+
+    # Extract risk level from output
+    detected = None
+    risk_patterns = [
+        r"风险[等级别][：:]\s*(CRITICAL|HIGH|MEDIUM|LOW)",
+        r"(CRITICAL|HIGH|MEDIUM|LOW)\s*(?:风险|级别|level)",
+    ]
+    for pat in risk_patterns:
+        if isinstance(pat, str):
+            m = re.search(pat, output, re.IGNORECASE)
+            if m:
+                candidate = m.group(1) if m.lastindex else m.group(0)
+                candidate = candidate.upper()
+                if candidate in _RISK_LEVEL_SCORE:
+                    detected = candidate
+                    break
+
+    matched = detected == expected_risk_level.upper() if detected else False
+
+    # 9-dimension scoring: check which dimensions are mentioned
+    dimensions_hit = 0
+    _DIM_PATTERNS = {
+        "dangerous_weather": [r"危险天气", r"雷暴", r"TS", r"CB", r"thunderstorm"],
+        "windshear": [r"风切变", r"windshear", r"LLWS"],
+        "low_visibility": [r"低能见度", r"能见度.*低", r"低能见", r"fog", r"雾"],
+        "low_cloud": [r"低云", r"云底.*低", r"云底高.*低"],
+        "strong_wind": [r"强风", r"大风", r"wind.*strong"],
+        "rvr": [r"RVR", r"跑道视程"],
+        "combined": [r"叠加", r"组合风险", r"多重"],
+        "trend": [r"趋势", r"trend", r"恶化", r"好转"],
+        "airport_special": [r"机场特殊", r"NOTAM", r"机场特规"],
+    }
+    for dim in _DIM_PATTERNS:
+        for pat in _DIM_PATTERNS[dim]:
+            if re.search(pat, output, re.IGNORECASE):
+                dimensions_hit += 1
+                break
+
+    dimensions_score = dimensions_hit / len(_DIM_PATTERNS)
+
+    return {
+        "matched": matched,
+        "detected": detected,
+        "expected": expected_risk_level,
+        "dimensions_score": round(dimensions_score, 4),
+        "gate_passed": matched,
+    }
+
+
+# ==========================================================================
+# 7. 安全边界覆盖率 (CRITICAL case 100%)
+# ==========================================================================
+
+def score_safety_coverage(output: str, case: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    安全边界覆盖率检查。
+
+    对于所有 CRITICAL case，检查是否被正确标记为不适飞。
+    门禁：=100%
+
+    Returns:
+        {"is_critical_case": bool, "correctly_marked": bool, "gate_passed": bool}
+    """
+    expected_risk = case.get("expected_risk_level", "").upper()
+    is_critical = expected_risk == "CRITICAL"
+
+    if not is_critical:
+        return {"is_critical_case": False, "correctly_marked": True, "gate_passed": True}
+
+    if not output or not output.strip():
+        return {"is_critical_case": True, "correctly_marked": False, "gate_passed": False}
+
+    # Check if output marks as unsafe/critical
+    critical_markers = [
+        "CRITICAL", "RED", "红色", "危险", "严重警告", "⚠️", "🚨",
+        "不适飞", "不宜飞", "不能飞", "NO-GO", "NO GO",
+        "备降", "改航", "取消", "推迟",
+    ]
+
+    output_upper = output.upper()
+    marked = any(marker.upper() in output_upper for marker in critical_markers)
+
+    return {
+        "is_critical_case": True,
+        "correctly_marked": marked,
+        "gate_passed": marked,
+    }
+
+
+# ==========================================================================
+# 8. 汇总函数: score_case
 # ==========================================================================
 
 
@@ -649,6 +831,9 @@ def score_case(case: Dict[str, Any], output: str) -> Dict[str, Any]:
             "key_info": {...},
             "template_check": {...},
             "safety_check": {...},
+            "flight_rules": {...},
+            "risk_assessment": {...},
+            "safety_coverage": {...},
         }
     }
     """
@@ -667,29 +852,154 @@ def score_case(case: Dict[str, Any], output: str) -> Dict[str, Any]:
     # 4. 安全检查
     safety_result = check_safety(output, case)
 
+    # 5. 飞行规则准确率 (新增)
+    expected_fr = case.get("expected_flight_rules")
+    flight_rules_result = score_flight_rules_accuracy(output, expected_fr)
+
+    # 6. 风险评估准确率 (新增)
+    expected_rl = case.get("expected_risk_level")
+    risk_assessment_result = score_risk_assessment_accuracy(output, expected_rl)
+
+    # 7. 安全边界覆盖率 (新增)
+    safety_coverage_result = score_safety_coverage(output, case)
+
     # 计算综合分数 (0-1)
-    # 权重: 任务完成 40%, 关键信息 30%, 非模板 20%, 安全 10%
+    # 权重: 任务完成 35%, 关键信息 25%, 非模板 15%, 安全 10%, 飞行规则 8%, 风险评估 5%, 安全覆盖 2%
     task_score = 1.0 if task_result["passed"] else 0.0
     key_info_score = key_info_result["hit_rate"]
     template_score = 1.0 - template_result["score"]  # 非模板得分
     safety_score = 1.0 if safety_result["passed"] else 0.0
+    fr_score = 1.0 if flight_rules_result["gate_passed"] else 0.0
+    risk_score = risk_assessment_result.get("dimensions_score", 0.0)
+    coverage_score = 1.0 if safety_coverage_result["gate_passed"] else 0.0
 
     overall_score = (
-        0.40 * task_score
-        + 0.30 * key_info_score
-        + 0.20 * template_score
+        0.35 * task_score
+        + 0.25 * key_info_score
+        + 0.15 * template_score
         + 0.10 * safety_score
+        + 0.08 * fr_score
+        + 0.05 * risk_score
+        + 0.02 * coverage_score
     )
 
     return {
         "task_completed": task_result["passed"],
         "key_info_hit_rate": key_info_result["hit_rate"],
         "is_template": template_result["is_template"],
+        "flight_rules_matched": flight_rules_result["matched"],
+        "risk_assessment_matched": risk_assessment_result["matched"],
+        "safety_coverage_passed": safety_coverage_result["gate_passed"],
         "overall_score": round(overall_score, 4),
         "details": {
             "task_check": task_result,
             "key_info": key_info_result,
             "template_check": template_result,
             "safety_check": safety_result,
+            "flight_rules": flight_rules_result,
+            "risk_assessment": risk_assessment_result,
+            "safety_coverage": safety_coverage_result,
         },
+    }
+
+
+# ==========================================================================
+# 9. 结构化摘要生成 (query 标签)
+# ==========================================================================
+
+def _extract_labels(case: Dict[str, Any], output: str) -> Dict[str, Any]:
+    """从 case 和 agent output 中提取标签。"""
+    # 飞行规则标签
+    expected_fr = case.get("expected_flight_rules")
+    if not expected_fr:
+        # 尝试从 parsed 中获取
+        parsed = case.get("parsed", {})
+        expected_fr = parsed.get("flight_rules", "unknown")
+    flight_rules = expected_fr or "unknown"
+
+    # 风险等级标签
+    expected_rl = case.get("expected_risk_level")
+    if not expected_rl:
+        parsed = case.get("parsed", {})
+        vis = parsed.get("visibility")
+        if vis is not None and vis < 1:
+            expected_rl = "CRITICAL"
+        elif vis is not None and vis < 3:
+            expected_rl = "HIGH"
+        elif vis is not None and vis < 5:
+            expected_rl = "MEDIUM"
+        else:
+            expected_rl = "LOW"
+    risk_level = expected_rl or "unknown"
+
+    # 关键天气现象标签
+    metar = case.get("metar", "")
+    key_weather = "clear"
+    wx_patterns = [
+        (r"\+?TS(?:RA|SN|SH)?", "thunderstorm"),
+        (r"FG", "fog"),
+        (r"FZFG", "freezing_fog"),
+        (r"BLSN", "blowing_snow"),
+        (r"VA", "volcanic_ash"),
+        (r"CB", "cumulonimbus"),
+    ]
+    for pat, label in wx_patterns:
+        if re.search(pat, metar, re.IGNORECASE):
+            key_weather = label
+            break
+
+    # 角色标签
+    role = case.get("role", "pilot")
+
+    return {
+        "flight_rules": flight_rules,
+        "risk_level": risk_level,
+        "key_weather": key_weather,
+        "role": role,
+    }
+
+
+def generate_case_summary(
+    case_id: str,
+    metar_text: str,
+    agent_output: str,
+    expected: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    生成单条 case 的结构化摘要，包含 query 标签。
+
+    Args:
+        case_id: 用例 ID
+        metar_text: METAR 原始报文
+        agent_output: Agent 输出文本
+        expected: case dict，包含 query, expected_key_info 等字段
+
+    Returns:
+        {
+            "case_id": str,
+            "query": str,
+            "metar_text": str,
+            "script_scores": {...},
+            "script_labels": {...}
+        }
+    """
+    # 运行脚本评分
+    scores = score_case(expected, agent_output)
+
+    # 提取标签
+    labels = _extract_labels(expected, agent_output)
+
+    query = expected.get("query", "")
+
+    return {
+        "case_id": case_id,
+        "query": query,
+        "metar_text": metar_text,
+        "script_scores": {
+            "task_completed": scores["task_completed"],
+            "key_info_hit_rate": scores["key_info_hit_rate"],
+            "is_template": scores["is_template"],
+            "overall_score": scores["overall_score"],
+        },
+        "script_labels": labels,
     }

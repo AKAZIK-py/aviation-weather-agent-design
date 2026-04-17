@@ -239,6 +239,39 @@ def _try_import_judge():
         return None
 
 
+def _try_import_normal_scorer():
+    """尝试导入 normal_scorer 模块。返回 score_case_normal 或 None。"""
+    try:
+        if str(ROOT_DIR) not in sys.path:
+            sys.path.insert(0, str(ROOT_DIR))
+        from scripts.evals.normal_scorer import score_case_normal  # type: ignore
+        return score_case_normal
+    except Exception:
+        return None
+
+
+def _try_import_expert_scorer():
+    """尝试导入 expert_scorer 模块。返回 score_case_expert 或 None。"""
+    try:
+        if str(ROOT_DIR) not in sys.path:
+            sys.path.insert(0, str(ROOT_DIR))
+        from scripts.evals.expert_scorer import score_case_expert  # type: ignore
+        return score_case_expert
+    except Exception:
+        return None
+
+
+def _try_import_iaa_checker():
+    """尝试导入 iaa_checker 模块。返回 compute_iaa 或 None。"""
+    try:
+        if str(ROOT_DIR) not in sys.path:
+            sys.path.insert(0, str(ROOT_DIR))
+        from scripts.evals.iaa_checker import compute_iaa  # type: ignore
+        return compute_iaa
+    except Exception:
+        return None
+
+
 # ---------------------------------------------------------------------------
 # 失败分类
 # ---------------------------------------------------------------------------
@@ -367,6 +400,46 @@ def compute_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         judge_hallucination_rate = round(sum(1 for j in judge_results if j.get("hallucination")) / n, 4)
         judge_template_rate = round(sum(1 for j in judge_results if j.get("is_template")) / n, 4)
 
+    # === 新增: 4+2+3 专家指标汇总 ===
+
+    # 飞行规则准确率
+    fr_scores = [
+        s for s in scores
+        if "flight_rules_matched" in s
+    ]
+    fr_matched = sum(1 for s in fr_scores if s["flight_rules_matched"])
+    fr_total = len(fr_scores)
+    flight_rules_accuracy = round(fr_matched / fr_total, 4) if fr_total > 0 else None
+    flight_rules_gate = (flight_rules_accuracy or 0) >= 0.95
+
+    # 风险评估准确率
+    risk_scores = [
+        s for s in scores
+        if "risk_assessment_matched" in s
+    ]
+    risk_matched = sum(1 for s in risk_scores if s["risk_assessment_matched"])
+    risk_total = len(risk_scores)
+    risk_assessment_accuracy = round(risk_matched / risk_total, 4) if risk_total > 0 else None
+    risk_assessment_gate = (risk_assessment_accuracy or 0) >= 0.90
+
+    # 安全边界覆盖率
+    safety_scores = [
+        s for s in scores
+        if "safety_coverage_passed" in s
+    ]
+    critical_cases = sum(
+        1 for r in results
+        if r.get("score") and isinstance(r["score"], dict)
+        and r["score"].get("details", {}).get("safety_coverage", {}).get("is_critical_case")
+    )
+    critical_passed = sum(
+        1 for r in results
+        if r.get("score") and isinstance(r["score"], dict)
+        and r["score"].get("details", {}).get("safety_coverage", {}).get("correctly_marked")
+    )
+    safety_coverage_rate = round(critical_passed / critical_cases, 4) if critical_cases > 0 else 1.0
+    safety_coverage_gate = safety_coverage_rate == 1.0 if critical_cases > 0 else True
+
     return {
         "total_cases": total,
         "passed": passed,
@@ -382,6 +455,15 @@ def compute_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         "judge_hallucination_rate": judge_hallucination_rate,
         "judge_template_rate": judge_template_rate,
         "gate_passed": gate_passed,
+        # 专家指标
+        "flight_rules_accuracy": flight_rules_accuracy,
+        "flight_rules_gate": flight_rules_gate,
+        "risk_assessment_accuracy": risk_assessment_accuracy,
+        "risk_assessment_gate": risk_assessment_gate,
+        "safety_coverage_rate": safety_coverage_rate,
+        "safety_coverage_gate": safety_coverage_gate,
+        "critical_cases": critical_cases,
+        "expert_gates_passed": all([flight_rules_gate, risk_assessment_gate, safety_coverage_gate]),
     }
 
 
@@ -397,6 +479,9 @@ def write_outputs(
     results: List[Dict[str, Any]],
     summary: Dict[str, Any],
     args: argparse.Namespace,
+    normal_scores: Optional[List[Dict[str, Any]]] = None,
+    expert_scores: Optional[List[Dict[str, Any]]] = None,
+    iaa_result: Optional[Dict[str, Any]] = None,
 ):
     """写入所有产物到 out_dir"""
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -412,6 +497,7 @@ def write_outputs(
         "model": os.environ.get("EVAL_MODEL", "auto"),
         "provider": os.environ.get("EVAL_PROVIDER", "auto"),
         "judge_enabled": args.judge,
+        "llm_scoring_enabled": getattr(args, "llm_scoring", False),
         "total_cases": len(results),
         "timeout": args.timeout,
         "created_at": datetime.datetime.now().isoformat(),
@@ -426,7 +512,44 @@ def write_outputs(
         for r in results:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-    # 3. summary.json
+    # 2b. normal_scores.jsonl (if available)
+    if normal_scores:
+        with open(out_dir / "normal_scores.jsonl", "w", encoding="utf-8") as f:
+            for s in normal_scores:
+                f.write(json.dumps(s, ensure_ascii=False) + "\n")
+
+    # 2c. expert_scores.jsonl (if available)
+    if expert_scores:
+        with open(out_dir / "expert_scores.jsonl", "w", encoding="utf-8") as f:
+            for s in expert_scores:
+                f.write(json.dumps(s, ensure_ascii=False) + "\n")
+
+    # 3. summary.json — merge all scores
+    if normal_scores or expert_scores:
+        summary["llm_scoring"] = {}
+        if normal_scores:
+            n = len(normal_scores)
+            if n > 0:
+                summary["llm_scoring"]["normal"] = {
+                    "task_complete_rate": round(sum(s.get("task_complete", 0) for s in normal_scores) / n, 4),
+                    "key_info_hit_rate": round(sum(s.get("key_info_hit", 0) for s in normal_scores) / n, 4),
+                    "usable_rate": round(sum(s.get("usable", 0) for s in normal_scores) / n, 4),
+                    "template_rate": round(sum(s.get("template", 0) for s in normal_scores) / n, 4),
+                    "hallucination_rate": round(sum(s.get("hallucination", 0) for s in normal_scores) / n, 4),
+                    "total_scored": n,
+                }
+        if expert_scores:
+            n = len(expert_scores)
+            if n > 0:
+                summary["llm_scoring"]["expert"] = {
+                    "flight_rules_accurate_rate": round(sum(s.get("flight_rules_accurate", 0) for s in expert_scores) / n, 4),
+                    "risk_accurate_rate": round(sum(s.get("risk_accurate", 0) for s in expert_scores) / n, 4),
+                    "safety_covered_rate": round(sum(s.get("safety_covered", 0) for s in expert_scores) / n, 4),
+                    "total_scored": n,
+                }
+        if iaa_result:
+            summary["llm_scoring"]["iaa"] = iaa_result
+
     with open(out_dir / "summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
@@ -467,6 +590,57 @@ def write_outputs(
             f"| 幻觉率 | {summary['judge_hallucination_rate']:.1%} |",
             f"| 模板化率 | {summary['judge_template_rate']:.1%} |",
         ])
+
+    # LLM 普通评分
+    llm_scoring = summary.get("llm_scoring", {})
+    if llm_scoring.get("normal"):
+        ns = llm_scoring["normal"]
+        md_lines.extend([
+            "",
+            "## LLM 普通评分 (Claude Code)",
+            "",
+            "| 指标 | 值 |",
+            "|------|-----|",
+            f"| 任务完成率 | {ns['task_complete_rate']:.1%} |",
+            f"| 关键信息命中率 | {ns['key_info_hit_rate']:.1%} |",
+            f"| 输出可用率 | {ns['usable_rate']:.1%} |",
+            f"| 模板化率 | {ns['template_rate']:.1%} |",
+            f"| 幻觉率 | {ns['hallucination_rate']:.1%} |",
+            f"| 评分数 | {ns['total_scored']} |",
+        ])
+
+    # LLM 专家评分
+    if llm_scoring.get("expert"):
+        es = llm_scoring["expert"]
+        md_lines.extend([
+            "",
+            "## LLM 专家评分 (Claude Code + ICAO Annex 3)",
+            "",
+            "| 指标 | 值 |",
+            "|------|-----|",
+            f"| 飞行规则准确率 | {es['flight_rules_accurate_rate']:.1%} |",
+            f"| 风险评估准确率 | {es['risk_accurate_rate']:.1%} |",
+            f"| 安全边界覆盖率 | {es['safety_covered_rate']:.1%} |",
+            f"| 评分数 | {es['total_scored']} |",
+        ])
+
+    # IAA 抽检
+    if llm_scoring.get("iaa"):
+        iaa = llm_scoring["iaa"]
+        md_lines.extend([
+            "",
+            "## IAA 抽检 (Inter-Annotator Agreement)",
+            "",
+            f"- 状态: **{iaa['status']}**",
+            f"- {iaa['message']}",
+            f"- Cohen's Kappa: {iaa['kappa']}",
+            f"- 抽样数: {iaa['sample_size']} / {iaa['total_cases']}",
+            f"- 观察一致率: {iaa['agreement_rate']:.1%}",
+        ])
+        if iaa.get("divergent_cases"):
+            md_lines.extend([
+                f"- 分歧案例数: {len(iaa['divergent_cases'])}",
+            ])
 
     md_lines.extend([
         "",
@@ -559,6 +733,8 @@ def parse_args() -> argparse.Namespace:
                         help="回归模式: 跑 badcases.jsonl 中 fixed=false 的 case")
     parser.add_argument("--timeout", type=int, default=30,
                         help="每条用例超时秒数 (default: 30)")
+    parser.add_argument("--llm-scoring", action="store_true", default=False,
+                        help="开启 LLM 普通+专家评分 + IAA 抽检")
 
     return parser.parse_args()
 
@@ -640,9 +816,95 @@ def main():
     # 汇总
     summary = compute_summary(results)
 
+    # LLM 评分 (可选)
+    normal_scores = None
+    expert_scores = None
+    iaa_result = None
+
+    if getattr(args, "llm_scoring", False):
+        # 构建评分用 case_data
+        scoring_cases = []
+        for r in results:
+            if r.get("error_type") is not None:
+                continue
+            case_id = r.get("case_id", "unknown")
+            inp = r.get("input", {})
+            output = r.get("output", "")
+            if not output or not output.strip():
+                continue
+            # 查找原始 case 数据
+            orig_case = None
+            for c in cases:
+                if c.get("id") == case_id:
+                    orig_case = c
+                    break
+            scoring_cases.append({
+                "case_id": case_id,
+                "query": inp.get("query", ""),
+                "role": inp.get("role", "pilot"),
+                "metar": inp.get("metar", ""),
+                "metar_text": inp.get("metar", ""),
+                "agent_output": output,
+                "output": output,
+                "expected_key_info": orig_case.get("expected_key_info", []) if orig_case else [],
+                "expected_flight_rules": orig_case.get("expected_flight_rules", "") if orig_case else "",
+                "expected_risk_level": orig_case.get("expected_risk_level", "") if orig_case else "",
+            })
+
+        if scoring_cases:
+            # 普通评分
+            normal_fn = _try_import_normal_scorer()
+            if normal_fn:
+                print(f"\n[llm_scoring] Running normal scorer on {len(scoring_cases)} cases ...")
+                normal_scores = []
+                for idx, sc in enumerate(scoring_cases, 1):
+                    cid = sc.get("case_id", f"case_{idx}")
+                    print(f"  [normal] [{idx}/{len(scoring_cases)}] {cid} ...", flush=True)
+                    try:
+                        result = normal_fn(sc)
+                    except Exception as exc:
+                        result = {"case_id": cid, "error": str(exc)}
+                    normal_scores.append(result)
+                print(f"[llm_scoring] Normal scoring done: {len(normal_scores)} results.")
+            else:
+                print("[llm_scoring] normal_scorer not available, skipping.")
+
+            # 专家评分
+            expert_fn = _try_import_expert_scorer()
+            if expert_fn:
+                print(f"\n[llm_scoring] Running expert scorer on {len(scoring_cases)} cases ...")
+                expert_scores = []
+                for idx, sc in enumerate(scoring_cases, 1):
+                    cid = sc.get("case_id", f"case_{idx}")
+                    print(f"  [expert] [{idx}/{len(scoring_cases)}] {cid} ...", flush=True)
+                    try:
+                        result = expert_fn(sc)
+                    except Exception as exc:
+                        result = {"case_id": cid, "error": str(exc)}
+                    expert_scores.append(result)
+                print(f"[llm_scoring] Expert scoring done: {len(expert_scores)} results.")
+            else:
+                print("[llm_scoring] expert_scorer not available, skipping.")
+
+            # IAA 抽检
+            if normal_scores and expert_scores:
+                iaa_fn = _try_import_iaa_checker()
+                if iaa_fn:
+                    print("\n[llm_scoring] Running IAA checker ...")
+                    try:
+                        iaa_result = iaa_fn(normal_scores, expert_scores)
+                        print(f"[llm_scoring] IAA: {iaa_result.get('message', 'done')}")
+                    except Exception as exc:
+                        iaa_result = {"status": "ERROR", "message": f"IAA check failed: {exc}"}
+                else:
+                    print("[llm_scoring] iaa_checker not available, skipping.")
+        else:
+            print("[llm_scoring] No valid cases for LLM scoring.")
+
     # 写最终产物 (覆盖 case_results.jsonl 为有序版本)
     dataset_path = Path(args.dataset) if not args.regression else ROOT_DIR / "eval" / "badcases"
-    write_outputs(out_dir, run_id, args.mode, dataset_path, results, summary, args)
+    write_outputs(out_dir, run_id, args.mode, dataset_path, results, summary, args,
+                  normal_scores=normal_scores, expert_scores=expert_scores, iaa_result=iaa_result)
 
     # 打印结果
     print()
@@ -658,7 +920,36 @@ def main():
         print(f"Judge Usable:    {summary['judge_usable_rate']:.1%}")
         print(f"Judge Halluc:    {summary['judge_hallucination_rate']:.1%}")
         print(f"Judge Template:  {summary['judge_template_rate']:.1%}")
+    # 专家指标
+    if summary.get("flight_rules_accuracy") is not None:
+        print(f"Flight Rules:    {summary['flight_rules_accuracy']:.1%} (gate: >=95% {'PASS' if summary['flight_rules_gate'] else 'FAIL'})")
+    if summary.get("risk_assessment_accuracy") is not None:
+        print(f"Risk Assess:     {summary['risk_assessment_accuracy']:.1%} (gate: >=90% {'PASS' if summary['risk_assessment_gate'] else 'FAIL'})")
+    if summary.get("safety_coverage_rate") is not None:
+        print(f"Safety Cover:    {summary['safety_coverage_rate']:.1%} (gate: =100% {'PASS' if summary['safety_coverage_gate'] else 'FAIL'})")
     print(f"Gate:       {'PASS' if summary['gate_passed'] else 'FAIL'}")
+    print(f"Expert Gates:   {'PASS' if summary.get('expert_gates_passed') else 'FAIL'}")
+    # LLM 评分结果
+    llm_scoring = summary.get("llm_scoring", {})
+    if llm_scoring.get("normal"):
+        ns = llm_scoring["normal"]
+        print(f"\n--- LLM 普通评分 ---")
+        print(f"  Task Complete:  {ns['task_complete_rate']:.1%}")
+        print(f"  Key Info Hit:   {ns['key_info_hit_rate']:.1%}")
+        print(f"  Usable:         {ns['usable_rate']:.1%}")
+        print(f"  Template:       {ns['template_rate']:.1%}")
+        print(f"  Hallucination:  {ns['hallucination_rate']:.1%}")
+    if llm_scoring.get("expert"):
+        es = llm_scoring["expert"]
+        print(f"\n--- LLM 专家评分 ---")
+        print(f"  Flight Rules:   {es['flight_rules_accurate_rate']:.1%}")
+        print(f"  Risk Accurate:  {es['risk_accurate_rate']:.1%}")
+        print(f"  Safety Cover:   {es['safety_covered_rate']:.1%}")
+    if llm_scoring.get("iaa"):
+        iaa = llm_scoring["iaa"]
+        print(f"\n--- IAA 抽检 ---")
+        print(f"  {iaa['message']}")
+        print(f"  Kappa: {iaa['kappa']}")
     print(f"Output:     {out_dir}")
     print("=" * 60)
 

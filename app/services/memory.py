@@ -4,14 +4,17 @@
 两层记忆：
 1. Session Store: 单次对话的消息历史（会话级）
 2. User Memory: 跨会话的用户偏好持久化（用户级）
+3. Semantic Memory: SQLite FTS5 全文搜索语义记忆
 
 存储策略：
 - L1: 进程内 dict（即时访问）
+- L2: SQLite FTS5（语义搜索）
 - L3: 文件持久化 JSON（重启恢复）
 - 无需 Redis，M3 MacBook 单机足够
 """
 import json
 import os
+import sqlite3
 import time
 import logging
 import hashlib
@@ -330,9 +333,257 @@ class MemoryStore:
         return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
+# ==================== 语义记忆 (SQLite FTS5) ====================
+
+class SemanticMemory:
+    """
+    语义记忆层 - SQLite FTS5 全文搜索
+
+    存储结构：{content, importance(1-5), timestamp, session_id, tags}
+    支持：关键词搜索 + importance 排序 + 时间衰减
+    """
+
+    def __init__(self, db_path: Optional[str] = None):
+        self._db_path = db_path or os.path.join(os.getcwd(), ".cache", "memory", "semantic.db")
+        Path(self._db_path).parent.mkdir(parents=True, exist_ok=True)
+        self._conn = sqlite3.connect(self._db_path)
+        self._conn.row_factory = sqlite3.Row
+        self._init_tables()
+        logger.info("SemanticMemory initialized: db=%s", self._db_path)
+
+    def _init_tables(self):
+        """初始化 FTS5 表"""
+        cursor = self._conn.cursor()
+
+        # 主表
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS memories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                content TEXT NOT NULL,
+                importance INTEGER DEFAULT 3,
+                timestamp TEXT NOT NULL,
+                session_id TEXT,
+                user_id TEXT DEFAULT 'default',
+                tags TEXT DEFAULT '',
+                decay_factor REAL DEFAULT 1.0,
+                created_at REAL NOT NULL
+            )
+        """)
+
+        # FTS5 虚拟表
+        cursor.execute("""
+            CREATE VIRTUAL TABLE IF NOT EXISTS memories_fts USING fts5(
+                content,
+                tags,
+                content='memories',
+                content_rowid='id',
+                tokenize='unicode61'
+            )
+        """)
+
+        # 触发器：同步 FTS 索引
+        cursor.execute("""
+            CREATE TRIGGER IF NOT EXISTS memories_ai AFTER INSERT ON memories BEGIN
+                INSERT INTO memories_fts(rowid, content, tags)
+                VALUES (new.id, new.content, new.tags);
+            END
+        """)
+        cursor.execute("""
+            CREATE TRIGGER IF NOT EXISTS memories_ad AFTER DELETE ON memories BEGIN
+                INSERT INTO memories_fts(memories_fts, rowid, content, tags)
+                VALUES ('delete', old.id, old.content, old.tags);
+            END
+        """)
+        cursor.execute("""
+            CREATE TRIGGER IF NOT EXISTS memories_au AFTER UPDATE ON memories BEGIN
+                INSERT INTO memories_fts(memories_fts, rowid, content, tags)
+                VALUES ('delete', old.id, old.content, old.tags);
+                INSERT INTO memories_fts(rowid, content, tags)
+                VALUES (new.id, new.content, new.tags);
+            END
+        """)
+
+        self._conn.commit()
+
+    def store_memory(
+        self,
+        content: str,
+        importance: int = 3,
+        session_id: Optional[str] = None,
+        user_id: str = "default",
+        tags: str = "",
+    ) -> int:
+        """
+        存储一条记忆
+
+        Args:
+            content: 记忆内容
+            importance: 重要性 (1-5)
+            session_id: 关联会话ID
+            user_id: 用户ID
+            tags: 标签（逗号分隔）
+
+        Returns:
+            记忆ID
+        """
+        now = datetime.now()
+        cursor = self._conn.cursor()
+        cursor.execute(
+            """INSERT INTO memories (content, importance, timestamp, session_id, user_id, tags, created_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (content, max(1, min(5, importance)), now.isoformat(), session_id, user_id, json.dumps(tags) if isinstance(tags, list) else tags, time.time()),
+        )
+        self._conn.commit()
+        memory_id = cursor.lastrowid
+        logger.info("Stored memory id=%d importance=%d", memory_id, importance)
+        return memory_id
+
+    def search_memory(
+        self,
+        query: str,
+        user_id: str = "default",
+        limit: int = 5,
+        min_importance: int = 1,
+    ) -> List[Dict[str, Any]]:
+        """
+        搜索相关记忆
+
+        检索策略：FTS5 关键词匹配 + importance 排序 + 时间衰减
+
+        Args:
+            query: 搜索关键词
+            user_id: 用户ID
+            limit: 返回数量限制
+            min_importance: 最低重要性
+
+        Returns:
+            记忆列表
+        """
+        cursor = self._conn.cursor()
+
+        # FTS5 搜索（兼容中文：先试 MATCH，失败或无结果 fallback LIKE）
+        rows = []
+        try:
+            cursor.execute("""
+                SELECT m.id, m.content, m.importance, m.timestamp, m.session_id, m.tags
+                FROM memories_fts fts
+                JOIN memories m ON m.id = fts.rowid
+                WHERE memories_fts MATCH ?
+                  AND m.user_id = ?
+                  AND m.importance >= ?
+                ORDER BY m.importance DESC, m.created_at DESC
+                LIMIT ?
+            """, (query, user_id, min_importance, limit))
+            rows = cursor.fetchall()
+        except Exception:
+            pass
+
+        if not rows:
+            cursor.execute("""
+                SELECT id, content, importance, timestamp, session_id, tags
+                FROM memories
+                WHERE content LIKE ?
+                  AND user_id = ?
+                  AND importance >= ?
+                ORDER BY importance DESC, created_at DESC
+                LIMIT ?
+            """, (f"%{query}%", user_id, min_importance, limit))
+            rows = cursor.fetchall()
+
+        results = []
+        for row in rows:
+            results.append({
+                "id": row["id"],
+                "content": row["content"],
+                "importance": row["importance"],
+                "timestamp": row["timestamp"],
+                "session_id": row["session_id"],
+                "tags": row["tags"],
+            })
+
+        return results
+
+    def auto_summarize(
+        self,
+        session_id: str,
+        messages: List[Dict[str, str]],
+    ) -> str:
+        """
+        自动生成会话摘要
+
+        简单实现：提取关键信息组合成摘要（不调用LLM）
+
+        Args:
+            session_id: 会话ID
+            messages: 消息列表 [{"role": str, "content": str}]
+
+        Returns:
+            摘要文本
+        """
+        user_msgs = [m["content"] for m in messages if m.get("role") == "user"]
+        assistant_msgs = [m["content"] for m in messages if m.get("role") == "assistant"]
+
+        # 提取关键信息
+        user_query = user_msgs[-1] if user_msgs else ""
+        assistant_answer = assistant_msgs[-1] if assistant_msgs else ""
+
+        # 截取摘要
+        summary_parts = []
+        if user_query:
+            summary_parts.append(f"用户问题: {user_query[:200]}")
+        if assistant_answer:
+            # 提取前200字作为摘要
+            summary_parts.append(f"回答要点: {assistant_answer[:300]}")
+
+        summary = " | ".join(summary_parts) if summary_parts else f"会话 {session_id}"
+
+        # 存储摘要为记忆
+        self.store_memory(
+            content=summary,
+            importance=2,
+            session_id=session_id,
+            tags="auto_summary",
+        )
+
+        return summary
+
+    def decay_importance(self, days_threshold: int = 7):
+        """
+        自动衰减旧记忆的重要性
+
+        Args:
+            days_threshold: 超过多少天的记忆开始衰减
+        """
+        cursor = self._conn.cursor()
+        cutoff = time.time() - days_threshold * 86400
+
+        cursor.execute("""
+            UPDATE memories
+            SET decay_factor = MAX(0.1, decay_factor * 0.9)
+            WHERE created_at < ?
+              AND importance <= 3
+        """, (cutoff,))
+
+        self._conn.commit()
+        count = cursor.rowcount
+        if count > 0:
+            logger.info("Decayed %d memories older than %d days", count, days_threshold)
+
+    def delete_old_memories(self, max_age_days: int = 90):
+        """清理过期记忆"""
+        cursor = self._conn.cursor()
+        cutoff = time.time() - max_age_days * 86400
+        cursor.execute("DELETE FROM memories WHERE created_at < ? AND importance <= 2", (cutoff,))
+        self._conn.commit()
+        count = cursor.rowcount
+        if count > 0:
+            logger.info("Deleted %d old memories", count)
+
+
 # ==================== 全局单例 ====================
 
 _memory_store: Optional[MemoryStore] = None
+_semantic_memory: Optional[SemanticMemory] = None
 
 
 def get_memory_store(storage_dir: Optional[str] = None) -> MemoryStore:
@@ -341,3 +592,11 @@ def get_memory_store(storage_dir: Optional[str] = None) -> MemoryStore:
     if _memory_store is None:
         _memory_store = MemoryStore(storage_dir=storage_dir)
     return _memory_store
+
+
+def get_semantic_memory() -> SemanticMemory:
+    """获取语义记忆单例"""
+    global _semantic_memory
+    if _semantic_memory is None:
+        _semantic_memory = SemanticMemory()
+    return _semantic_memory

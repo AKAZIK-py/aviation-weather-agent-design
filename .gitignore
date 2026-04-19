@@ -50,10 +50,24 @@ Thumbs.db
 /check_response.py
 /health_check.py
 /fetch_aviation_api*.py
+/retry_*.py
 
 # Build artifacts
 *.pyo
 
-# Cache
+# Cache & runtime data
 .cache/
 *.cache
+
+# Planning docs
+CLAUDE_*.md
+CODEX_WORKFLOW.md
+PHASE0_EXECUTION_PLAN.json
+DEEPSEEK_CONFIG_*.md
+run_eval_with_env.sh
+
+# Claude Code / omx
+.omx/
+
+# Eval results (large, regenerate via runner)
+eval/results/run_*/

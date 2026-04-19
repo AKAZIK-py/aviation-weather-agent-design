@@ -23,7 +23,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -49,7 +50,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -73,7 +75,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140800Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -99,7 +102,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140800Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -125,7 +129,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140800Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -151,7 +156,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -177,7 +183,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -204,7 +211,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -230,7 +238,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140800Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -257,7 +266,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140800Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -284,7 +294,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140800Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -311,7 +322,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140800Z 18005MPS 8000 BKN030 22/12 Q1015",
@@ -337,7 +349,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 24008MPS 8000 BKN029 25/15 Q1012",
@@ -363,7 +376,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 36003MPS 8000 BKN031 28/18 Q1010",
@@ -387,7 +401,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140800Z 27006MPS 8000 BKN010 18/12 Q1018",
@@ -413,7 +428,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140800Z 15004MPS 8000 BKN009 20/15 Q1016",
@@ -439,7 +455,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140800Z 09005MPS 8000 BKN011 24/20 Q1008",
@@ -465,7 +482,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 8000 BKN005 15/13 Q1020",
@@ -491,7 +509,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 8000 BKN004 12/11 Q1022",
@@ -518,7 +537,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 8000 BKN006 10/09 Q1025",
@@ -544,7 +564,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140800Z 27015G25MPS 9999 FEW040 20/10 Q1015",
@@ -568,7 +589,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 36020MPS 9999 SCT050 18/08 Q1018",
@@ -592,7 +614,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 18025G35MPS 9999 FEW030 22/12 Q1015",
@@ -616,7 +639,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140800Z 27030MPS 9999 SCT050 18/08 Q1018",
@@ -640,7 +664,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140800Z 15028G38MPS 9999 FEW020 20/15 Q1016",
@@ -664,7 +689,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140800Z 09032G42MPS 9999 SCT020 24/20 Q1008",
@@ -688,7 +714,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140800Z 24010MPS 2500 RA FG BKN008 08/07 Q1022",
@@ -714,7 +741,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140800Z 18008MPS 2000 SN BR OVC006 02/01 Q1025",
@@ -740,7 +768,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1500 RA FG OVC004 05/04 Q1028",
@@ -767,7 +796,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140800Z 27015G25MPS 1000 SN FG OVC002 00/-01 Q1030",
@@ -794,7 +824,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140800Z 15020G30MPS 0800 RA BR OVC001 03/02 Q1032",
@@ -821,7 +852,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140800Z 09025G35MPS 0500 SN FG OVC000 01/00 Q1035",
@@ -848,7 +880,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZULS 140800Z 27006MPS 8000 BKN025 05/-05 Q1018",
@@ -874,7 +907,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUCK 140800Z 18008MPS 6000 OVC030 10/05 Q1020",
@@ -900,7 +934,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSAM 140800Z 09005MPS 5000 SCT020 25/20 Q1008",
@@ -926,7 +961,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSQD 140800Z 15004MPS 4000 OVC015 22/18 Q1012",
@@ -952,7 +988,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZLXY 140800Z 27006MPS 9999 FEW040 20/10 Q1015",
@@ -976,7 +1013,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBYN 140800Z 36003MPS 8000 BKN030 15/08 Q1018",
@@ -1002,7 +1040,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -1028,7 +1067,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -1054,7 +1094,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -1080,7 +1121,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -1106,7 +1148,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -1133,7 +1176,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -1159,7 +1203,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -1186,7 +1231,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -1213,7 +1259,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -1240,7 +1287,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
@@ -1266,7 +1314,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -1292,7 +1341,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -1316,7 +1366,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -1342,7 +1393,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140400Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -1368,7 +1420,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140500Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -1394,7 +1447,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140600Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -1420,7 +1474,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140700Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -1447,7 +1502,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -1473,7 +1529,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140900Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -1500,7 +1557,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 141000Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -1527,7 +1585,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 141100Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -1554,7 +1613,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 141200Z 18005MPS 5000 FEW040 22/12 Q1015",
@@ -1580,7 +1640,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 141300Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -1606,7 +1667,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 141400Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -1630,7 +1692,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -1656,7 +1719,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -1682,7 +1746,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -1708,7 +1773,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -1734,7 +1800,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -1761,7 +1828,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -1787,7 +1855,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -1814,7 +1883,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -1841,7 +1911,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -1868,7 +1939,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
@@ -1894,7 +1966,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -1920,7 +1993,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -1944,7 +2018,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -1970,7 +2045,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 140400Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -1996,7 +2072,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 140500Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -2022,7 +2099,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140600Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -2048,7 +2126,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140700Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -2075,7 +2154,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140800Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -2101,7 +2181,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140900Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -2128,7 +2209,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 141000Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -2155,7 +2237,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 141100Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -2182,7 +2265,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 141200Z 18005MPS 5000 FEW040 22/12 Q1015",
@@ -2208,7 +2292,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 141300Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -2234,7 +2319,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 141400Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -2258,7 +2344,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 141500Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -2284,7 +2371,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 141600Z 15004MPS 2999 OVC030 20/15 Q1016",
@@ -2310,7 +2398,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 141700Z 09005MPS 3001 SCT020 24/20 Q1008",
@@ -2336,7 +2425,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 141800Z 24010MPS 1000 OVC010 15/13 Q1020",
@@ -2362,7 +2452,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 141900Z 18008MPS 0999 BKN008 12/11 Q1022",
@@ -2389,7 +2480,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 142000Z 32006MPS 1001 OVC005 10/09 Q1025",
@@ -2415,7 +2507,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 142100Z 21005MPS 0500 OVC002 08/07 Q1028",
@@ -2442,7 +2535,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSHC 142200Z 16003MPS 0499 OVC001 06/05 Q1030",
@@ -2469,7 +2563,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZJSY 142300Z 12004MPS 0501 OVC000 04/03 Q1032",
@@ -2496,7 +2591,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZBAA 140000Z 18005MPS 5000 FEW040 22/12 Q1015",
@@ -2522,7 +2618,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZSPD 140100Z 24008MPS 4999 SCT050 25/15 Q1012",
@@ -2548,7 +2645,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZGGG 140200Z 36003MPS 5001 FEW030 28/18 Q1010",
@@ -2572,7 +2670,8 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   },
   {
     "metar": "METAR ZUUU 140300Z 27006MPS 3000 BKN025 18/12 Q1018",
@@ -2598,6 +2697,7 @@
         "【建议措施】",
         "【角色职责】"
       ]
-    }
+    },
+    "expected_risk_level": "LOW"
   }
 ]

@@ -69,6 +69,8 @@ class Session:
     created_at: str = ""
     last_active: str = ""
     metadata: Dict[str, Any] = field(default_factory=dict)
+    title: str = ""
+    last_message: str = ""
 
     def __post_init__(self):
         now = datetime.now().isoformat()
@@ -82,6 +84,9 @@ class Session:
         msg = Message(role=role, content=content, **kwargs)
         self.messages.append(msg)
         self.last_active = datetime.now().isoformat()
+        if not self.title and role == "user":
+            self.title = content[:30]
+        self.last_message = content[:50]
         return msg
 
     def get_recent_messages(self, max_count: int = 20) -> List[Message]:
@@ -96,6 +101,8 @@ class Session:
             "created_at": self.created_at,
             "last_active": self.last_active,
             "metadata": self.metadata,
+            "title": self.title,
+            "last_message": self.last_message,
         }
 
     @classmethod
@@ -107,6 +114,8 @@ class Session:
             created_at=d.get("created_at", ""),
             last_active=d.get("last_active", ""),
             metadata=d.get("metadata", {}),
+            title=d.get("title", ""),
+            last_message=d.get("last_message", ""),
         )
 
 
@@ -232,6 +241,8 @@ class MemoryStore:
             {
                 "session_id": s.session_id,
                 "user_id": s.user_id,
+                "title": s.title or "未命名对话",
+                "last_message": s.last_message or "",
                 "message_count": len(s.messages),
                 "created_at": s.created_at,
                 "last_active": s.last_active,

@@ -254,11 +254,13 @@ async def run_agent(
 
     memory_store = None
     session = None
+    semantic_mem = None
     if session_id is not None:
-        from app.services.memory import get_memory_store
+        from app.services.memory import get_memory_store, get_semantic_memory
 
         memory_store = get_memory_store()
         session = memory_store.get_or_create_session(session_id, user_id=user_id)
+        semantic_mem = get_semantic_memory()
 
         user_mem = memory_store.get_user_memory(user_id)
         if not role or role == "pilot":
@@ -269,6 +271,18 @@ async def run_agent(
             home_base = user_mem.get("home_base")
             if home_base and not metar_raw:
                 icao = home_base
+
+    # 搜索相关记忆上下文
+    memory_context = ""
+    if semantic_mem and user_query:
+        try:
+            relevant = semantic_mem.search_memory(user_query, user_id=user_id, limit=3)
+            if relevant:
+                mem_lines = [f"- {m['content'][:100]}" for m in relevant]
+                memory_context = "\n".join(mem_lines)
+                logger.info("[Memory] Found %d relevant memories", len(relevant))
+        except Exception as e:
+            logger.warning("[Memory] Search failed: %s", e)
 
     try:
         agent = create_aviation_agent(
@@ -299,6 +313,11 @@ async def run_agent(
             metar_raw=metar_raw,
             user_role=role,
         )
+
+        # 注入记忆上下文
+        if memory_context:
+            first_message = f"[历史相关记忆]\n{memory_context}\n\n{first_message}"
+
         messages.append(HumanMessage(content=first_message))
 
         if session:
@@ -413,6 +432,16 @@ async def run_agent(
         if session:
             session.add_message("assistant", final_answer)
             memory_store.save_session(session)
+
+            # 自动摘要并存储到语义记忆
+            if semantic_mem:
+                try:
+                    semantic_mem.auto_summarize(
+                        session_id=session_id,
+                        messages=serialized_messages[-4:] if len(serialized_messages) >= 4 else serialized_messages,
+                    )
+                except Exception as e:
+                    logger.warning("[Memory] Auto-summarize failed: %s", e)
 
         metrics.record_agent_run(
             role=role,

@@ -3,7 +3,7 @@ API集成测试
 测试FastAPI端点的HTTP请求/响应
 """
 import pytest
-from httpx import AsyncClient
+from httpx import AsyncClient, ASGITransport
 from unittest.mock import AsyncMock, patch, MagicMock
 from datetime import datetime
 
@@ -22,9 +22,9 @@ class TestAnalyzeEndpoint:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "user_query": "当前天气适合飞行吗？",
@@ -53,9 +53,9 @@ class TestAnalyzeEndpoint:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "airport_icao": "ZSPD",
                         "user_query": "浦东机场天气如何？",
@@ -75,9 +75,9 @@ class TestAnalyzeEndpoint:
         """测试缺少必需参数"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post(
-                "/analyze",
+                "/api/v1/analyze",
                 json={
                     "user_query": "天气如何？",
                     "role": "pilot"
@@ -93,9 +93,9 @@ class TestAnalyzeEndpoint:
         """测试同时提供两个参数错误"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post(
-                "/analyze",
+                "/api/v1/analyze",
                 json={
                     "metar_raw": "ZSPD 110800Z 25012KT 9999 SCT040 28/22 Q1008",
                     "airport_icao": "ZSPD",
@@ -113,9 +113,9 @@ class TestAnalyzeEndpoint:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": "INVALID METAR DATA",
                         "role": "pilot"
@@ -133,9 +133,9 @@ class TestAnalyzeEndpoint:
         """测试空METAR报文"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post(
-                "/analyze",
+                "/api/v1/analyze",
                 json={
                     "metar_raw": "",
                     "role": "pilot"
@@ -147,19 +147,19 @@ class TestAnalyzeEndpoint:
 
     @pytest.mark.asyncio
     async def test_analyze_malformed_request(self):
-        """测试格式错误的请求"""
+        """测试格式错误的请求 - 缺少metar_raw和airport_icao"""
         from app.main import app
-
-        async with AsyncClient(app=app, base_url="http://test") as client:
+    
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post(
-                "/analyze",
+                "/api/v1/analyze",
                 json={
-                    # 缺少role字段
-                    "metar_raw": "ZSPD 110800Z 25012KT 9999 SCT040 28/22 Q1008"
+                    # 缺少metar_raw和airport_icao
+                    "role": "pilot"
                 }
             )
-
-        assert response.status_code == 422  # Validation error
+    
+        assert response.status_code == 400  # 缺少必要参数
 
     @pytest.mark.asyncio
     async def test_analyze_with_critical_risk(self, mock_llm_client, sample_metar_thunderstorm):
@@ -167,9 +167,9 @@ class TestAnalyzeEndpoint:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_thunderstorm,
                         "role": "pilot"
@@ -191,10 +191,10 @@ class TestAnalyzeEndpoint:
         roles = ["pilot", "dispatcher", "forecaster", "ground_crew"]
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 for role in roles:
                     response = await client.post(
-                        "/analyze",
+                        "/api/v1/analyze",
                         json={
                             "metar_raw": sample_metar_vfr,
                             "role": role
@@ -215,9 +215,9 @@ class TestAnalyzeEndpoint:
             with patch("app.api.routes.fetch_metar_for_airport") as mock_fetch:
                 mock_fetch.side_effect = MetarFetchError("无法获取METAR数据")
 
-                async with AsyncClient(app=app, base_url="http://test") as client:
+                async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                     response = await client.post(
-                        "/analyze",
+                        "/api/v1/analyze",
                         json={
                             "airport_icao": "ZSPD",
                             "role": "pilot"
@@ -232,11 +232,17 @@ class TestAnalyzeEndpoint:
     async def test_analyze_llm_failure(self, mock_llm_client_error, sample_metar_vfr):
         """测试LLM调用失败"""
         from app.main import app
-
-        with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client_error):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+        from app.core.llm_client import reset_llm_client
+        
+        # 重置LLM客户端单例，确保mock生效
+        reset_llm_client()
+        
+        # 同时patch两个位置，确保mock生效
+        with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client_error), \
+             patch("app.api.routes.get_llm_client", return_value=mock_llm_client_error):
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "role": "pilot"
@@ -261,8 +267,8 @@ class TestHealthEndpoint:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                response = await client.get("/health")
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+                response = await client.get("/api/v1/health")
 
         assert response.status_code == 200
         data = response.json()
@@ -280,9 +286,9 @@ class TestHealthEndpoint:
         mock_client.get_current_provider.return_value = None
         mock_client.get_available_providers.return_value = []
 
-        with patch("app.core.llm_client.get_llm_client", return_value=mock_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                response = await client.get("/health")
+        with patch("app.api.routes.get_llm_client", return_value=mock_client):
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+                response = await client.get("/api/v1/health")
 
         assert response.status_code == 200
         data = response.json()
@@ -295,9 +301,9 @@ class TestHealthEndpoint:
         """测试健康检查异常处理"""
         from app.main import app
 
-        with patch("app.core.llm_client.get_llm_client", side_effect=Exception("LLM错误")):
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                response = await client.get("/health")
+        with patch("app.api.routes.get_llm_client", side_effect=Exception("LLM错误")):
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+                response = await client.get("/api/v1/health")
 
         assert response.status_code == 200
         data = response.json()
@@ -316,8 +322,8 @@ class TestAirportsEndpoint:
         """测试获取机场列表成功"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
-            response = await client.get("/airports")
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/airports")
 
         assert response.status_code == 200
         data = response.json()
@@ -337,8 +343,8 @@ class TestAirportsEndpoint:
         """测试机场列表包含预期的ICAO代码"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
-            response = await client.get("/airports")
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/airports")
 
         data = response.json()
         icao_codes = [airport["icao"] for airport in data["airports"]]
@@ -359,17 +365,13 @@ class TestMetricsEndpoint:
         """测试获取服务指标成功"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
-            response = await client.get("/metrics")
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/metrics")
 
         assert response.status_code == 200
-        data = response.json()
-
-        assert "requests_total" in data
-        assert "requests_success" in data
-        assert "requests_failed" in data
-        assert "avg_processing_time_ms" in data
-        assert "llm_calls_total" in data
+        # 检查Prometheus格式响应
+        content = response.text
+        assert "# HELP" in content or "# TYPE" in content or "python_gc_objects_collected_total" in content
 
 
 # ==================== 请求/响应模型验证测试 ====================
@@ -386,13 +388,19 @@ class TestRequestResponseModels:
             role="pilot"
         )
         assert request.metar_raw is not None
+        
+        # 验证有效请求
+        is_valid, error_msg = request.validate_request()
+        assert is_valid is True
 
         # 无效请求（缺少metar_raw和airport_icao）
-        with pytest.raises(Exception):
-            WeatherAnalyzeRequest(
-                user_query="天气如何？",
-                role="pilot"
-            )
+        request_invalid = WeatherAnalyzeRequest(
+            user_query="天气如何？",
+            role="pilot"
+        )
+        is_valid, error_msg = request_invalid.validate_request()
+        assert is_valid is False
+        assert "必须提供metar_raw或airport_icao其中之一" in error_msg
 
     def test_weather_analyze_request_validate_method(self):
         """测试请求验证方法"""
@@ -467,10 +475,10 @@ class TestAPIIntegration:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 # 发送分析请求
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "user_query": "当前天气适合起降吗？",
@@ -502,9 +510,9 @@ class TestAPIIntegration:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_thunderstorm,
                         "user_query": "可以起飞吗？",
@@ -532,9 +540,9 @@ class TestAPIIntegration:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "airport_icao": "ZSSS",
                         "role": "dispatcher"
@@ -553,11 +561,11 @@ class TestAPIIntegration:
         from app.main import app
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 session_id = "test-session-456"
 
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "role": "pilot",
@@ -581,10 +589,10 @@ class TestAPIPerformance:
         import time
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 start_time = time.time()
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "role": "pilot"
@@ -605,12 +613,12 @@ class TestAPIPerformance:
         import asyncio
 
         with patch("app.core.llm_client.get_llm_client", return_value=mock_llm_client):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 # 发送10个并发请求
                 tasks = []
                 for i in range(10):
                     task = client.post(
-                        "/analyze",
+                        "/api/v1/analyze",
                         json={
                             "metar_raw": sample_metar_vfr,
                             "role": "pilot",
@@ -637,9 +645,9 @@ class TestAPIErrorHandling:
         from app.main import app
 
         with patch("app.core.workflow.run_workflow", side_effect=Exception("意外错误")):
-            async with AsyncClient(app=app, base_url="http://test") as client:
+            async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
                 response = await client.post(
-                    "/analyze",
+                    "/api/v1/analyze",
                     json={
                         "metar_raw": sample_metar_vfr,
                         "role": "pilot"
@@ -654,9 +662,9 @@ class TestAPIErrorHandling:
         """测试无效JSON处理"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post(
-                "/analyze",
+                "/api/v1/analyze",
                 content="invalid json",
                 headers={"Content-Type": "application/json"}
             )
@@ -668,8 +676,8 @@ class TestAPIErrorHandling:
         """测试不支持的HTTP方法"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
-            response = await client.get("/analyze")  # 应该是POST
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/analyze")  # 应该是POST
 
         assert response.status_code == 405  # Method Not Allowed
 
@@ -678,7 +686,7 @@ class TestAPIErrorHandling:
         """测试不存在的端点"""
         from app.main import app
 
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.get("/nonexistent")
 
         assert response.status_code == 404

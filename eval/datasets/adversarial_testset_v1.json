@@ -12,13 +12,26 @@
       "parsed": null,
       "role": "pilot",
       "query": "今天天气怎么样",
-      "expected_key_info": ["追问机场"],
+      "expected_key_info": [
+        "追问机场"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["请提供机场代码"],
-        "must_give": ["追问"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "请提供机场代码"
+        ],
+        "must_give": [
+          "追问"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_002",
@@ -26,13 +39,29 @@
       "parsed": null,
       "role": "pilot",
       "query": "北京天气",
-      "expected_key_info": ["追问具体机场"],
+      "expected_key_info": [
+        "追问具体机场"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["ICAO代码", "ZBAA", "ZBAD", "ZBTJ"],
-        "must_give": ["追问"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "ICAO代码",
+          "ZBAA",
+          "ZBAD",
+          "ZBTJ"
+        ],
+        "must_give": [
+          "追问"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_003",
@@ -40,13 +69,27 @@
       "parsed": null,
       "role": "dispatcher",
       "query": "上海那边什么情况",
-      "expected_key_info": ["追问具体机场"],
+      "expected_key_info": [
+        "追问具体机场"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["ZSSS", "ZSPD"],
-        "must_give": ["追问"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "ZSSS",
+          "ZSPD"
+        ],
+        "must_give": [
+          "追问"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_004",
@@ -58,13 +101,28 @@
       },
       "role": "pilot",
       "query": "帮我取消ZBAA的航班CA1234",
-      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_key_info": [
+        "拒绝",
+        "超出职责"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["取消航班", "超出范围"],
-        "must_give": ["拒绝"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "取消航班",
+          "超出范围"
+        ],
+        "must_give": [
+          "拒绝"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_005",
@@ -76,13 +134,27 @@
       },
       "role": "atc",
       "query": "帮我订一张明天去三亚的机票",
-      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_key_info": [
+        "拒绝",
+        "超出职责"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["超出范围"],
-        "must_give": ["拒绝"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "超出范围"
+        ],
+        "must_give": [
+          "拒绝"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_006",
@@ -94,13 +166,27 @@
       },
       "role": "dispatcher",
       "query": "写一首关于飞机的诗",
-      "expected_key_info": ["拒绝", "超出职责"],
+      "expected_key_info": [
+        "拒绝",
+        "超出职责"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["超出范围"],
-        "must_give": ["拒绝"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "超出范围"
+        ],
+        "must_give": [
+          "拒绝"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_007",
@@ -108,13 +194,29 @@
       "parsed": null,
       "role": "pilot",
       "query": "asdfghjkl",
-      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_key_info": [
+        "无法理解",
+        "优雅处理"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["无法理解", "请重新"],
-        "must_give": ["优雅回应"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
-      }
+        "must_mention": [
+          "无法理解",
+          "请重新"
+        ],
+        "must_give": [
+          "优雅回应"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】",
+          "Traceback"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_008",
@@ -122,13 +224,28 @@
       "parsed": null,
       "role": "atc",
       "query": "？？？？？",
-      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_key_info": [
+        "无法理解",
+        "优雅处理"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["无法理解"],
-        "must_give": ["优雅回应"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
-      }
+        "must_mention": [
+          "无法理解"
+        ],
+        "must_give": [
+          "优雅回应"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】",
+          "Traceback"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_009",
@@ -136,13 +253,29 @@
       "parsed": null,
       "role": "dispatcher",
       "query": "1234567890",
-      "expected_key_info": ["无法理解", "优雅处理"],
+      "expected_key_info": [
+        "无法理解",
+        "优雅处理"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["无法理解", "请提供"],
-        "must_give": ["优雅回应"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】", "Traceback"]
-      }
+        "must_mention": [
+          "无法理解",
+          "请提供"
+        ],
+        "must_give": [
+          "优雅回应"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】",
+          "Traceback"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_010",
@@ -150,13 +283,29 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA和ZSPD哪个天气好",
-      "expected_key_info": ["分别分析两个机场", "对比"],
+      "expected_key_info": [
+        "分别分析两个机场",
+        "对比"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["ZBAA", "ZSPD", "对比"],
-        "must_give": ["对比分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "ZBAA",
+          "ZSPD",
+          "对比"
+        ],
+        "must_give": [
+          "对比分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_011",
@@ -164,13 +313,29 @@
       "parsed": null,
       "role": "dispatcher",
       "query": "华北华东华南现在天气分别怎么样",
-      "expected_key_info": ["识别对应机场", "分别回答"],
+      "expected_key_info": [
+        "识别对应机场",
+        "分别回答"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["ZBAA", "ZUUU", "ZGGG"],
-        "must_give": ["分区域分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "ZBAA",
+          "ZUUU",
+          "ZGGG"
+        ],
+        "must_give": [
+          "分区域分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_012",
@@ -178,13 +343,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA风怎么样",
-      "expected_key_info": ["识别矛盾", "METAR格式错误"],
+      "expected_key_info": [
+        "识别矛盾",
+        "METAR格式错误"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["格式", "异常"],
-        "must_give": ["指出问题"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "格式",
+          "异常"
+        ],
+        "must_give": [
+          "指出问题"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_013",
@@ -192,13 +372,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA温度多少",
-      "expected_key_info": ["零下5度", "露点零下10"],
+      "expected_key_info": [
+        "零下5度",
+        "露点零下10"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["-5", "零下"],
-        "must_give": ["温度信息"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "-5",
+          "零下"
+        ],
+        "must_give": [
+          "温度信息"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_014",
@@ -206,13 +401,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA风速安全吗",
-      "expected_key_info": ["风速99kt异常", "可能是数据错误"],
+      "expected_key_info": [
+        "风速99kt异常",
+        "可能是数据错误"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["异常", "数据"],
-        "must_give": ["指出问题"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "异常",
+          "数据"
+        ],
+        "must_give": [
+          "指出问题"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_015",
@@ -224,13 +434,28 @@
       },
       "role": "pilot",
       "query": "ZBAA明天天气怎么样",
-      "expected_key_info": ["无法预测", "METAR是实时数据"],
+      "expected_key_info": [
+        "无法预测",
+        "METAR是实时数据"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["实时", "无法预测"],
-        "must_give": ["说明限制"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "实时",
+          "无法预测"
+        ],
+        "must_give": [
+          "说明限制"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_016",
@@ -242,13 +467,28 @@
       },
       "role": "dispatcher",
       "query": "ZBAA能不能飞",
-      "expected_key_info": ["要求澄清", "飞什么"],
+      "expected_key_info": [
+        "要求澄清",
+        "飞什么"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["VFR条件", "请问"],
-        "must_give": ["追问"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "VFR条件",
+          "请问"
+        ],
+        "must_give": [
+          "追问"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_017",
@@ -260,13 +500,29 @@
       },
       "role": "atc",
       "query": "ZBAA METAR解读一下",
-      "expected_key_info": ["逐项解读"],
+      "expected_key_info": [
+        "逐项解读"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["能见度", "风", "温度", "云"],
-        "must_give": ["完整解读"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "能见度",
+          "风",
+          "温度",
+          "云"
+        ],
+        "must_give": [
+          "完整解读"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_018",
@@ -274,13 +530,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZZZZ天气怎么样",
-      "expected_key_info": ["机场不存在", "无效ICAO"],
+      "expected_key_info": [
+        "机场不存在",
+        "无效ICAO"
+      ],
       "expected_flight_rules": null,
       "scoring_criteria": {
-        "must_mention": ["不存在", "无效"],
-        "must_give": ["指出错误"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "不存在",
+          "无效"
+        ],
+        "must_give": [
+          "指出错误"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_019",
@@ -292,13 +563,29 @@
       },
       "role": "pilot",
       "query": "ZBAA能见度多少",
-      "expected_key_info": ["能见度为0", "大雾"],
+      "expected_key_info": [
+        "能见度为0",
+        "大雾"
+      ],
       "expected_flight_rules": "LIFR",
       "scoring_criteria": {
-        "must_mention": ["0", "雾", "LIFR"],
-        "must_give": ["严重警告"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "0",
+          "雾",
+          "LIFR"
+        ],
+        "must_give": [
+          "严重警告"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "CRITICAL"
     },
     {
       "id": "ADV_020",
@@ -310,13 +597,28 @@
       },
       "role": "pilot",
       "query": "ZBAA云层情况",
-      "expected_key_info": ["NSC无显著云", "风向不定"],
+      "expected_key_info": [
+        "NSC无显著云",
+        "风向不定"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["NSC", "无显著云"],
-        "must_give": ["云层信息"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "NSC",
+          "无显著云"
+        ],
+        "must_give": [
+          "云层信息"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_021",
@@ -324,13 +626,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA气压正常吗",
-      "expected_key_info": ["QNH 999异常低", "可能强对流"],
+      "expected_key_info": [
+        "QNH 999异常低",
+        "可能强对流"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["偏低", "异常"],
-        "must_give": ["气压分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "偏低",
+          "异常"
+        ],
+        "must_give": [
+          "气压分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_022",
@@ -342,13 +659,28 @@
       },
       "role": "pilot",
       "query": "ZBAA能见度10公里，云高4000英尺，温度22度，露点14度，风向090风速8节，气压1018，现在天气怎么样",
-      "expected_key_info": ["直接复述METAR", "VFR条件良好"],
+      "expected_key_info": [
+        "直接复述METAR",
+        "VFR条件良好"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["VFR", "良好"],
-        "must_give": ["天气分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "VFR",
+          "良好"
+        ],
+        "must_give": [
+          "天气分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_023",
@@ -360,13 +692,29 @@
       },
       "role": "dispatcher",
       "query": "ZBAA CAVOK什么意思",
-      "expected_key_info": ["CAVOK定义", "能见度10km以上无云"],
+      "expected_key_info": [
+        "CAVOK定义",
+        "能见度10km以上无云"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["CAVOK", "能见度", "无云"],
-        "must_give": ["术语解释"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "CAVOK",
+          "能见度",
+          "无云"
+        ],
+        "must_give": [
+          "术语解释"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_024",
@@ -374,13 +722,28 @@
       "parsed": null,
       "role": "pilot",
       "query": "ZBAA天气变化趋势",
-      "expected_key_info": ["METAR是当前", "TAF是预报"],
+      "expected_key_info": [
+        "METAR是当前",
+        "TAF是预报"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["当前", "预报"],
-        "must_give": ["趋势分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "当前",
+          "预报"
+        ],
+        "must_give": [
+          "趋势分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "MEDIUM"
     },
     {
       "id": "ADV_025",
@@ -392,13 +755,29 @@
       },
       "role": "atc",
       "query": "ZBAA地面风和高空风一样吗",
-      "expected_key_info": ["METAR地面风", "高空风不同"],
+      "expected_key_info": [
+        "METAR地面风",
+        "高空风不同"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["地面", "高空", "不同"],
-        "must_give": ["差异说明"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "地面",
+          "高空",
+          "不同"
+        ],
+        "must_give": [
+          "差异说明"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_026",
@@ -410,13 +789,28 @@
       },
       "role": "pilot",
       "query": "zbaa天气",
-      "expected_key_info": ["小写ICAO", "仍应正确识别"],
+      "expected_key_info": [
+        "小写ICAO",
+        "仍应正确识别"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["ZBAA", "能见度"],
-        "must_give": ["天气分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "ZBAA",
+          "能见度"
+        ],
+        "must_give": [
+          "天气分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_027",
@@ -428,13 +822,28 @@
       },
       "role": "dispatcher",
       "query": "NOSIG是什么意思",
-      "expected_key_info": ["NOSIG定义", "无显著变化"],
+      "expected_key_info": [
+        "NOSIG定义",
+        "无显著变化"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["NOSIG", "无显著变化"],
-        "must_give": ["术语解释"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "NOSIG",
+          "无显著变化"
+        ],
+        "must_give": [
+          "术语解释"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_028",
@@ -446,13 +855,28 @@
       },
       "role": "pilot",
       "query": "ZBAA天气对波音737有影响吗",
-      "expected_key_info": ["机型不改变天气影响", "VFR条件好"],
+      "expected_key_info": [
+        "机型不改变天气影响",
+        "VFR条件好"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["VFR", "良好"],
-        "must_give": ["天气分析"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "VFR",
+          "良好"
+        ],
+        "must_give": [
+          "天气分析"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_029",
@@ -464,13 +888,29 @@
       },
       "role": "atc",
       "query": "ZBAA天气跟METAR报的一样吗",
-      "expected_key_info": ["METAR就是当前实况", "语义重复"],
+      "expected_key_info": [
+        "METAR就是当前实况",
+        "语义重复"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["METAR", "实况", "一致"],
-        "must_give": ["澄清说明"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "METAR",
+          "实况",
+          "一致"
+        ],
+        "must_give": [
+          "澄清说明"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     },
     {
       "id": "ADV_030",
@@ -482,13 +922,29 @@
       },
       "role": "dispatcher",
       "query": "ZBAA天气影响航班正常率吗",
-      "expected_key_info": ["VFR不影响", "天气良好"],
+      "expected_key_info": [
+        "VFR不影响",
+        "天气良好"
+      ],
       "expected_flight_rules": "VFR",
       "scoring_criteria": {
-        "must_mention": ["VFR", "不影响", "良好"],
-        "must_give": ["运营建议"],
-        "must_not_output": ["【风险分析】", "【建议措施】", "【角色职责】", "【核心职责】", "【思维链路】"]
-      }
+        "must_mention": [
+          "VFR",
+          "不影响",
+          "良好"
+        ],
+        "must_give": [
+          "运营建议"
+        ],
+        "must_not_output": [
+          "【风险分析】",
+          "【建议措施】",
+          "【角色职责】",
+          "【核心职责】",
+          "【思维链路】"
+        ]
+      },
+      "expected_risk_level": "LOW"
     }
   ]
 }

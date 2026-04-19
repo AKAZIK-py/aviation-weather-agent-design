@@ -42,40 +42,48 @@ async def analyze_weather_v2(request: dict):
                 detail="必须提供 airport_icao 或 metar_raw 参数"
             )
 
-        # 运行完整工作流
-        engine = get_workflow_engine()
-        result = await engine.run_full_workflow(
-            airport_icao=airport_icao,
+        # V2 直接走 V3 Agent（自然语言输出，非模板）
+        from app.agent.graph import run_agent
+        agent_result = await run_agent(
+            query=user_query or f"{(user_role or '飞行员')}角色，{metar_raw}，分析天气",
+            role=user_role or "pilot",
             metar_raw=metar_raw,
-            user_query=user_query,
-            user_role=user_role,
         )
 
         processing_time_ms = (time.time() - start_time) * 1000
 
-        if not result.get("success"):
+        if not agent_result.get("success"):
             return {
                 "success": False,
-                "error": result.get("error", "未知错误"),
+                "error": agent_result.get("error", "Agent 执行失败"),
                 "processing_time_ms": processing_time_ms,
                 "timestamp": datetime.now().isoformat(),
             }
 
-        metar_parsed = result.get("metar_parsed", {})
+        # Agent 输出转 V2 格式
+        answer = agent_result.get("answer", "")
+        metar_parsed = agent_result.get("metar_parsed", {})
+        risk_level = agent_result.get("risk_level", "LOW")
 
-        # 构建 V2 响应
         response = {
             "success": True,
-            "metar_raw": result.get("raw_metar", metar_raw),
+            "metar_raw": metar_raw or "",
             "metar_parsed": metar_parsed,
-            "metar_metadata": result.get("metar_metadata"),
-            "detected_role": result.get("detected_role"),
-            "risk_level": result.get("risk_level"),
-            "risk_factors": result.get("risk_factors", []),
-            "role_report": result.get("role_report"),
-            "explanation": result.get("explanation"),
-            "structured_analysis": result.get("structured_analysis"),
-            "llm_calls": result.get("llm_calls", 0),
+            "metar_metadata": None,
+            "detected_role": user_role or "pilot",
+            "risk_level": risk_level,
+            "risk_factors": agent_result.get("risk_factors", []),
+            "role_report": {
+                "role": user_role or "pilot",
+                "risk_level": risk_level,
+                "report_text": answer,
+                "alerts": [],
+                "model_used": agent_result.get("model_used", "deepseek"),
+                "generated_at": datetime.now().isoformat(),
+            },
+            "explanation": answer,
+            "structured_analysis": None,
+            "llm_calls": agent_result.get("iterations", 0),
             "processing_time_ms": processing_time_ms,
             "timestamp": datetime.now().isoformat(),
         }

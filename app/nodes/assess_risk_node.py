@@ -317,15 +317,16 @@ class RiskAssessor:
                         f"[动态] 能见度: {dynamic_report.vis_zone.description}"
                     )
 
-                # 缓冲区告警
-                if dynamic_report.ceiling_zone and dynamic_report.ceiling_zone.in_buffer:
-                    risk_factors.append(
-                        f"[动态] 云底高缓冲区: {dynamic_report.ceiling_zone.description}"
-                    )
-                if dynamic_report.vis_zone and dynamic_report.vis_zone.in_buffer:
-                    risk_factors.append(
-                        f"[动态] 能见度缓冲区: {dynamic_report.vis_zone.description}"
-                    )
+                # 缓冲区告警 (只在有风险时添加)
+                if any(risk_scores[level] > 0 for level in ["CRITICAL", "HIGH", "MEDIUM"]):
+                    if dynamic_report.ceiling_zone and dynamic_report.ceiling_zone.in_buffer:
+                        risk_factors.append(
+                            f"[动态] 云底高缓冲区: {dynamic_report.ceiling_zone.description}"
+                        )
+                    if dynamic_report.vis_zone and dynamic_report.vis_zone.in_buffer:
+                        risk_factors.append(
+                            f"[动态] 能见度缓冲区: {dynamic_report.vis_zone.description}"
+                        )
 
                 # 风况详情
                 if dynamic_report.wind_assessment:
@@ -333,8 +334,8 @@ class RiskAssessor:
                         if wf not in risk_factors:
                             risk_factors.append(f"[动态风况] {wf}")
 
-                # 动态权重信息
-                if dynamic_report.weights:
+                # 动态权重信息 (只在有风险时添加)
+                if dynamic_report.weights and any(risk_scores[level] > 0 for level in ["CRITICAL", "HIGH", "MEDIUM"]):
                     w = dynamic_report.weights
                     dominant = max(w, key=w.get)
                     risk_factors.append(
@@ -355,13 +356,15 @@ class RiskAssessor:
                 elif dynamic_report.base_score >= 30:
                     risk_scores["MEDIUM"] += 0.5
 
-                risk_factors.append(
-                    f"[动态评分] 综合={dynamic_report.base_score:.1f}, "
-                    f"VIS={dynamic_report.vis_score:.1f}, "
-                    f"CLG={dynamic_report.ceiling_score:.1f}, "
-                    f"WIND={dynamic_report.wind_score:.1f}, "
-                    f"TEMP={dynamic_report.temp_score:.1f}"
-                )
+                # 动态评分详情 (只在有风险时添加)
+                if any(risk_scores[level] > 0 for level in ["CRITICAL", "HIGH", "MEDIUM"]):
+                    risk_factors.append(
+                        f"[动态评分] 综合={dynamic_report.base_score:.1f}, "
+                        f"VIS={dynamic_report.vis_score:.1f}, "
+                        f"CLG={dynamic_report.ceiling_score:.1f}, "
+                        f"WIND={dynamic_report.wind_score:.1f}, "
+                        f"TEMP={dynamic_report.temp_score:.1f}"
+                    )
 
             except Exception:
                 # 动态引擎失败不影响原有逻辑

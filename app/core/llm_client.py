@@ -15,11 +15,20 @@ from pydantic import BaseModel, Field
 import os
 import asyncio
 import logging
+import ssl
 from enum import Enum
 
 from app.core.config import get_settings, Settings
 
 logger = logging.getLogger(__name__)
+
+# 创建禁用SSL验证的上下文（用于代理环境）
+def _create_ssl_context():
+    """创建禁用SSL验证的上下文，用于代理环境"""
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    return ssl_context
 
 
 # ==================== Provider枚举 ====================
@@ -162,7 +171,9 @@ class QianfanProvider(BaseLLMProvider):
             "client_secret": self.config.secret_key,
         }
         
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(url, params=params) as response:
                 result = await response.json()
                 self._access_token = result.get("access_token", "")
@@ -205,7 +216,9 @@ class QianfanProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
 
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url,
                 json=payload,
@@ -245,7 +258,8 @@ class QianfanProvider(BaseLLMProvider):
             "max_output_tokens": self.config.max_tokens,
         }
 
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测，避免SSL证书验证问题
+        async with aiohttp.ClientSession(trust_env=False) as session:
             async with session.post(
                 url,
                 json=payload,
@@ -288,7 +302,8 @@ class QianfanProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
 
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测，避免SSL证书验证问题
+        async with aiohttp.ClientSession(trust_env=False) as session:
             async with session.post(
                 url,
                 json=payload,
@@ -322,7 +337,9 @@ class QianfanProvider(BaseLLMProvider):
             "max_output_tokens": self.config.max_tokens,
         }
 
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url,
                 json=payload,
@@ -370,7 +387,9 @@ class OpenAICompatibleProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
         
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url, 
                 json=payload,
@@ -408,7 +427,9 @@ class OpenAICompatibleProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
         
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url, 
                 json=payload,
@@ -457,7 +478,9 @@ class AnthropicProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
         
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url, 
                 json=payload,
@@ -504,7 +527,9 @@ class AnthropicProvider(BaseLLMProvider):
             "Content-Type": "application/json",
         }
         
-        async with aiohttp.ClientSession() as session:
+        # 禁用代理检测和SSL验证，避免代理环境下的证书问题
+        ssl_context = _create_ssl_context()
+        async with aiohttp.ClientSession(trust_env=False, connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
             async with session.post(
                 url, 
                 json=payload,

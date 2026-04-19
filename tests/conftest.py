@@ -243,9 +243,11 @@ def mock_llm_client(mock_llm_response):
 @pytest.fixture
 def mock_llm_client_error():
     """Mock LLM客户端（抛出异常）"""
+    from app.core.config import get_settings
     client = MagicMock(spec=LLMClientManager)
     client.ainvoke = AsyncMock(side_effect=Exception("LLM服务不可用"))
     client.invoke = MagicMock(side_effect=Exception("LLM服务不可用"))
+    client.settings = get_settings()
     return client
 
 

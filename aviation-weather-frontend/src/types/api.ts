@@ -231,3 +231,112 @@ export interface AirportMetarResponse {
   fetched_at: string;
   source: string;
 }
+
+// ========== V3 Chat 类型 ==========
+
+// SSE 事件类型
+export type SSEEventType = 'thinking' | 'tool_call' | 'tool_result' | 'answer' | 'eval' | 'error' | 'done';
+
+export interface SSEEvent {
+  type: SSEEventType;
+  tool?: string;
+  args?: Record<string, unknown>;
+  result?: string;
+  content?: string;
+  status?: string;
+  session_id?: string;
+  message?: string;
+  // eval event 字段（直接在顶层，不是嵌套在 scores 里）
+  task_complete?: boolean;
+  key_info_hit?: string;
+  output_usable?: boolean;
+  hallucination_rate?: number;
+}
+
+export interface EvalScores {
+  task_complete: boolean;
+  key_info_hit: string;       // "3/12"
+  output_usable: boolean;
+  hallucination_rate: number; // 0.0 ~ 1.0
+}
+
+export interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  toolCalls?: ToolCallTrace[];
+  evalScores?: EvalScores;
+  timestamp: string;
+}
+
+export interface ToolCallTrace {
+  tool: string;
+  args: Record<string, unknown>;
+  result: string;
+  durationMs?: number;
+}
+
+export interface Session {
+  id: string;
+  title: string;
+  role: UserRole;
+  messageCount: number;
+  lastMessage: string;
+  updatedAt: string;
+}
+
+export interface SessionDetail {
+  id: string;
+  title: string;
+  role: UserRole;
+  messages: Message[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AirportSearchResult {
+  icao: string;
+  iata?: string;
+  name: string;
+  city: string;
+}
+
+// ========== 指标面板类型 ==========
+
+export interface SystemMetrics {
+  total_requests: number;
+  success_rate: number;
+  avg_latency_ms: number;
+  task_completion_rate: number;
+  output_usability_rate: number;
+  hallucination_rate: number;
+  badcase_count: number;
+  role_distribution: Record<string, number>;
+  daily_trend: DailyTrend[];
+  // Token 统计
+  total_prompt_tokens: number;
+  total_completion_tokens: number;
+  total_tokens: number;
+  avg_tokens_per_request: number;
+  provider_distribution: Record<string, number>;
+}
+
+export interface DailyTrend {
+  date: string;
+  requests: number;
+  task_completion: number;
+  hallucination: number;
+  avg_latency_ms: number;
+  total_tokens: number;
+  avg_tokens: number;
+}
+
+export interface Badcase {
+  case_id: string;
+  query: string;
+  role: string;
+  failure_category: string;
+  failure_detail: string;
+  timestamp: string;
+  status: string;
+}

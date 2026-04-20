@@ -1,80 +1,284 @@
 # Aviation Weather Agent
 
-基于 ICAO Annex 3 标准的航空气象智能分析系统，提供多角色（飞行员/签派/气象员/地勤）视角的气象风险评估与决策支持。
+English | [中文](./README_zh.md)
 
-## 项目结构
+An intelligent aviation weather analysis system based on large language models, strictly following ICAO Annex 3 standards, providing personalized weather analysis reports for four roles (pilot, dispatcher, forecaster, ground crew).
 
-```
-aviation-weather-agent-design/
-├── aviation-weather-agent/     # 核心 Agent (FastAPI + LangGraph + ERNIE-4.0)
-│   ├── app/
-│   │   ├── api/               # REST API 路由 (v1/v2)
-│   │   ├── core/              # 核心引擎 (LLM客户端/工作流/熔断器)
-│   │   ├── nodes/             # LangGraph 工作流节点
-│   │   ├── services/          # 业务服务 (METAR解析/风险评估/角色报告)
-│   │   ├── utils/             # 工具类 (能见度/云底/动态权重)
-│   │   ├── prompts/           # LLM 提示词模板
-│   │   ├── evaluation/        # D1 评测框架 (golden set + 幻觉检测)
-│   │   ├── data/              # 机场数据
-│   │   └── models/            # 数据模型
-│   └── .env.example           # 环境变量模板
-├── aviation-weather-frontend/ # 前端 (Next.js 15 + Tailwind)
-├── aviation-weather-backend/  # 后端备选实现
-├── aviation-weather-ui/       # 轻量级前端 (Vanilla JS)
-├── aviation-weather-ai/       # AI 评测模块
-└── 交付报告_航空气象Agent*.md  # 项目交付文档
-```
+## ✨ Core Features
 
-## 核心特性
+- **ICAO Standards Compliance**: Strict adherence to ICAO Annex 3 for METAR parsing and flight rule determination
+- **Multi-Role Analysis**: Four professional perspectives - pilot, dispatcher, forecaster, and ground crew
+- **Dynamic Risk Engine**: Dynamic risk weight assessment based on visibility, cloud base height, and wind conditions
+- **LangGraph Workflow**: Declarative multi-node workflow orchestration
+- **Full-Chain Observability**: Three-level monitoring with Prometheus + Grafana + Langfuse
+- **E2E Chat UI**: Real-time chat interface + SSE streaming + automatic evaluation
+- **4+2 Evaluation System**: Task completion rate, key information hit rate, output usability rate, badcase regression pass rate + hallucination rate, latency/cost
 
-- **ICAO 标准合规**: 严格遵循 ICAO Annex 3 标准进行 METAR 解析和飞行规则判定
-- **多角色分析**: 飞行员、签派员、气象预报员、地勤四种专业视角
-- **动态风险引擎**: 基于能见度、云底高、风况的动态风险权重评估
-- **LangGraph 工作流**: 声明式多节点工作流编排
-- **D1 评测框架**: 内置 golden set 测试集，支持幻觉检测和可靠性审计
+## 🏗️ Tech Stack
 
-## 快速开始
+| Component | Technology |
+|-----------|------------|
+| Agent Engine | FastAPI + LangGraph + Baidu ERNIE-4.0 |
+| LLM Client | DeepSeek / ERNIE-4.0 (multi-provider fallback) |
+| METAR Parsing | Self-developed ICAO-compliant parser |
+| Risk Assessment | Dynamic weight engine + rule engine |
+| Frontend | Next.js 15 + Tailwind CSS + shadcn/ui |
+| Evaluation | 4+2 metrics system + three-tier evaluation sets |
+| Observability | Prometheus + Grafana + Langfuse + Live Metrics |
+| Development Tools | Claude Code + Codex + Three-layer Hooks |
 
-### 环境配置
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.12+
+- Node.js 18+
+- Docker (optional, for monitoring stack)
+
+### Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/AKAZIK-py/aviation-weather-agent-design.git
+cd aviation-weather-agent-design
+
+# Backend installation
 cd aviation-weather-agent
 cp .env.example .env
-# 编辑 .env 填入你的 API Key
-```
-
-### 启动服务
-
-```bash
+# Edit .env to add your API keys
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+
+# Frontend installation
+cd ../aviation-weather-frontend
+npm install
 ```
 
-### 前端启动
+### Configuration
+
+Edit `aviation-weather-agent/.env`:
 
 ```bash
+# LLM Provider (configure at least one)
+DEEPSEEK_API_KEY=your_deepseek_key
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-chat
+
+# Or Baidu Qianfan
+QIANFAN_AK=your_ak
+QIANFAN_SK=your_sk
+
+# Observability (optional)
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=http://localhost:3002
+```
+
+### Start Services
+
+```bash
+# Start backend (port 8000)
+cd aviation-weather-agent
+source venv/bin/activate
+uvicorn app.main:app --reload --port 8000
+
+# Start frontend (port 3000)
 cd aviation-weather-frontend
-npm install
 npm run dev
 ```
 
-## API 端点
+Visit http://localhost:3000 to start using.
 
-- `POST /api/v1/weather/analyze` - 气象分析 (v1)
-- `POST /api/v2/weather/analyze` - 增强版气象分析 (v2)
-- `GET /api/v1/health` - 健康检查
-- `GET /api/v1/airports/{icao}` - 机场信息
+### Run Tests
 
-## 技术栈
+```bash
+cd aviation-weather-agent
+source venv/bin/activate
 
-| 组件 | 技术选型 |
-|------|----------|
-| Agent 引擎 | FastAPI + LangGraph + 百度 ERNIE-4.0 |
-| METAR 解析 | 自研 ICAO-compliant 解析器 |
-| 风险评估 | 动态权重引擎 + 规则引擎 |
-| 前端 | Next.js 15 + Tailwind CSS + shadcn/ui |
-| 评测 | D1 框架 + Golden Set + 幻觉检测 |
+# Unit tests
+python -m pytest tests/ -q
 
-## License
+# Full evaluation
+python scripts/evals/run_eval.py --mode api --dataset standard
+```
 
-MIT
+### Start Monitoring Stack (Optional)
+
+```bash
+docker-compose -f docker-compose.monitoring.yml up -d
+```
+
+- Grafana: http://localhost:3001
+- Langfuse: http://localhost:3002
+- Prometheus: http://localhost:9090
+
+## 📁 Project Structure
+
+```
+aviation-weather-agent-design/
+├── aviation-weather-agent/         # Core Agent (FastAPI + LangGraph)
+│   ├── app/
+│   │   ├── agent/                  # LangGraph ReAct loop
+│   │   │   ├── graph.py            # Workflow definition
+│   │   │   └── prompts.py          # PE V3 constraint boundary
+│   │   ├── api/                    # FastAPI routes
+│   │   │   ├── routes_v3.py        # SSE streaming endpoint
+│   │   │   └── schemas.py          # Request/response models
+│   │   ├── core/                   # Core engine
+│   │   │   ├── llm_client.py       # Multi-provider LLM client
+│   │   │   ├── config.py           # Configuration management
+│   │   │   └── workflow.py         # Workflow engine
+│   │   ├── nodes/                  # LangGraph nodes
+│   │   ├── prompts/                # PE templates
+│   │   ├── services/               # Business services
+│   │   │   ├── live_metrics.py     # Real-time metrics collection
+│   │   │   ├── auto_evaluator.py   # Automatic evaluation
+│   │   │   ├── eval_store.py       # Evaluation result storage
+│   │   │   ├── memory.py           # SQLite FTS5 memory
+│   │   │   └── role_reporters/     # 4 role output strategies
+│   │   ├── tools/                  # Agent tools
+│   │   │   └── weather_tools.py    # METAR parsing/risk assessment
+│   │   ├── utils/                  # Utility functions
+│   │   └── evaluation/             # Evaluation framework
+│   └── tests/                      # Test suite
+├── aviation-weather-frontend/      # Next.js 15 frontend
+│   └── src/
+│       ├── app/                    # Page routes
+│       ├── components/             # UI components
+│       │   ├── chat/               # Chat interface
+│       │   ├── metrics/            # Metrics dashboard
+│       │   └── sidebar/            # Sidebar
+│       └── lib/                    # Utility libraries
+├── aviation-weather-ai/            # Evaluation module
+├── eval/                           # Evaluation datasets
+│   ├── datasets/                   # Three-tier evaluation sets
+│   ├── badcases/                   # Failed samples
+│   └── results/                    # Evaluation results
+├── scripts/                        # Script tools
+│   ├── evals/                      # Evaluation runner
+│   └── hooks/                      # Three-layer hooks
+├── monitoring/                     # Monitoring configuration
+├── CLAUDE.md                       # Project specification
+├── EVOLUTION_PLAN.md               # Evolution plan
+├── EXECUTION_PLAN.md               # Execution plan
+└── PROJECT_REPORT.md               # Project report
+```
+
+## 📊 Evaluation Metrics
+
+### Main Metrics (Agent Value)
+
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| Task Completion Rate | 98% | ≥80% | ✅ Exceeds by 18pp |
+| Key Information Hit Rate | 68% | ≥75% | ⚠️ 7pp short |
+| Output Usability Rate | 98% | ≥70% | ✅ Exceeds by 28pp |
+| Badcase Regression Pass Rate | 100% | ≥95% | ✅ Established and met |
+
+### Auxiliary Metrics (Guardrails)
+
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| Hallucination Rate | <5% | ≤10% | ✅ Greatly improved |
+| P95 Latency | 21.3s | ≤15s | ⚠️ 6.3s over target |
+
+### Full Evaluation Results
+
+```
+Standard Set (50 cases): Pass rate 98% (49/50), avg_score 0.68, P95 21335ms, Gate PASS
+Adversarial Set (30 cases): Pass rate 100% (30/30), avg_score 0.55, P95 20196ms, Gate PASS
+Hold-out Set (10 cases): Pass rate 100% (10/10), avg_score 0.79, P95 22845ms, Gate PASS
+```
+
+## 🔧 API Endpoints
+
+### Backend (FastAPI)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | HTML real-time dashboard |
+| `/api/v3/chat/stream` | POST | SSE streaming chat |
+| `/api/v3/evaluate` | POST | Trigger evaluation |
+| `/api/v3/metrics` | GET | Real-time metrics |
+| `/api/v3/badcases` | GET | Badcase list |
+| `/health` | GET | Health check |
+
+### Frontend
+
+| Page | Path | Description |
+|------|------|-------------|
+| Chat | `/` | Real-time chat interface |
+| Metrics | `/` (Tab switch) | Evaluation metrics dashboard |
+
+## 🛠️ Development Workflow
+
+### Three-Layer Hooks
+
+**Layer 1: Safety Net**
+- `block_dangerous.sh`: Block rm -rf / force push
+- `protect_sensitive.sh`: Lock .env / credentials
+- Auto-format: ruff format
+
+**Layer 2: Test on Code Landing**
+- `auto_test.sh`: Related test failure blocking
+- `.pre-commit-config.yaml`: ruff + mypy
+- `pr-gate.yml`: PR mandatory test passing
+
+**Layer 3: Standards + Logging**
+- `log_operation.sh`: Operation logging
+- `auto_commit.sh`: LLM commit message
+- `pre-push hook`: L1 standard set + L2 badcase regression
+
+## 📈 Monitoring
+
+### Observability Stack
+
+| Component | Port | Purpose |
+|-----------|------|---------|
+| FastAPI | 8000 | Backend API + HTML Dashboard |
+| Next.js | 3000 | Frontend Chat UI |
+| Langfuse | 3002 | LLM Trace tracking |
+| Grafana | 3001 | Prometheus metrics visualization |
+| Prometheus | 9090 | Metrics collection |
+| AlertManager | 9093 | Alert management |
+
+### Monitoring Metrics
+
+- **Agent Layer**: Task completion rate, key information hit rate, output usability rate, hallucination rate
+- **Infrastructure**: Request latency P50/P95/P99, Token usage, Provider switch count
+- **Business Layer**: Query distribution by role, airport popularity, flight rule distribution
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Create Pull Request
+
+### Development Standards
+
+- Python 3.12, type annotations required
+- Async-first: FastAPI + httpx/aiohttp
+- Pydantic v2 for data validation
+- Use ruff for lint + format
+- Use pytest + pytest-asyncio for testing
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 📞 Contact
+
+- Project URL: https://github.com/AKAZIK-py/aviation-weather-agent-design
+- Issue Feedback: [Issues](https://github.com/AKAZIK-py/aviation-weather-agent-design/issues)
+
+## 🙏 Acknowledgments
+
+- [FastAPI](https://fastapi.tiangolo.com/) - High-performance web framework
+- [LangGraph](https://langchain-ai.github.io/langgraph/) - Declarative workflow orchestration
+- [Next.js](https://nextjs.org/) - React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
+- [shadcn/ui](https://ui.shadcn.com/) - Customizable UI components
+- [Langfuse](https://langfuse.com/) - LLM observability
